@@ -4,3 +4,4 @@ exports/
 export_presets.cfg
 project.godot
 *.import
+*.cmd
