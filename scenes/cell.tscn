@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cogyrys5os2dx"]
+
+[ext_resource type="Script" path="res://scripts/cell.gd" id="1_d0cmv"]
+[ext_resource type="Texture2D" uid="uid://b4wlmoluljj5q" path="res://assets/BackgroundSpriteGeneric.png" id="2_ym7gd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j87p7"]
+size = Vector2(64, 64)
+
+[node name="Cell" type="Node2D"]
+script = ExtResource("1_d0cmv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ym7gd")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_j87p7")
+
+[connection signal="mouse_entered" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_entered"]
+[connection signal="mouse_exited" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
