@@ -9,6 +9,6 @@ func exit():
 	print("Exiting Dragging Job State")
 	
 func update(_delta: float):
-	if Input.is_action_just_released("click"):
+	if !%Board.is_click_down:
 		transitioning.emit(self, "Dropping Job")
 	

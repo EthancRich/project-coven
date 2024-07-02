@@ -12,16 +12,11 @@ script = ExtResource("1_d0cmv")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ym7gd")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-input_pickable = true
-
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_j87p7")
 
-[connection signal="mouse_entered" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_entered"]
-[connection signal="mouse_exited" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
