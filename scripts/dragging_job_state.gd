@@ -1,7 +1,5 @@
 class_name DraggingJobState extends State
 
-# Add more here?
-
 func enter():
 	print("Entering Dragging Job State")
 	
