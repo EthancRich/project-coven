@@ -48,8 +48,9 @@ func get_current_hovered_cell():
 
 func set_focused_object():
 	var hovered_cell = get_current_hovered_cell()
-	if hovered_cell.is_occupied():
-		focused_object = hovered_cell.get_contained_object()
+	#if hovered_cell.is_occupied():
+	focused_object = hovered_cell.get_contained_object()
+	print("Focused object:", focused_object)
 	
 func remove_focused_object():
 	focused_object = null

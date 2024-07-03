@@ -1,7 +1,6 @@
 class_name DroppingJobState extends State
 
 func enter():
-	print("Entering Dropping Job State")
 	var hovered_cell = %Board.get_current_hovered_cell()
 	if is_legal_drop(hovered_cell):
 		move(%Board.focused_object, hovered_cell)
@@ -9,8 +8,7 @@ func enter():
 	transitioning.emit(self, "Idle")
 	
 func exit():
-	print("Exiting Dropping Job State")
-	
+	pass
 
 func is_legal_drop(hovered_cell: Cell):
 	if !(hovered_cell is Cell):
@@ -24,15 +22,11 @@ func is_legal_drop(hovered_cell: Cell):
 		return false
 	return true
 	
-	
 func move(job: Job, new_cell: Cell):	
 	if new_cell == null:
 		print("Cannot move: new cell is null!")
 		return
-	# BUG: For some reason, %Grid returns null, so get_parent() it is
 	job.global_position = %Grid.indexToPixels(new_cell.index)
 	job.current_cell.remove_contained_object()
 	new_cell.set_contained_object(job)
 	job.current_cell = new_cell
-	
-
