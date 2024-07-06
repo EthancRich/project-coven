@@ -8,7 +8,7 @@ func enter():
 		transitioning.emit(self, "Idle")
 		return
 		
-	var focused_object = board_node.focused_object
+	var focused_object = get_tree().get_first_node_in_group("focused")
 	if !(focused_object is Job):
 		print("Cannot Drop: Focused Object isn't Job (may be null?)")
 		transitioning.emit(self, "Idle")
@@ -19,8 +19,13 @@ func enter():
 	print(drop_index)
 	var first_index = Vector2i(drop_index.x - segment, drop_index.y)
 	print(first_index)
-	var hovering_cells: Array[Cell] = get_hovering_cells(focused_object, first_index)
+	var possible_hovering_cells = get_hovering_cells(focused_object, first_index)
+	if possible_hovering_cells == null:
+		print("Cannot Drop: cells required are out of bounds")
+		transitioning.emit(self, "Idle")
+		return
 	
+	var hovering_cells: Array[Cell] = possible_hovering_cells
 	if is_legal_drop(hovering_cells):
 		move(focused_object, hovering_cells, first_index)
 	

@@ -46,11 +46,8 @@ func _ready():
 	third_cell.set_contained_object(new_job)
 	self.add_child(new_job)
 	
-	
-
 func _process(delta):
 	pass
-
 
 func pixelsToIndex(pixels: Vector2i):
 	return Vector2i(pixels.x / 64, pixels.y / 64)
