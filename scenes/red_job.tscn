@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgcugsewug5jl"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_ubr02"]
+[ext_resource type="Script" path="res://scripts/red_job.gd" id="2_4mnw3"]
+
+[node name="RedJob" instance=ExtResource("1_ubr02")]
+script = ExtResource("2_4mnw3")
+
+[node name="Sprite2D" parent="." index="0"]
+modulate = Color(1, 0.478431, 0.258824, 1)

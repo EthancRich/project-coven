@@ -10,6 +10,7 @@ var prev_mouse_cell_index: Vector2i
 var is_click_down: bool = false
 var grid_node: Grid = null
 var focused_object = null
+var focused_job_segment: int = -1
 
 
 func _ready():
@@ -48,9 +49,13 @@ func get_current_hovered_cell():
 
 func set_focused_object():
 	var hovered_cell = get_current_hovered_cell()
-	#if hovered_cell.is_occupied():
 	focused_object = hovered_cell.get_contained_object()
+	if focused_object is Job:
+		focused_job_segment = focused_object.get_segment(hovered_cell.index)
 	print("Focused object:", focused_object)
+	if focused_job_segment != -1:
+		print("Focused Job Segment:", focused_job_segment)
 	
 func remove_focused_object():
 	focused_object = null
+	focused_job_segment = -1

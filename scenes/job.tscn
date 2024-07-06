@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqu4o4toydudn"]
+
+[ext_resource type="Script" path="res://scripts/job.gd" id="1_0xv01"]
+[ext_resource type="Texture2D" uid="uid://5kpvp55lb4jo" path="res://assets/icon.svg" id="2_anl2u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mh3ow"]
+size = Vector2(18.6667, 18.3333)
+
+[node name="Job" type="Node2D"]
+script = ExtResource("1_0xv01")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_anl2u")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(32, 32)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_mh3ow")
+
+[node name="SegmentMarkers" type="Node2D" parent="."]
+
+[node name="Marker0" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(32, 32)
+
+[node name="Marker1" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(96, 32)
+
+[node name="Marker2" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(160, 32)
+
+[node name="Marker3" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(224, 32)
+
+[node name="Marker4" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(288, 32)
+
+[connection signal="mouse_entered" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_entered"]
+[connection signal="mouse_exited" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_exited"]

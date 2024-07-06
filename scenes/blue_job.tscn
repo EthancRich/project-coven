@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://drq7qgfu51pr8"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_qwgkr"]
+[ext_resource type="Script" path="res://scripts/blue_job.gd" id="2_x7jwx"]
+
+[node name="BlueJob" instance=ExtResource("1_qwgkr")]
+script = ExtResource("2_x7jwx")
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(64, 32)
+scale = Vector2(1, 0.5)
+
+[node name="CollisionShape2D" parent="StaticBody2D" index="0"]
+position = Vector2(64, 32)
+scale = Vector2(6, 3)
