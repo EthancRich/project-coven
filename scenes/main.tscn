@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=9 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_dwh7j"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="2_mxogc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="5_t1v6d"]
 [ext_resource type="Script" path="res://scripts/dragging_job_state.gd" id="6_1jisf"]
 [ext_resource type="Script" path="res://scripts/dropping_job_state.gd" id="7_m2oty"]
+[ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="8_m1vky"]
 
 [node name="Main" type="Node"]
 
@@ -33,10 +34,13 @@ initial_state = NodePath("Idle")
 [node name="Idle" type="Node" parent="Board/StateMachine"]
 script = ExtResource("5_t1v6d")
 
+[node name="Holding Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("8_m1vky")
+
 [node name="Dragging Job" type="Node" parent="Board/StateMachine"]
 script = ExtResource("6_1jisf")
 
 [node name="Dropping Job" type="Node" parent="Board/StateMachine"]
 script = ExtResource("7_m2oty")
 
-[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Idle" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]

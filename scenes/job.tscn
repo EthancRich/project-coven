@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqu4o4toydudn"]
+
+[ext_resource type="Script" path="res://scripts/job.gd" id="1_0xv01"]
+[ext_resource type="Texture2D" uid="uid://bhjqgpa2v6wtb" path="res://assets/icon.svg" id="2_anl2u"]
+[ext_resource type="Texture2D" uid="uid://dy40ai3vxkju" path="res://assets/Aseprite Assets/Stone-1x1.png" id="2_iqp16"]
+[ext_resource type="Texture2D" uid="uid://cfs3t5xlaitty" path="res://assets/Aseprite Assets/Stone-1x2.png" id="3_2odat"]
+[ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_jmvrd"]
+[ext_resource type="Texture2D" uid="uid://xi4phhxrdg8o" path="res://assets/Aseprite Assets/Stone-1x4.png" id="5_clq4v"]
+[ext_resource type="Texture2D" uid="uid://csixnlaqunh5y" path="res://assets/Aseprite Assets/Stone-1x5.png" id="6_8q3sb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nsohp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_iqp16")
+}],
+"loop": true,
+"name": &"1x1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2odat")
+}],
+"loop": true,
+"name": &"1x2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_jmvrd")
+}],
+"loop": true,
+"name": &"1x3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_clq4v")
+}],
+"loop": true,
+"name": &"1x4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8q3sb")
+}],
+"loop": true,
+"name": &"1x5",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mh3ow"]
+size = Vector2(21.3334, 21.1666)
+
+[node name="Job" type="Node2D"]
+script = ExtResource("1_0xv01")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_anl2u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(160, 32)
+scale = Vector2(1.77778, 1.77778)
+sprite_frames = SubResource("SpriteFrames_nsohp")
+animation = &"1x1"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -20.0
+offset_top = -19.0
+offset_right = 20.0
+offset_bottom = 21.0
+color = Color(0.47451, 1, 0.443137, 0.356863)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(32, 32)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_mh3ow")
+
+[node name="SegmentMarkers" type="Node2D" parent="."]
+
+[node name="Marker0" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(32, 32)
+
+[node name="Marker1" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(96, 32)
+
+[node name="Marker2" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(160, 32)
+
+[node name="Marker3" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(224, 32)
+
+[node name="Marker4" type="Marker2D" parent="SegmentMarkers"]
+position = Vector2(288, 32)
+
+[connection signal="mouse_entered" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_entered"]
+[connection signal="mouse_exited" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_exited"]
