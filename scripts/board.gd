@@ -24,7 +24,7 @@ func _process(delta):
 	pass
 	
 
-func _input(event):
+func _unhandled_input(event):
 	# If the player is moving their mouse, update mouse location
 	if event is InputEventMouseMotion:
 		prev_mouse_position = current_mouse_position

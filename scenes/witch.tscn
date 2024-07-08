@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://i36h5wum6188"]
+
+[ext_resource type="Script" path="res://scripts/witch.gd" id="1_73x6m"]
+[ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="2_inhgx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pyfnt"]
+size = Vector2(16, 16)
+
+[node name="Witch" type="Node2D"]
+script = ExtResource("1_73x6m")
+
+[node name="Icon" type="Sprite2D" parent="."]
+texture = ExtResource("2_inhgx")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_pyfnt")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

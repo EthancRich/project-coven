@@ -59,8 +59,7 @@ script = ExtResource("1_0xv01")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(32, 32)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_anl2u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -103,5 +102,21 @@ position = Vector2(224, 32)
 [node name="Marker4" type="Marker2D" parent="SegmentMarkers"]
 position = Vector2(288, 32)
 
+[node name="WitchMarkers" type="Node2D" parent="."]
+
+[node name="Marker0" type="Marker2D" parent="WitchMarkers"]
+position = Vector2(8, 56)
+
+[node name="Marker1" type="Marker2D" parent="WitchMarkers"]
+position = Vector2(8, 40)
+
+[node name="Marker2" type="Marker2D" parent="WitchMarkers"]
+position = Vector2(8, 24)
+
+[node name="Marker3" type="Marker2D" parent="WitchMarkers"]
+position = Vector2(8, 8)
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
 [connection signal="mouse_entered" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_entered"]
 [connection signal="mouse_exited" from="StaticBody2D" to="." method="_on_static_body_2d_mouse_exited"]

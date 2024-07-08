@@ -25,26 +25,49 @@ func _ready():
 			# Place the cell reference into the grid_reference
 			grid_reference.push_back(new_cell)
 	
-	# Create a single job and place it in the first cell
-	var first_cell = grid_reference[0]
-	var new_job = job_scene_1.instantiate()
+	# Create a single job and place it in the first three cells
+	#var first_cell = grid_reference[0]
+	#var new_job = job_scene_1.instantiate()
+	#
+	#new_job.position = first_cell.position
+	#new_job.add_current_cell(first_cell)
+	#first_cell.set_contained_object(new_job)
+	#self.add_child(new_job)
 	
-	new_job.position = first_cell.position
-	new_job.add_current_cell(first_cell)
-	first_cell.set_contained_object(new_job)
+	# Create a second job and place it in the next 5 cells
+	#var second_cell = grid_reference[1]
+	#var third_cell = grid_reference[1 + grid_height]
+	#new_job = job_scene_2.instantiate()
+	#
+	#new_job.position = second_cell.position
+	#new_job.add_current_cell(second_cell)
+	#new_job.add_current_cell(third_cell)
+	#second_cell.set_contained_object(new_job)
+	#third_cell.set_contained_object(new_job)
+	#self.add_child(new_job)
+	create_job(0, Vector2i(1,0), 3)
+	create_job(1, Vector2i(1,1), 5)
+	
+func create_job(job_type: int, index2D: Vector2i, num_cells: int):
+	var index1D = index2Dto1D(index2D)
+	var new_job = null
+	match job_type:
+		0:	# Red Job
+			new_job = job_scene_1.instantiate()
+		1:	# Blue Job
+			new_job = job_scene_2.instantiate()
+		_:
+			new_job = job_scene_1.instantiate()
+			
+	new_job.position = grid_reference[index2Dto1D(index2D)].position
+	var cell_array: Array[Cell] = []
+	for i in range(num_cells):
+		var cell = grid_reference[index2Dto1D(Vector2i(index2D.x+i, index2D.y))]
+		cell_array.push_back(cell)
+	new_job.current_cells = cell_array
+	new_job.connect_current_cells()
 	self.add_child(new_job)
-	
-	# Create a second job and place it in a different cell
-	var second_cell = grid_reference[1]
-	var third_cell = grid_reference[1 + grid_height]
-	new_job = job_scene_2.instantiate()
-	
-	new_job.position = second_cell.position
-	new_job.add_current_cell(second_cell)
-	new_job.add_current_cell(third_cell)
-	second_cell.set_contained_object(new_job)
-	third_cell.set_contained_object(new_job)
-	self.add_child(new_job)
+		
 	
 func _process(delta):
 	pass

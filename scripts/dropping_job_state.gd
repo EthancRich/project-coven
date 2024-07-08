@@ -26,7 +26,7 @@ func enter():
 		return
 	
 	var hovering_cells: Array[Cell] = possible_hovering_cells
-	if is_legal_drop(hovering_cells):
+	if is_legal_drop(hovering_cells, focused_object):
 		move(focused_object, hovering_cells, first_index)
 	
 	transitioning.emit(self, "Idle")
@@ -36,9 +36,9 @@ func exit():
 	%Board.remove_focused_object() #TODO: Set to a signal for Board to modify
 
 
-func is_legal_drop(hovering_cells_array):
+func is_legal_drop(hovering_cells_array, focused_object):
 	for cell in hovering_cells_array:
-		if cell.is_occupied():
+		if cell.is_occupied() and (cell.contained_object != focused_object):
 			print("Cannot Drop: Hovered cell is occupied")
 			return false	
 	return true
@@ -68,4 +68,6 @@ func move(job: Job, cells_array: Array[Cell], first_index: Vector2i):
 	job.print_cells()
 	print("Adding new references to job in new cell(s)")
 	job.connect_current_cells()
+	print("Updating Witch locations")
+	job.update_witch_locations()
 	
