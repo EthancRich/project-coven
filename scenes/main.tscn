@@ -1,27 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=11 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_dwh7j"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="2_mxogc"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="2_rl82b"]
+[ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="3_ogdm0"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_rr2iy"]
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="5_t1v6d"]
 [ext_resource type="Script" path="res://scripts/dragging_job_state.gd" id="6_1jisf"]
 [ext_resource type="Script" path="res://scripts/dropping_job_state.gd" id="7_m2oty"]
 [ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="8_m1vky"]
+[ext_resource type="Script" path="res://scenes/fps_counter.gd" id="10_ts1l3"]
 
 [node name="Main" type="Node"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
-zoom = Vector2(2, 2)
-script = ExtResource("2_dwh7j")
-zoom_min = Vector2(1, 1)
-zoom_speed = Vector2(0.1, 0.1)
-scroll_speed = 40
 
 [node name="Board" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_mxogc")
+longpress_time = 0.1
 
 [node name="Grid" type="Node2D" parent="Board"]
 unique_name_in_owner = true
@@ -42,5 +37,33 @@ script = ExtResource("6_1jisf")
 
 [node name="Dropping Job" type="Node" parent="Board/StateMachine"]
 script = ExtResource("7_m2oty")
+
+[node name="Witch" parent="Board" instance=ExtResource("3_ogdm0")]
+position = Vector2(241, 18)
+
+[node name="Witch4" parent="Board" instance=ExtResource("3_ogdm0")]
+position = Vector2(269, 19)
+
+[node name="Witch2" parent="Board" instance=ExtResource("3_ogdm0")]
+position = Vector2(328, 20)
+
+[node name="Witch3" parent="Board" instance=ExtResource("3_ogdm0")]
+position = Vector2(299, 19)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(4, 4)
+script = ExtResource("2_dwh7j")
+zoom_max = Vector2(4, 4)
+zoom_speed = Vector2(0.1, 0.1)
+scroll_speed = 40
+
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = 390.0
+offset_top = 3.0
+offset_right = 443.0
+offset_bottom = 26.0
+text = "fps: XX"
+script = ExtResource("10_ts1l3")
 
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]

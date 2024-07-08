@@ -3,10 +3,12 @@ class_name Job extends Node2D
 @export var size: int = 1
 @export var max_size: int = 1
 @export var min_size: int = 1
-@export var employee_num: int = 0
-@export var employee_max: int = 1
+@export var min_workers: int = 1
+@export var max_workers: int = 0
+@onready var auto_max_workers: int = min(4, min_workers + max_size - min_size)
 @export var progress: float = 0.0
 var current_cells: Array[Cell]
+var witch_count = 0
 
 func add_current_cell(cell: Cell):
 	current_cells.push_back(cell)
@@ -95,9 +97,45 @@ func decrease_size():
 	self.size = size - 1
 	update_job_shape()
 
+
+func assign_witch_location(witch_node: Witch):
+	var location_path: String = "WitchMarkers/Marker" + str(witch_count - 1)
+	witch_node.rest_point = get_node(location_path).global_position
 	
+func remove_witch_location(witch_node: Witch):
+	witch_node.rest_point = null
+	
+func update_witch_locations():
+	for child in get_children():
+		if child is Witch:
+			assign_witch_location(child)
+
 func _on_static_body_2d_mouse_entered():
 	self.modulate.a = 0.8
 
 func _on_static_body_2d_mouse_exited():
 	self.modulate.a = 1.0
+
+func _on_child_entered_tree(node):
+	if node is Witch:
+		var witch_node: Witch = node
+		witch_count += 1
+		assign_witch_location(witch_node)
+		if max_workers > 0: # Override max
+			if witch_count > min_workers and witch_count <= max_workers:
+				decrease_size()
+		else:				# Auto max
+			if witch_count > min_workers and witch_count <= auto_max_workers:
+				decrease_size()
+
+func _on_child_exiting_tree(node):
+	if node is Witch:
+		var witch_node: Witch = node
+		witch_count -= 1
+		remove_witch_location(witch_node)
+		if max_workers > 0:	# Override max
+			if witch_count >= min_workers and witch_count < max_workers:
+				increase_size()
+		else:				# Auto max
+			if witch_count >= min_workers and witch_count < auto_max_workers:
+				increase_size()

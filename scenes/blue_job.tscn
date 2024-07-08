@@ -5,6 +5,9 @@
 
 [node name="BlueJob" instance=ExtResource("1_qwgkr")]
 script = ExtResource("2_x7jwx")
+size = 5
+max_size = 5
+min_size = 2
 
 [node name="Sprite2D" parent="." index="0"]
 position = Vector2(64, 32)
