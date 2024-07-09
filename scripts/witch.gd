@@ -13,9 +13,11 @@ func _input(event):
 	elif selected and event.is_action_released("click"):
 		get_viewport().set_input_as_handled()
 		selected = false
-		# Assign this to the job that the witch is currently in, or the cell if it's not
-		var current_cell:Cell = board_node.get_current_hovered_cell()
-		# Do something depending on whether you're in job or not job
+		
+		if is_locked_by_job(): # job is locked on the right and can't expand
+			return
+			
+		var current_cell: Cell = board_node.get_current_hovered_cell()
 		if current_cell.contains_job():
 			reparent(current_cell.contained_object)
 		elif !(get_parent() is Board):
@@ -27,6 +29,19 @@ func _physics_process(delta):
 		global_position = lerp(global_position, get_global_mouse_position(), 20 * delta)
 	elif rest_point is Vector2:
 		global_position = lerp(global_position, rest_point, 10 * delta)
+		
+		
+func is_locked_by_job():
+	var parent = get_parent()
+	if !(parent is Job):
+		return false
+	else:
+		var job: Job = parent
+		# if job can't expand and will attempt upon witch leaving
+		if job.get_right_adjacent_cell() == null and job.will_job_expand():
+			return true
+	return false
+		
 		
 func _on_area_2d_mouse_entered():
 	in_boundary = true

@@ -53,31 +53,31 @@ func increase_size():
 	if size == max_size:
 		print("INCREASE_SIZE: Size already maxed")
 		return
-	
-	var grid_node = get_parent()
-	
-	# check whether the expanding cells are occupied
-	var rightmost_item = current_cells.back()	
-	if rightmost_item == null:
-		print("INCREASE_SIZE: Job is not occupying any cells, returning")
+	var new_cell = get_right_adjacent_cell()
+	if new_cell == null:
 		return
-		
-	var rightmost_cell: Cell = rightmost_item
-	var new_index = Vector2i(rightmost_cell.index.x + 1, rightmost_cell.index.y)
-	if grid_node.is_out_of_bounds(new_index):
-		print("INCREASE_SIZE: Cell to expand to is out of bounds, returning")
-		return
-		
-	var new_cell = grid_node.get_cell_at_index(new_index)
-	if new_cell.is_occupied():
-		print("INCREASE_SIZE: Cell is expand to is occupied, returning")
-		return
-		
-	# update the new cell to contain the current job
 	new_cell.set_contained_object(self)
 	current_cells.push_back(new_cell)
 	self.size = size + 1
 	update_job_shape()
+	
+	
+func get_right_adjacent_cell():
+	var grid_node = get_parent()
+	var rightmost_item = current_cells.back()	
+	if rightmost_item == null:
+		print("INCREASE_SIZE: Job is not occupying any cells, returning")
+		return null
+	var rightmost_cell: Cell = rightmost_item
+	var new_index = Vector2i(rightmost_cell.index.x + 1, rightmost_cell.index.y)
+	if grid_node.is_out_of_bounds(new_index):
+		print("INCREASE_SIZE: Cell to expand to is out of bounds, returning")
+		return null
+	var adjacent_cell = grid_node.get_cell_at_index(new_index)
+	if adjacent_cell.is_occupied():
+		print("INCREASE_SIZE: Cell is expand to is occupied, returning")
+		return null
+	return adjacent_cell
 	
 	
 func decrease_size():
@@ -85,7 +85,6 @@ func decrease_size():
 		print("DECREASE_SIZE: Size already minimized")
 		return
 
-	# check whether the expanding cells are occupied
 	var rightmost_item = current_cells.back()	
 	if rightmost_item == null:
 		print("INCREASE_SIZE: Job is not occupying any cells, returning")
@@ -102,32 +101,31 @@ func assign_witch_location(witch_node: Witch):
 	var location_path: String = "WitchMarkers/Marker" + str(current_witches.find(witch_node))
 	witch_node.rest_point = get_node(location_path).global_position
 	
+	
 func remove_witch_location(witch_node: Witch):
 	witch_node.rest_point = null
+	
 	
 func update_witch_locations():
 	for witch in current_witches:
 		assign_witch_location(witch)
 
+
 func _on_static_body_2d_mouse_entered():
 	self.modulate.a = 0.8
 
+
 func _on_static_body_2d_mouse_exited():
 	self.modulate.a = 1.0
+
 
 func _on_child_entered_tree(node):
 	if node is Witch:
 		var witch_node: Witch = node
 		current_witches.push_back(witch_node)
 		assign_witch_location(witch_node)
-		
-		var witch_count = current_witches.size()
-		if max_workers > 0: # Override max
-			if witch_count > min_workers and witch_count <= max_workers:
-				decrease_size()
-		else:				# Auto max
-			if witch_count > min_workers and witch_count <= auto_max_workers:
-				decrease_size()
+		update_job_size("entered")
+
 
 func _on_child_exiting_tree(node):
 	if node is Witch:
@@ -135,11 +133,35 @@ func _on_child_exiting_tree(node):
 		current_witches.pop_at(current_witches.find(witch_node))
 		remove_witch_location(witch_node)
 		update_witch_locations()
-		
-		var witch_count = current_witches.size()
+		update_job_size("exiting")
+
+
+func update_job_size(state_string: String):
+	var witch_count = current_witches.size()
+	
+	if state_string.to_lower() == "entered":
+		if max_workers > 0: # Override max
+			if witch_count > min_workers and witch_count <= max_workers:
+				decrease_size()
+		else:				# Auto max
+			if witch_count > min_workers and witch_count <= auto_max_workers:
+				decrease_size()
+				
+	elif state_string.to_lower() == "exiting":
 		if max_workers > 0:	# Override max
 			if witch_count >= min_workers and witch_count < max_workers:
 				increase_size()
 		else:				# Auto max
 			if witch_count >= min_workers and witch_count < auto_max_workers:
 				increase_size()
+		
+
+func will_job_expand():
+	var adjusted_witch_count = current_witches.size() - 1
+	if max_workers > 0:	# Override max
+		if adjusted_witch_count >= min_workers and adjusted_witch_count < max_workers:
+			return true
+	else:				# Auto max
+		if adjusted_witch_count >= min_workers and adjusted_witch_count < auto_max_workers:
+			return true
+	return false
