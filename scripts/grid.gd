@@ -86,7 +86,7 @@ func create_job(job_type: int, index2D: Vector2i, num_cells: int) -> void:
 func pixels_to_index(pixels: Vector2) -> Vector2i:
 	if is_pixels_out_of_bounds(pixels):
 		if Global.DEBUG_MODE:
-			push_error(self.name, "[pixels_to_index]", "index out of bounds", pixels)
+			push_error(self.name, " [pixels_to_index]", " index out of bounds ", pixels)
 		return Vector2i(-1, -1)
 	@warning_ignore("narrowing_conversion")
 	return Vector2i(pixels.x / 64, pixels.y / 64)
@@ -98,7 +98,7 @@ func pixels_to_index(pixels: Vector2) -> Vector2i:
 func index_to_pixels(index: Vector2i) -> Vector2:
 	if is_index_out_of_bounds(index):
 		if Global.DEBUG_MODE:
-			push_error(self.name, "[index_to_pixels]", "index out of bounds", index)
+			push_error(self.name, " [index_to_pixels]", " index out of bounds ", index)
 		return Vector2(-32, -32)
 	return Vector2(index.x * 64, index.y * 64)
 	
@@ -108,7 +108,7 @@ func index_to_pixels(index: Vector2i) -> Vector2:
 func index2D_to_1D(index2D: Vector2i) -> int:
 	if is_index_out_of_bounds(index2D):
 		if Global.DEBUG_MODE:
-			push_error(self.name, "[index2D_to_1D]", "index out of bounds", index2D)
+			push_error(self.name, " [index2D_to_1D]", " index out of bounds ", index2D)
 		return -1
 	return grid_height * index2D.x + index2D.y
 	
@@ -119,7 +119,7 @@ func get_cell_at_index(index2D: Vector2i) -> Cell:
 	var index1D: int = index2D_to_1D(index2D)
 	if index1D < 0:
 		if Global.DEBUG_MODE:
-			push_error(self.name, "[get_cell_at_index]", "index out of bounds", index2D)
+			push_error(self.name, " [get_cell_at_index]", " index out of bounds ", index2D)
 		return null
 	return grid_reference[index1D]
 
