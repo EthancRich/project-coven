@@ -46,6 +46,10 @@ var current_witches: Array[Witch]
 @onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
 
 
+##
+func _ready() -> void:
+	update_job_shape()
+
 ## Pushes provided cell to the back of the current_cells array.
 ## TODO: Convert this process to a signal-based process where
 ## the cell reciprocates the reference in job both ways.

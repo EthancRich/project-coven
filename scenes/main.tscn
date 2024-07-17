@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=19 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_dwh7j"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="2_mxogc"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="2_rl82b"]
+[ext_resource type="PackedScene" uid="uid://dgcugsewug5jl" path="res://scenes/red_job.tscn" id="3_auvtr"]
+[ext_resource type="PackedScene" uid="uid://drq7qgfu51pr8" path="res://scenes/blue_job.tscn" id="3_emjp8"]
 [ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="3_ogdm0"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_rr2iy"]
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="5_t1v6d"]
@@ -26,6 +28,8 @@ script = ExtResource("2_mxogc")
 [node name="Grid" type="Node2D" parent="Board"]
 unique_name_in_owner = true
 script = ExtResource("2_rl82b")
+job_scene_1 = ExtResource("3_auvtr")
+job_scene_2 = ExtResource("3_emjp8")
 
 [node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_rr2iy")
