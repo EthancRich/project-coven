@@ -46,7 +46,7 @@ var current_witches: Array[Witch]
 @onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
 
 
-##
+## On creation, update the visual of the job
 func _ready() -> void:
 	update_job_shape()
 
