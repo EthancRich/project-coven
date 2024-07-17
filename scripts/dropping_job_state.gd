@@ -48,7 +48,7 @@ func get_hovering_cells(focused_object:Job, first_index: Vector2i):
 	var cells_array: Array[Cell] = []
 	for i in range(focused_object.size):
 		var index = Vector2i(first_index.x + i, first_index.y)
-		if %Grid.is_out_of_bounds(index):
+		if %Grid.is_index_out_of_bounds(index):
 			print("GET_HOVERING_CELLS: index out of bounds")
 			return null
 		cells_array.push_back(%Grid.get_cell_at_index(index))
@@ -59,7 +59,7 @@ func move(job: Job, cells_array: Array[Cell], first_index: Vector2i):
 	print("MOVING JOB...")
 	print("Job's current cells:")
 	job.print_cells()	
-	job.global_position = %Grid.indexToPixels(first_index)
+	job.global_position = %Grid.index_to_pixels(first_index)
 	print("Deleting references to job in old cell(s)")
 	job.disconnect_current_cells()
 	print("Assigning new cells to job")

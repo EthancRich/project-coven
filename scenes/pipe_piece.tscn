@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://bk34akagw7jxt"]
+
+[ext_resource type="Texture2D" uid="uid://dtuvxhloeertu" path="res://assets/Aseprite Assets/Pipe-1.png" id="1_gc8wf"]
+[ext_resource type="Script" path="res://scripts/pipe_piece.gd" id="1_xhd0b"]
+[ext_resource type="Texture2D" uid="uid://b6kgnmiladxq5" path="res://assets/Aseprite Assets/Pipe-2.png" id="2_l8rm8"]
+[ext_resource type="Texture2D" uid="uid://cgfbcqwiy6n2n" path="res://assets/Aseprite Assets/Pipe-3.png" id="3_q8ypn"]
+[ext_resource type="Texture2D" uid="uid://use26t4u1yhh" path="res://assets/Aseprite Assets/Pipe-4.png" id="4_t4cy6"]
+[ext_resource type="Texture2D" uid="uid://cxridbydhlorp" path="res://assets/Aseprite Assets/Pipe-5.png" id="5_unirv"]
+[ext_resource type="Texture2D" uid="uid://b8lskl8tpem6c" path="res://assets/Aseprite Assets/Pipe-6.png" id="6_jm2jc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c5ivy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gc8wf")
+}],
+"loop": true,
+"name": &"pipe1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_l8rm8")
+}],
+"loop": true,
+"name": &"pipe2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_q8ypn")
+}],
+"loop": true,
+"name": &"pipe3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_t4cy6")
+}],
+"loop": true,
+"name": &"pipe4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_unirv")
+}],
+"loop": true,
+"name": &"pipe5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_jm2jc")
+}],
+"loop": true,
+"name": &"pipe6",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_px3va"]
+size = Vector2(64, 64)
+
+[node name="PipePiece" type="Node2D"]
+script = ExtResource("1_xhd0b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(32, 32)
+sprite_frames = SubResource("SpriteFrames_c5ivy")
+animation = &"pipe1"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_px3va")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

@@ -1,3 +1,3 @@
 extends Node
 
-var dragged_job: DefaultJob
+var DEBUG_MODE: bool = OS.is_debug_build()

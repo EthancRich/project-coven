@@ -22,14 +22,14 @@ func update(delta: float):
 	
 	# Player has moved to a different cell during the drag before completion
 	if moved_cells:
-		if !board_node.is_click_down: # Click released, can return to Idle
+		if !board_node.is_left_click_down: # Click released, can return to Idle
 			transitioning.emit(self, "Idle")
 		else:	# Otherwise, keep them trapped in this state until released
 			pass
 			
 	# Player remains in the current cell where it was started
 	else:
-		if !board_node.is_click_down: # Click released, can return to Idle
+		if !board_node.is_left_click_down: # Click released, can return to Idle
 			transitioning.emit(self, "Idle")
 		else:
 			elapsed_time += delta
@@ -37,5 +37,5 @@ func update(delta: float):
 				transitioning.emit(self, "Dragging Job")
 
 
-func _on_board_changed_mouse_cell():
+func _on_board_changed_mouse_cell(_prev_cell_index, _current_cell_index):
 	moved_cells = true

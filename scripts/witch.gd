@@ -1,11 +1,12 @@
 class_name Witch extends Node2D
 
-@onready var board_node = get_node("/root/Main/Board")
-var selected = false
-var in_boundary = false
-var rest_point = null
+## Instance Variables
+@onready var board_node: Board = get_node("/root/Main/Board")
+var selected: bool = false 		# If Witch is left-clicked currently
+var in_boundary: bool = false	# If mouse is in witch sprite boundary
+var rest_point: Variant = null	# Vector2i pixel location to reside
 
-func _input(event):
+func _input(event) -> void:
 	if event.is_action_pressed("click") and in_boundary:
 		get_viewport().set_input_as_handled()
 		selected = true
@@ -14,10 +15,10 @@ func _input(event):
 		get_viewport().set_input_as_handled()
 		selected = false
 		
-		if is_locked_by_job(): # job is locked on the right and can't expand
+		if is_locked_by_job(): # job landlocked on right and can't expand
 			return
 			
-		var current_cell: Cell = board_node.get_current_hovered_cell()
+		var current_cell := board_node.get_current_hovered_cell()
 		if current_cell.contains_job():
 			reparent(current_cell.contained_object)
 		elif !(get_parent() is Board):

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcw5u1h0xnqif"]
+
+[ext_resource type="Script" path="res://scripts/pipe.gd" id="1_5lrdk"]
+
+[node name="Pipe" type="Node2D"]
+script = ExtResource("1_5lrdk")
