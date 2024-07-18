@@ -80,9 +80,6 @@ unique_name_in_owner = true
 anchor_mode = 0
 zoom = Vector2(4, 4)
 script = ExtResource("2_dwh7j")
-zoom_max = Vector2(4, 4)
-zoom_speed = Vector2(0.1, 0.1)
-scroll_speed = 40
 
 [node name="Label" type="Label" parent="Camera2D"]
 offset_left = 390.0
