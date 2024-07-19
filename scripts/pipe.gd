@@ -8,6 +8,10 @@ var starting_job_cell: Cell
 ## An ordered list of pipe piece index references
 var pipe_indexes: Array[Vector2i]
 
+## The most recently placed pipe piece index
+## NOTE: If there is no last piece, then the value is (-1, -1)
+var last_piece_index := Vector2i(-1, -1)
+
 ## Grid node reference to reduce overhead in repeated calls
 @onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
 
@@ -16,25 +20,39 @@ var pipe_indexes: Array[Vector2i]
 func set_starting_job_cell(cell: Cell) -> void:
 	starting_job_cell = cell
 	
+	
+## Updates the last pipe piece index based on the index array
+func update_last_piece_index() -> void:
+	if pipe_indexes.size() > 0:
+		last_piece_index = pipe_indexes.back() as Vector2i
+	else:
+		last_piece_index = Vector2i(-1, -1)
+
 
 ## Pushes an index to the back of the array, newest piece
 func add_pipe_index(index: Vector2i) -> void:
 	pipe_indexes.push_back(index)
+	update_last_piece_index()
 
 
 ## Removes the last piece of the pipe and deletes it
 func erase_recent_pipe_piece() -> void:
 	pipe_indexes.pop_back()
 	get_child(-1).queue_free()
+	update_last_piece_index()
 
 
-# Returns N/E/S/W directions from the last pipe piece placed
-## Returns an array (x,y) grid index pairs that represent the
-## N/E/S/W directions surrounding "pipe's end"
+## Returns an array (x,y) of valid grid index pairs that represent the
+## N/E/S/W directions surrounding "pipe's end", excluding out of bounds.
+## NOTE: Will return no pairs if there is no pipe piece indexes in array
 func get_possible_cell_indexes() -> Array[Vector2i]:
 	
-	# Get the index of the last dropped pipe piece
-	var last_piece_index := pipe_indexes.back() as Vector2i
+	# Check to make sure there is at least one pipe piece
+	if pipe_indexes.size() == 0:
+		if Global.DEBUG_MODE:
+			push_error(self.name, " [get_possible_cell_indexes]", " No pipe piece to reference.")
+		return []
+	
 	var temp_array: Array[Vector2i] = []
 	var index_array: Array[Vector2i] = []
 	

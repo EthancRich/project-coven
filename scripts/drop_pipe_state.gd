@@ -31,7 +31,8 @@ func pipe_exists():
 		if child is Pipe:
 			return true
 	return false
-	
+
+## TODO: Move into the Pipe Piece script
 func add_pipe_piece_to_pipe(pipe_piece: PipePiece):
 	for child in staging_node.get_children():
 		if child is Pipe:

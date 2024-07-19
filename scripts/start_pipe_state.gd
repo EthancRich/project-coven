@@ -19,6 +19,7 @@ func _on_board_changed_mouse_cell(prev_cell_index, current_cell_index):
 	if !active_state:
 		return
 	var prev_hovered_cell = board_node.get_prev_hovered_cell()
+	## FIXME: Null check here
 	if !prev_hovered_cell.contains_job():
 		return
 	var job: Job = prev_hovered_cell.contained_object
