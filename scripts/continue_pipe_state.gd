@@ -28,7 +28,7 @@ func exit() -> void:
 	
 ## check each frame to see if the right click is released
 func update(_delta: float) -> void:
-	if !board_node.is_right_click_down:
+	if not board_node.is_right_click_down:
 		transitioning.emit(self, "Abandoning Pipe")
 
 
@@ -37,8 +37,7 @@ func update(_delta: float) -> void:
 func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index: Vector2i) -> void:
 
 	# Quit if this was triggered in a different state
-	print(_prev_cell_index, " ", current_cell_index)
-	if !active_state:
+	if not active_state:
 		return
 	
 	var pipe := get_active_pipe()
@@ -55,9 +54,9 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	
 	# Eliminate any movements that aren't to legal moves
 	var possible_locations := pipe.get_possible_cell_indexes()
-	if !(current_cell_index in possible_locations):
-		if Global.DEBUG_MODE:
-			print(self.name, " [_on_board_changed_mouse_cell]", current_cell_index, " not in ", possible_locations)
+	if not (current_cell_index in possible_locations):
+		#if Global.DEBUG_MODE:
+			# print(self.name, " [_on_board_changed_mouse_cell]", current_cell_index, " not in ", possible_locations)
 		return
 		
 	# At this point, the player is hovering over N/E/S/W of last pipe piece
@@ -91,7 +90,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 			return
 	
 	# Option 3: The player has moved into unoccupied square to drop pipe piece
-	if !current_cell.is_occupied():
+	if not current_cell.is_occupied():
 		transitioning.emit(self, "Dropping Pipe")
 	
 	

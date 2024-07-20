@@ -5,7 +5,6 @@ class_name Cell extends Node2D
 ## to "contain" it, though currently objects in the grid
 ## like jobs and pipes are not children to their cell.
 
-
 ## index of the cell in the grid (x,y)
 var index: Vector2i = Vector2i(-1,-1)
 

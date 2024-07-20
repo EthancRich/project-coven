@@ -64,7 +64,7 @@ func get_possible_cell_indexes() -> Array[Vector2i]:
 	
 	# Return an array of all valid indexess
 	for index in temp_array:
-		if !grid_node.is_index_out_of_bounds(index):
+		if not grid_node.is_index_out_of_bounds(index):
 			index_array.push_back(index)
 			
 	return index_array

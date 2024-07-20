@@ -50,7 +50,7 @@ func _input(event: InputEvent) -> void:
 		# TODO: Change where the witch is parented when not occupying a job
 		if current_cell.contains_job():
 			reparent(current_cell.contained_object)
-		elif !(get_parent() is Board):
+		elif not (get_parent() is Board):
 			reparent(board_node)
 		
 

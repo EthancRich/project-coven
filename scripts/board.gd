@@ -127,7 +127,7 @@ func set_focused_object() -> void:
 			push_error(self.name, " [set_focused_ojbect]", " Cannot find segment in Job. ", focused_job_segment)
 	
 	
-## Removes all group tags from the currently focused objects. The intent
+## Removes all group tags from the currently focused objects. T he intent
 ## is that focused objects can only be focused one a time, but this is a
 ## failsafe to ensure that in the event of multiple, it resets.
 func remove_focused_object() -> void:
