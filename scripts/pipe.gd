@@ -144,7 +144,7 @@ func update_pipe_sprites() -> void:
 	match last_diff:
 		VEC_RIGHT: 
 			if current_diff == VEC_RIGHT:
-				return
+				animation_string = "pipe1"
 			elif current_diff == VEC_UP:
 				animation_string = "pipe4"
 			elif current_diff == VEC_DOWN:
@@ -153,12 +153,12 @@ func update_pipe_sprites() -> void:
 			if current_diff == VEC_RIGHT:
 				animation_string = "pipe5"
 			elif current_diff == VEC_UP:
-				return	
+				animation_string = "pipe2"	
 		VEC_DOWN:
 			if current_diff == VEC_RIGHT:
 				animation_string = "pipe6"
 			elif current_diff == VEC_DOWN:
-				return
+				animation_string = "pipe2"
 		_:
 			print("Something bad happened")
 			return
