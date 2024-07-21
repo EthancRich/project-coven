@@ -40,7 +40,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	if not active_state:
 		return
 	
-	var pipe := get_active_pipe()
+	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe
 	if not pipe:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [_on_board_changed_mouse_cell]", " No pipe object to work with.")
@@ -52,6 +52,14 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	if pipe.last_piece_index == current_cell_index:
 		return
 	
+	# Check to see if the cell hovered cell is an old one in the pipe
+	if current_cell_index in pipe.pipe_indexes:
+		var cell := grid_node.get_cell_at_index(current_cell_index)
+		var pipe_piece := cell.contained_object as PipePiece
+		pipe_piece.delete_marker = true # Set the marker to delete up to that point
+		transitioning.emit(self, "Erasing Pipe")
+		return
+	
 	# Eliminate any movements that aren't to legal moves
 	var possible_locations := pipe.get_possible_cell_indexes()
 	if not (current_cell_index in possible_locations):
@@ -61,7 +69,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 		
 	# At this point, the player is hovering over N/E/S/W of last pipe piece
 	# Option 1: The player moved back to their previous cell
-	if pipe.get_pprev_index() == current_cell_index:
+	if pipe.get_pprev_index() == current_cell_index: # FIXME: THis is getting called
 		if Global.DEBUG_MODE:
 			print(self.name, " [_on_board_changed_mouse_cell] ", "Moved into original cell.")
 		transitioning.emit(self, "Erasing Pipe")
@@ -92,12 +100,3 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	# Option 3: The player has moved into unoccupied square to drop pipe piece
 	if not current_cell.is_occupied():
 		transitioning.emit(self, "Dropping Pipe")
-	
-	
-## Returns the pipe object that is currently being populated
-## NOTE: Assumes active pipe is the first Pipe child in Staging
-func get_active_pipe() -> Pipe:
-	for child in staging_node.get_children():
-		if child is Pipe:
-			return child as Pipe
-	return null

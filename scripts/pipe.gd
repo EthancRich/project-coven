@@ -38,7 +38,7 @@ func add_pipe_index(index: Vector2i) -> void:
 ## Removes the last piece of the pipe and deletes it
 func erase_recent_pipe_piece() -> void:
 	pipe_indexes.pop_back()
-	get_child(-1).queue_free()
+	get_child(-1).free()
 	update_last_piece_index()
 
 
@@ -168,3 +168,15 @@ func update_pipe_sprites() -> void:
 		return
 	
 	changing_piece.update_sprite(animation_string)
+	
+	
+## Sets the delete marker on a pipe piece based on the index
+#func set_delete_marker(index: Vector2i) -> void:
+	#var children := get_children() as Array[PipePiece]
+	#for i in range(pipe_indexes.size()):
+		#if pipe_indexes[i] == index:
+			#children[i].delete_marker = true
+			#return
+			#
+	#if Global.DEBUG_MODE:
+		#push_warning(self.name, " [set_delete_marker]", " Could not find: ", index, " in pipe_indexes.")

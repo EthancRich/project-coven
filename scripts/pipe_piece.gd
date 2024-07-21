@@ -13,6 +13,9 @@ var is_reparenting: bool = false
 ## Setting the pipe parent object
 var pipe: Pipe
 
+## If true, represents new position to start pipe at
+var delete_marker: bool = false
+
 
 ## Chooses an orientation for the pipe piece, then plays the
 ## according anitmation of the sprite.
