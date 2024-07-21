@@ -54,6 +54,7 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 	var new_pipe := pipe_scene.instantiate() as Pipe
 	new_pipe.set_starting_job_cell(prev_hovered_cell)
 	staging_node.add_child(new_pipe) # Pipe's position is at origin
+	board_node.set_active_pipe(new_pipe) #TODO: Convert into signal based
 	
 	transitioning.emit(self, "Dropping Pipe")
 	

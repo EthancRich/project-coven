@@ -3,17 +3,18 @@ class_name AbandonPipeState extends State
 ## After it's completed, the state machine will return to idle.
 
 ## staging node reference to reduce overhead in repeated calls.
-@onready var staging_node := %Staging as Node
+@onready var board_node := %Board as Board
 
 
 ## Upon enter, delete the pipe and return to Idle state.
 ## NOTE: Making the assumption that only one child of the staging node
 func enter() -> void:
-	var pipe := staging_node.get_child(0) as Pipe
+	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe
 	if not pipe:
 		if Global.DEBUG_MODE:
 			push_warning(self.name, " [enter]", " No pipe to delete.")
 	else:
 		pipe.queue_free()
+		board_node.remove_active_pipe()
 		
 	transitioning.emit(self, "Idle")

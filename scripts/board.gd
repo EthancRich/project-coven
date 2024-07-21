@@ -6,8 +6,9 @@ class_name Board extends Node2D
 ## Emitted when mouse moves across grid lines
 signal changed_mouse_cell 
 
-## Reference for the grid object, minimizes access time
+## Reference for nodes, minimizes access time
 @onready var grid_node := %Grid as Grid
+@onready var staging_node := %Staging as Node
 
 ## Amount of time before a press becomes a hold for dragging
 @export var longpress_time: float = 0.1
@@ -139,3 +140,22 @@ func remove_focused_object() -> void:
 		
 	# Reset segment
 	focused_job_segment = -1
+
+
+## adds the passed pipe to the "active_pipe" group tag
+func set_active_pipe(pipe: Pipe) -> void:
+	if remove_active_pipe() and Global.DEBUG_MODE:
+		push_error(self.name, " [set_active_pipe]", " Removed additional pipe, should have already been removed.")
+	pipe.add_to_group("active_pipe")
+	
+
+## Removes all objects from "active_pipe". Returns true if any
+## objects have been removed.
+func remove_active_pipe() -> bool:
+	var did_remove := false
+	var active_pipes := get_tree().get_nodes_in_group("active_pipe")
+	for pipe in active_pipes:
+		pipe.remove_from_group("active_pipe")
+		did_remove = true
+	return did_remove
+	

@@ -81,3 +81,90 @@ func get_pprev_index() -> Vector2i:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [get_pprev_index]", " No pipe pieces found.")
 		return Vector2i(-1, -1)
+		
+
+## alternative to reparent for pipes, this makes sure that the pipe pieces
+## don't lose their cell pointers in the event that they are reparented.
+## always use this function instead of reparent.
+func reparent_pipe(new_parent: Node) -> void:
+	
+	## Get all children, set reparenting flag
+	for child in get_children():
+		var piece := child as PipePiece
+		if not piece:
+			continue
+		piece.is_reparenting = true
+	
+	## Reparent the pipe
+	self.reparent(new_parent)
+	
+	## Get all children, remove reparenting flag
+	for child in get_children():
+		var piece := child as PipePiece
+		if not piece:
+			continue
+		piece.is_reparenting = false
+	
+
+## This function goes back and retroactively changes the
+## sprites of pipe pieces after addititional contextual
+## information is provided to adjust the accurate sprite.
+func update_pipe_sprites() -> void:
+	
+	# Too few indexes to make adjustments, simply exit
+	if pipe_indexes.size() <= 1:
+		return
+		
+	# Make sure the pipe has the correct children count as well
+	var children := get_children()
+	if children.size() <= 1:
+		if Global.DEBUG_MODE:
+			push_error(self.name, " [update_pipe_sprites]", " Mistmatch in pipe index counts and children counts.")
+		return
+	
+	const VEC_RIGHT := Vector2i(1, 0)
+	const VEC_DOWN := Vector2i(0, 1)
+	const VEC_UP := Vector2i(0, -1)
+	var changing_piece := children[-2] as PipePiece
+	var last_diff: Vector2i
+	var animation_string: String
+	
+	# If there's only two pipe pieces, then assume right was last diff
+	if pipe_indexes.size() == 2:
+		last_diff = Vector2i(1, 0)
+	# Otherwise, consider pprev and prev indexes
+	elif pipe_indexes.size() > 2:
+		last_diff = pipe_indexes[-2] - pipe_indexes[-3]
+	
+	# Get the current difference to obtain a direction
+	var current_diff := pipe_indexes[-1] - pipe_indexes[-2]
+	
+	print(last_diff, current_diff)
+	
+	match last_diff:
+		VEC_RIGHT: 
+			if current_diff == VEC_RIGHT:
+				return
+			elif current_diff == VEC_UP:
+				animation_string = "pipe4"
+			elif current_diff == VEC_DOWN:
+				animation_string = "pipe3"
+		VEC_UP:
+			if current_diff == VEC_RIGHT:
+				animation_string = "pipe5"
+			elif current_diff == VEC_UP:
+				return	
+		VEC_DOWN:
+			if current_diff == VEC_RIGHT:
+				animation_string = "pipe6"
+			elif current_diff == VEC_DOWN:
+				return
+		_:
+			print("Something bad happened")
+			return
+		
+	# No change occurs, then just return
+	if animation_string == "":
+		return
+	
+	changing_piece.update_sprite(animation_string)

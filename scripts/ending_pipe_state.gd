@@ -17,7 +17,8 @@ var active_state = false
 func update(_delta: float) -> void:
 	if not board_node.is_right_click_down:
 		# Move the pipe from staging into grid
-		get_active_pipe().reparent(grid_node)
+		get_active_pipe().reparent_pipe(grid_node)
+		board_node.remove_active_pipe()
 		transitioning.emit(self, "Idle")
 
 
