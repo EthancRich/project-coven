@@ -37,21 +37,18 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	
 	# The player moved back to their previous cell
 	# FIXME: This caused an error that crashed the game when it's job, single cell, job, moving from end to front
-	#if pipe.get_pprev_index() == current_cell_index:
-		#var cell := grid_node.get_cell_at_index(current_cell_index)
-		#var pipe_piece := cell.contained_object as PipePiece
-		#pipe_piece.delete_marker = true # Set the marker to delete up to that point
-		#if Global.DEBUG_MODE:
-			#print(self.name, " [_on_board_changed_mouse_cell]", " Returned to previous cell.")
-		#transitioning.emit(self, "Erasing Pipe")
-		
-	if pipe.get_pprev_index() == current_cell_index: # This kinda requires the first cell of the job to be included
-		#var cell := grid_node.get_cell_at_index(current_cell_index)
-		#var pipe_piece := cell.contained_object as PipePiece
-		#pipe_piece.delete_marker = true # Set the marker to delete up to that point
+	if pipe.get_pprev_index() == current_cell_index:
 		if Global.DEBUG_MODE:
 			print(self.name, " [_on_board_changed_mouse_cell]", " Returned to previous cell.")
-		transitioning.emit(self, "Continuing Pipe")
+		transitioning.emit(self, "Erasing Pipe", [current_cell_index])
+		
+	#if pipe.get_pprev_index() == current_cell_index: # This kinda requires the first cell of the job to be included
+		##var cell := grid_node.get_cell_at_index(current_cell_index)
+		##var pipe_piece := cell.contained_object as PipePiece
+		##pipe_piece.delete_marker = true # Set the marker to delete up to that point
+		#if Global.DEBUG_MODE:
+			#print(self.name, " [_on_board_changed_mouse_cell]", " Returned to previous cell.")
+		#transitioning.emit(self, "Continuing Pipe")
 			
 
 ## Sets active state.

@@ -3,13 +3,9 @@ class_name ContinuePipeState extends State
 ## It waits until a movement occurs, and depending on the movement,
 ## It will transition to creating or removing pipe pieces.
 
-## board node reference to reduce overhead on repeated calls.
+## node references to reduce overhead on repeated calls.
 @onready var board_node := %Board as Board
-
-## grid node reference to reduce overhead on repeated calls.
 @onready var grid_node := %Grid as Grid
-
-## staging node reference to reduce overhead on repeated calls.
 @onready var staging_node := %Staging as Node
 
 ## True if the current state is ContinuePipeState, false otherwise.
@@ -33,7 +29,6 @@ func update(_delta: float) -> void:
 
 
 ## Decides the next state to transition
-## TODO: Consider whether the prev and current cell indexes are necessary
 func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index: Vector2i) -> void:
 
 	# Quit if this was triggered in a different state
@@ -54,12 +49,8 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	
 	# Check to see if the cell hovered cell is an old one in the pipe
 	# If so, mark that piece and erase back to it
-	# FIXME: Convert this to just use the args system
 	if current_cell_index in pipe.pipe_indexes:
-		var cell := grid_node.get_cell_at_index(current_cell_index)
-		var pipe_piece := cell.contained_object as PipePiece
-		pipe_piece.delete_marker = true # Set the marker to delete up to that point
-		transitioning.emit(self, "Erasing Pipe")
+		transitioning.emit(self, "Erasing Pipe", [current_cell_index])
 		return
 	
 	# Eliminate any movements that aren't to legal moves
@@ -75,7 +66,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 		print("This is getting called!")
 		if Global.DEBUG_MODE:
 			print(self.name, " [_on_board_changed_mouse_cell] ", "Moved into original cell.")
-		transitioning.emit(self, "Erasing Pipe")
+		transitioning.emit(self, "Erasing Pipe") # Leave this without arguments for now
 		return
 	
 	# If the player is going left, then don't allow it

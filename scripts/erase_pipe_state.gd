@@ -3,13 +3,9 @@ class_name ErasePipeState extends State
 ## on whether the enter call provided a piece to end with. The default
 ## operation is to delete a single piece.
 
-## node reference to reduce the overhead in repeated calls.
-@onready var staging_node: Node = %Staging
-
 
 ## Action to take upon entering.
-## TODO: Introduce argument for deleting items
-func enter(_args: Array):
+func enter(args: Array):
 	
 	# Obtain the pipe indexes
 	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe
@@ -19,27 +15,31 @@ func enter(_args: Array):
 		transitioning.emit(self, "Abandoning Pipe")
 	var pipe_indexes := pipe.pipe_indexes
 	
-	#if pipe_indexes.size() == 1: # Erasing the first pipe piece
-		#print("OPTION 1")
-		#transitioning.emit(self, "Abandoning Pipe")
-		#return
+	# TODO: Consider if this is necessary to stay
+	# NOTE: This references size of index to 1, so this must change with changes to the array]
+	# Abandon pipe if the player moves back into the starting cell
+	if args.size() > 0 and args[0] is Vector2i and args[0] == pipe.starting_job_cell.index:
+		print("OPTION 1a: Calling erase when moving back into first job cell")
+		transitioning.emit(self, "Abandoning Pipe")
+		return
+	elif pipe_indexes.size() == 1: # Erasing the first pipe piece
+		print("OPTION 1b: Calling erase when moving back into first job cell")
+		transitioning.emit(self, "Abandoning Pipe")
+		return
+
+	# At this point, not abandoning pipe, just deleting some number of pieces
 	
-	# Traverse each pipe piece backward, deleting until hitting the marker
-	#var pieces := pipe.get_children()
-	#for i in range(pipe_indexes.size() - 1, -1, -1):
-	while pipe.get_children().size() > 0:	
-		var pipe_piece := pipe.get_children().back() as PipePiece
-		if not pipe_piece:
-			continue
-		print("looping")
-		if pipe_piece.delete_marker:
-			print("OPTION 2")
-			pipe_piece.delete_marker = false
-			transitioning.emit(self, "Continuing Pipe")
-			return
+	if args.size() > 0 and args[0] is Vector2i:
+		
+		# Delete all pieces until that cell is hit
+		print("OPTION 2: Deleting until the given cell is reached")
+		var current_index := args[0] as Vector2i
+		while (current_index != pipe.last_piece_index):
+			pipe.erase_recent_pipe_piece()
+			print("deleted piece")
+	else:
+		# Delete only a single piece, because no amount was specified
+		print("OPTION 3: Delete a single piece, no count was specified")
 		pipe.erase_recent_pipe_piece()
-		print("erasing pipe piece")
-	
-	# At this point, every pipe piece was deleted because no marker was set
-	print("OPTION 3")
-	transitioning.emit(self, "Abandoning Pipe")	
+
+	transitioning.emit(self, "Continuing Pipe")
