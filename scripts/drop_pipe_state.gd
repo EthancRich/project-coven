@@ -12,10 +12,17 @@ var pipe_piece_scene: PackedScene = preload("res://scenes/pipe_piece.tscn")
 
 
 ## Upon entry, drop a pipe and then transition
-func enter() -> void:
+## NOTE: args == [current_cell: Cell]
+func enter(args: Array) -> void:
 	
 	# Obtain indexes of current cell
-	var current_cell := board_node.get_current_hovered_cell()
+	var current_cell: Cell
+	if args.size() > 0 and args[0] is Cell:
+		current_cell = args[0] as Cell
+	else:
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [enter]", " args not provided, defaulting to getter.")
+		current_cell = board_node.get_current_hovered_cell()
 	if not current_cell:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [enter]", "Cannot drop pipe, a cell is out of bounds.")
@@ -38,19 +45,3 @@ func enter() -> void:
 		transitioning.emit(self, "Continuing Pipe")
 	else:
 		transitioning.emit(self, "Abandoning Pipe")
-
-
-## Attempts to add pipe piece to pipe. Returns true if successful,
-## or false otherwise.
-## TODO: Move into the Pipe Piece script
-#func try_add_piece_to_pipe(pipe_piece: PipePiece) -> bool:
-	#for child in staging_node.get_children():
-		#if child is Pipe:
-			#var pipe := child as Pipe
-			#pipe.add_child(pipe_piece)
-			#pipe.add_pipe_index(pipe_piece.current_cell.index)
-			#return true
-			#
-	#if Global.DEBUG_MODE:
-		#push_error(self.name, " [try_add_piece_to_pipe]", " no pipe parent to attach to.")
-	#return false

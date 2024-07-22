@@ -15,7 +15,7 @@ var elapsed_time: float = 0.0
 
 
 ## Reset the values upon entering the state
-func enter() -> void:
+func enter(_args: Array) -> void:
 	moved_cells = false
 	elapsed_time = 0.0
 	

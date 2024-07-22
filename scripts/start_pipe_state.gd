@@ -56,14 +56,14 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 	staging_node.add_child(new_pipe) # Pipe's position is at origin
 	board_node.set_active_pipe(new_pipe) #TODO: Convert into signal based
 	
-	transitioning.emit(self, "Dropping Pipe")
+	transitioning.emit(self, "Dropping Pipe", [current_hovered_cell])
 	
 	
 ## Update flag
-func enter():
+func enter(_args: Array) -> void:
 	active_state = true
 	
 	
 ## Update flag
-func exit():
+func exit() -> void:
 	active_state = false

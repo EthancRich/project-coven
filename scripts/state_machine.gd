@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	# Initialize starting state
 	if initial_state != null:
-		initial_state.enter()
+		initial_state.enter([])
 		current_state = initial_state
 
 
@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 
 
 ## transitions from old to new state, calling the enter and exit on each accordingly
-func on_state_transition(old_state: State, new_state_name: String) -> void:
+func on_state_transition(old_state: State, new_state_name: String, args: Array = []) -> void:
 	
 	# check to make sure only signals from current state are considered
 	if old_state != current_state:	
@@ -64,5 +64,5 @@ func on_state_transition(old_state: State, new_state_name: String) -> void:
 	current_state = new_state
 	
 	# Enter the next state (comes after for disambiguating immediate transitions)
-	new_state.enter()
+	new_state.enter(args)
 		

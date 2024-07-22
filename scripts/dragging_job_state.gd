@@ -9,5 +9,5 @@ class_name DraggingJobState extends State
 ## Wait until the click is released, and then drop the job 
 func update(_delta: float) -> void:
 	if not board_node.is_left_click_down:
-		transitioning.emit(self, "Dropping Job")
+		transitioning.emit(self, "Dropping Job", [board_node.current_mouse_cell_index])
 	

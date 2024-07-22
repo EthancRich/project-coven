@@ -8,7 +8,7 @@ class_name AbandonPipeState extends State
 
 ## Upon enter, delete the pipe and return to Idle state.
 ## NOTE: Making the assumption that only one child of the staging node
-func enter() -> void:
+func enter(_args: Array) -> void:
 	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe
 	if not pipe:
 		if Global.DEBUG_MODE:

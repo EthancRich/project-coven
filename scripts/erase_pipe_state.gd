@@ -1,8 +1,17 @@
 class_name ErasePipeState extends State
+## ErasePipeState erasese pipe pieces. The number of pieces depends
+## on whether the enter call provided a piece to end with. The default
+## operation is to delete a single piece.
 
+## node reference to reduce the overhead in repeated calls.
 @onready var staging_node: Node = %Staging
 
-func enter():
+
+## Action to take upon entering.
+## TODO: Introduce argument for deleting items
+func enter(_args: Array):
+	
+	# Obtain the pipe indexes
 	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe
 	if not pipe:
 		if Global.DEBUG_MODE:
@@ -34,10 +43,3 @@ func enter():
 	# At this point, every pipe piece was deleted because no marker was set
 	print("OPTION 3")
 	transitioning.emit(self, "Abandoning Pipe")	
-		
-	
-func exit():
-	pass
-	
-func update(_delta: float):
-	pass

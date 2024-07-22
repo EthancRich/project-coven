@@ -55,7 +55,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 			
 
 ## Sets active state.
-func enter() -> void:
+func enter(_args: Array) -> void:
 	active_state = true
 
 

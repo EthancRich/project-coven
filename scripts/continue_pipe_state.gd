@@ -17,7 +17,7 @@ var active_state = false
 
 
 ## Set active_state
-func enter() -> void:
+func enter(_args: Array) -> void:
 	active_state = true
 
 
@@ -54,6 +54,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	
 	# Check to see if the cell hovered cell is an old one in the pipe
 	# If so, mark that piece and erase back to it
+	# FIXME: Convert this to just use the args system
 	if current_cell_index in pipe.pipe_indexes:
 		var cell := grid_node.get_cell_at_index(current_cell_index)
 		var pipe_piece := cell.contained_object as PipePiece
@@ -101,4 +102,4 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	
 	# Option 3: The player has moved into unoccupied square to drop pipe piece
 	if not current_cell.is_occupied():
-		transitioning.emit(self, "Dropping Pipe")
+		transitioning.emit(self, "Dropping Pipe", [current_cell])

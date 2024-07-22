@@ -8,7 +8,7 @@ class_name State extends Node
 signal transitioning
 
 
-func enter() -> void:
+func enter(_args: Array) -> void:
 	pass
 
 

@@ -11,10 +11,19 @@ class_name DroppingJobState extends State
 
 
 ## On entry, attempt to move job if all checks pass
-func enter() -> void:
+## NOTE: args == [current_cell_index: Vector2i]
+func enter(args: Array) -> void:
 	
 	# Obtain the cell the player is dropping onto
-	var hovered_cell := board_node.get_current_hovered_cell()
+	var hovered_cell: Cell
+	if args.size() > 0 and args[0] is Vector2i:
+		var current_cell_index := args[0] as Vector2i
+		hovered_cell = grid_node.get_cell_at_index(current_cell_index)
+	else:
+		hovered_cell = board_node.get_current_hovered_cell()
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [enter]", " index not provided, getting cell from board state")
+		
 	if not hovered_cell:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [enter]", " hovered cell is null.")
