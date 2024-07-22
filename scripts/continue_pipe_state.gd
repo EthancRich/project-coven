@@ -53,6 +53,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 		return
 	
 	# Check to see if the cell hovered cell is an old one in the pipe
+	# If so, mark that piece and erase back to it
 	if current_cell_index in pipe.pipe_indexes:
 		var cell := grid_node.get_cell_at_index(current_cell_index)
 		var pipe_piece := cell.contained_object as PipePiece
@@ -70,6 +71,7 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 	# At this point, the player is hovering over N/E/S/W of last pipe piece
 	# Option 1: The player moved back to their previous cell
 	if pipe.get_pprev_index() == current_cell_index: # FIXME: THis is getting called
+		print("This is getting called!")
 		if Global.DEBUG_MODE:
 			print(self.name, " [_on_board_changed_mouse_cell] ", "Moved into original cell.")
 		transitioning.emit(self, "Erasing Pipe")

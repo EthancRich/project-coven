@@ -26,7 +26,7 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 	if not active_state:
 		return
 	
-	# Confirm that the player moved right
+	# Confirm that the player moved right one unit
 	var alt_index := Vector2i(prev_cell_index.x + 1, prev_cell_index.y)
 	if alt_index != current_cell_index:
 		return

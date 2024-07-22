@@ -10,10 +10,10 @@ func enter():
 		transitioning.emit(self, "Abandoning Pipe")
 	var pipe_indexes := pipe.pipe_indexes
 	
-	if pipe_indexes.size() == 1: # Erasing the first pipe piece
-		print("OPTION 1")
-		transitioning.emit(self, "Abandoning Pipe")
-		return
+	#if pipe_indexes.size() == 1: # Erasing the first pipe piece
+		#print("OPTION 1")
+		#transitioning.emit(self, "Abandoning Pipe")
+		#return
 	
 	# Traverse each pipe piece backward, deleting until hitting the marker
 	#var pieces := pipe.get_children()
