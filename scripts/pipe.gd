@@ -2,10 +2,10 @@ class_name Pipe extends Node2D
 ## Pipe is a parent to multiple pipe pieces, each
 ## of which occupies a single square on the grid.
 
-## Rightmost job cell that the pipe is attached to.
-var starting_job_cell: Cell
 
 ## An ordered list of pipe piece index references
+## NOTE: The first and last indexes are the starting cell and ending cell that
+## are in the jobs, not pipe pieces
 var pipe_indexes: Array[Vector2i]
 
 ## The most recently placed pipe piece index
@@ -13,20 +13,12 @@ var pipe_indexes: Array[Vector2i]
 var last_piece_index := Vector2i(-1, -1)
 
 ## Grid node reference to reduce overhead in repeated calls
-@onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
-
-
-## Assigns a provided cell to the starting job variable
-func set_starting_job_cell(cell: Cell) -> void:
-	starting_job_cell = cell
+@onready var grid_node := get_node("/root/Main/Board/Grid") as Grid	
 	
 	
 ## Updates the last pipe piece index based on the index array
 func update_last_piece_index() -> void:
-	if pipe_indexes.size() > 0:
-		last_piece_index = pipe_indexes.back() as Vector2i
-	else:
-		last_piece_index = Vector2i(-1, -1)
+	last_piece_index = pipe_indexes.back() as Vector2i
 
 
 ## Pushes an index to the back of the array, newest piece
@@ -35,11 +27,21 @@ func add_pipe_index(index: Vector2i) -> void:
 	update_last_piece_index()
 
 
-## Removes the last piece of the pipe and deletes it
+## Removes the last index of the pipe pieces and deletes it.
+## This doesn't always delete pipe pieces, only when they aren't the bookended cells
 func erase_recent_pipe_piece() -> void:
-	pipe_indexes.pop_back()
-	get_child(-1).free()
-	update_last_piece_index()
+	var diff := pipe_indexes.size() - get_children().size()
+	match diff:
+		1:
+			pipe_indexes.pop_back()
+			get_child(-1).free()
+			update_last_piece_index()
+		2:
+			pipe_indexes.pop_back()
+			update_last_piece_index()
+		_:
+			if Global.DEBUG_MODE:
+				push_error(self.name, " [erase_recent_pipe_piece]", " Unknown difference count of children and indexes.")
 
 
 ## Returns an array (x,y) of valid grid index pairs that represent the
@@ -48,7 +50,7 @@ func erase_recent_pipe_piece() -> void:
 func get_possible_cell_indexes() -> Array[Vector2i]:
 	
 	# Check to make sure there is at least one pipe piece
-	if pipe_indexes.size() == 0:
+	if pipe_indexes.size() < 2:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [get_possible_cell_indexes]", " No pipe piece to reference.")
 		return []
@@ -73,10 +75,8 @@ func get_possible_cell_indexes() -> Array[Vector2i]:
 ## Returns the (x,y) grid index of the previous previous pipe piece
 ## Returns (-1, -1) if no index can be found
 func get_pprev_index() -> Vector2i:
-	if pipe_indexes.size() > 1: # At least two pipe pieces
+	if pipe_indexes.size() > 1:
 		return pipe_indexes[-2]
-	elif pipe_indexes.size() == 1: # Two cells back is the starting point
-		return starting_job_cell.index
 	else:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [get_pprev_index]", " No pipe pieces found.")
@@ -112,34 +112,27 @@ func reparent_pipe(new_parent: Node) -> void:
 func update_pipe_sprites() -> void:
 	
 	# Too few indexes to make adjustments, simply exit
-	if pipe_indexes.size() <= 1:
+	# Size 2 is one cell, one piece. Need two pieces before updates can occur
+	if pipe_indexes.size() <= 2:
 		return
 		
 	# Make sure the pipe has the correct children count as well
-	var children := get_children()
-	if children.size() <= 1:
-		if Global.DEBUG_MODE:
-			push_error(self.name, " [update_pipe_sprites]", " Mistmatch in pipe index counts and children counts.")
-		return
-	
+	var children := get_children()	
 	const VEC_RIGHT := Vector2i(1, 0)
 	const VEC_DOWN := Vector2i(0, 1)
 	const VEC_UP := Vector2i(0, -1)
-	var changing_piece := children[-2] as PipePiece
-	var last_diff: Vector2i
 	var animation_string: String
 	
-	# If there's only two pipe pieces, then assume right was last diff
-	if pipe_indexes.size() == 2:
-		last_diff = Vector2i(1, 0)
-	# Otherwise, consider pprev and prev indexes
-	elif pipe_indexes.size() > 2:
-		last_diff = pipe_indexes[-2] - pipe_indexes[-3]
+	var changing_piece: PipePiece
+	var diff := pipe_indexes.size() - get_children().size()
+	if diff == 1:
+		changing_piece = children[-2] as PipePiece
+	else:
+		changing_piece = children[-1] as PipePiece
 	
-	# Get the current difference to obtain a direction
+	# Get the differences to obtain the first two direction changes
+	var last_diff := pipe_indexes[-2] - pipe_indexes[-3]
 	var current_diff := pipe_indexes[-1] - pipe_indexes[-2]
-	
-	print(last_diff, current_diff)
 	
 	match last_diff:
 		VEC_RIGHT: 
@@ -168,15 +161,3 @@ func update_pipe_sprites() -> void:
 		return
 	
 	changing_piece.update_sprite(animation_string)
-	
-	
-## Sets the delete marker on a pipe piece based on the index
-#func set_delete_marker(index: Vector2i) -> void:
-	#var children := get_children() as Array[PipePiece]
-	#for i in range(pipe_indexes.size()):
-		#if pipe_indexes[i] == index:
-			#children[i].delete_marker = true
-			#return
-			#
-	#if Global.DEBUG_MODE:
-		#push_warning(self.name, " [set_delete_marker]", " Could not find: ", index, " in pipe_indexes.")

@@ -52,7 +52,7 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 
 	# Create the new pipe parent object
 	var new_pipe := pipe_scene.instantiate() as Pipe
-	new_pipe.set_starting_job_cell(prev_hovered_cell)
+	new_pipe.add_pipe_index(prev_cell_index) # NOTE: Adding job cell to indexes HERE
 	staging_node.add_child(new_pipe) # Pipe's position is at origin
 	board_node.set_active_pipe(new_pipe) #TODO: Convert into signal based
 	

@@ -47,15 +47,9 @@ func update_sprite(animation: String) -> void:
 ## String that represents the movement in a direction.			
 ## NOTE: Potentially called before parent is Pipe
 func indexes_to_direction(current_index: Vector2i) -> String:
-	
-	# If the pipe has no previous, default to right
 	var prev_index := pipe.last_piece_index
-	if prev_index == Vector2i(-1, -1):
-		return "right"
-	
-	# Otherwise, calculate the direction based on the previous direction
 	var diff := current_index - prev_index
-	print("Current: ", current_index, ", prev_index: ", prev_index, ", diff: ", diff)
+	
 	if diff.x == 1:
 		return "right"
 	elif diff.y == 1:

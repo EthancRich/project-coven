@@ -15,31 +15,22 @@ func enter(args: Array):
 		transitioning.emit(self, "Abandoning Pipe")
 	var pipe_indexes := pipe.pipe_indexes
 	
-	# TODO: Consider if this is necessary to stay
-	# NOTE: This references size of index to 1, so this must change with changes to the array]
 	# Abandon pipe if the player moves back into the starting cell
-	if args.size() > 0 and args[0] is Vector2i and args[0] == pipe.starting_job_cell.index:
-		print("OPTION 1a: Calling erase when moving back into first job cell")
+	if args.size() > 0 and args[0] is Vector2i and args[0] == pipe.pipe_indexes[0]:
 		transitioning.emit(self, "Abandoning Pipe")
 		return
-	elif pipe_indexes.size() == 1: # Erasing the first pipe piece
-		print("OPTION 1b: Calling erase when moving back into first job cell")
+	elif pipe_indexes.size() <= 2: # Erasing the first pipe piece
 		transitioning.emit(self, "Abandoning Pipe")
 		return
-
-	# At this point, not abandoning pipe, just deleting some number of pieces
+	# At this point, not abandoning pipe, just deleting some (not all) pieces
 	
+	# If cell specified, delete all pieces until that cell is hit
 	if args.size() > 0 and args[0] is Vector2i:
-		
-		# Delete all pieces until that cell is hit
-		print("OPTION 2: Deleting until the given cell is reached")
 		var current_index := args[0] as Vector2i
 		while (current_index != pipe.last_piece_index):
 			pipe.erase_recent_pipe_piece()
-			print("deleted piece")
+	# Otherwise no amount was specified, delete a single cell	
 	else:
-		# Delete only a single piece, because no amount was specified
-		print("OPTION 3: Delete a single piece, no count was specified")
 		pipe.erase_recent_pipe_piece()
 
 	transitioning.emit(self, "Continuing Pipe")

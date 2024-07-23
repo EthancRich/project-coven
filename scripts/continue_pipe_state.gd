@@ -88,6 +88,10 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 		if hovered_job.current_cells[0] == current_cell:
 			if Global.DEBUG_MODE:
 				print(self.name, " [_on_board_changed_mouse_cell] ", "Entered viable end spot.")
+			# Add the index of the final cell into the pipe for tracking, and update the animations
+			# NOTE: Adding job cell to indexes HERE
+			pipe.add_pipe_index(current_cell_index)
+			pipe.update_pipe_sprites()
 			transitioning.emit(self, "Ending Pipe")
 			return
 	
