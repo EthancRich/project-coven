@@ -81,6 +81,14 @@ func add_piece_to_pipe() -> bool:
 ## Removes the cell's pointer to a pipe when the pipe is removed.
 ## NOTE: This also activates when it is reparented, so make sure to call
 ## reparent_pipe() instead to avoid this situation.
-func _on_tree_exiting():
+func _on_tree_exiting() -> void:
 	if not is_reparenting:
 		current_cell.remove_contained_object()
+
+
+## Deletes the pipe and all pieces if any pipe piece is left clicked.
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event.is_action_pressed("rclick"):
+		pipe.queue_free()
+		# TODO: Add any additional changes to the connections between jobs here
+		# Create a pipe delete function that handles these things
