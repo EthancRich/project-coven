@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=13 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_dwh7j"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="2_mxogc"]
-[ext_resource type="Script" path="res://scripts/grid.gd" id="2_qjr51"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="2_rl82b"]
 [ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="3_ogdm0"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_rr2iy"]
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="5_t1v6d"]
@@ -11,21 +11,18 @@
 [ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="8_m1vky"]
 [ext_resource type="Script" path="res://scripts/start_pipe_state.gd" id="8_v36af"]
 [ext_resource type="Script" path="res://scripts/drop_pipe_state.gd" id="9_1rfij"]
-[ext_resource type="Script" path="res://scripts/continue_pipe_state.gd" id="10_q1881"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="10_ts1l3"]
-[ext_resource type="Script" path="res://scripts/abandon_pipe_state.gd" id="11_etmm4"]
-[ext_resource type="Script" path="res://scripts/erase_pipe_state.gd" id="11_ntbeb"]
-[ext_resource type="Script" path="res://scripts/ending_pipe_state.gd" id="13_31d6t"]
 
 [node name="Main" type="Node"]
 
 [node name="Board" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_mxogc")
+longpress_time = 0.1
 
 [node name="Grid" type="Node2D" parent="Board"]
 unique_name_in_owner = true
-script = ExtResource("2_qjr51")
+script = ExtResource("2_rl82b")
 
 [node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_rr2iy")
@@ -49,18 +46,6 @@ script = ExtResource("8_v36af")
 [node name="Dropping Pipe" type="Node" parent="Board/StateMachine"]
 script = ExtResource("9_1rfij")
 
-[node name="Continuing Pipe" type="Node" parent="Board/StateMachine"]
-script = ExtResource("10_q1881")
-
-[node name="Ending Pipe" type="Node" parent="Board/StateMachine"]
-script = ExtResource("13_31d6t")
-
-[node name="Erasing Pipe" type="Node" parent="Board/StateMachine"]
-script = ExtResource("11_ntbeb")
-
-[node name="Abandoning Pipe" type="Node" parent="Board/StateMachine"]
-script = ExtResource("11_etmm4")
-
 [node name="Witch" parent="Board" instance=ExtResource("3_ogdm0")]
 position = Vector2(241, 18)
 
@@ -80,6 +65,9 @@ unique_name_in_owner = true
 anchor_mode = 0
 zoom = Vector2(4, 4)
 script = ExtResource("2_dwh7j")
+zoom_max = Vector2(4, 4)
+zoom_speed = Vector2(0.1, 0.1)
+scroll_speed = 40
 
 [node name="Label" type="Label" parent="Camera2D"]
 offset_left = 390.0
@@ -91,5 +79,3 @@ script = ExtResource("10_ts1l3")
 
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
-[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Continuing Pipe" method="_on_board_changed_mouse_cell"]
-[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Ending Pipe" method="_on_board_changed_mouse_cell"]

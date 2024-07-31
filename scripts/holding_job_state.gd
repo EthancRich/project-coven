@@ -1,35 +1,38 @@
 class_name HoldingState extends State
+## This state represents the player holding down left
+## click, but before the drag operation has engaged. This
+## script holds the logic to determine when to transition
+## to a drag move of the job.
 
-# Instance Variables
-var board_node: Board 	# Less repeated accesses of the same node
-var moved_cells: bool
-var elapsed_time: float
+## Reference node to reduce overhead of repeated calls.
+@onready var board_node := %Board as Board 
+
+## Flag to represent if the player has moved cells before drag engaged.
+var moved_cells: bool = false
+
+## The amount of time left click has been held down
+var elapsed_time: float = 0.0
 
 
-func _ready():
-	board_node = %Board
-	moved_cells = false
-	elapsed_time = 0.0
-
-func enter():
+## Reset the values upon entering the state
+func enter(_args: Array) -> void:
 	moved_cells = false
 	elapsed_time = 0.0
 	
-func exit():
-	pass
-	
-func update(delta: float):
+
+## Logically determine whether to move the player to Idle or Drag
+func update(delta: float) -> void:
 	
 	# Player has moved to a different cell during the drag before completion
 	if moved_cells:
-		if !board_node.is_click_down: # Click released, can return to Idle
+		if not board_node.is_left_click_down: # Click released, can return to Idle
 			transitioning.emit(self, "Idle")
 		else:	# Otherwise, keep them trapped in this state until released
 			pass
 			
 	# Player remains in the current cell where it was started
 	else:
-		if !board_node.is_click_down: # Click released, can return to Idle
+		if not board_node.is_left_click_down: # Click released, can return to Idle
 			transitioning.emit(self, "Idle")
 		else:
 			elapsed_time += delta
@@ -37,5 +40,7 @@ func update(delta: float):
 				transitioning.emit(self, "Dragging Job")
 
 
-func _on_board_changed_mouse_cell():
+## Updates flag for moved cells.
+## NOTE: Active even when off state, but reset before entering.
+func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, _current_cell_index: Vector2i) -> void:
 	moved_cells = true
