@@ -13,7 +13,7 @@ var pipe_indexes: Array[Vector2i]
 var last_piece_index := Vector2i(-1, -1)
 
 ## Grid node reference to reduce overhead in repeated calls
-@onready var grid_node := get_node("/root/Main/Board/Grid") as Grid	
+@onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid	
 	
 	
 ## Updates the last pipe piece index based on the index array

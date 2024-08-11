@@ -43,7 +43,7 @@ var current_cells: Array[Cell]
 var current_witches: Array[Witch]
 
 ## A reference to the grid node to reduce overhead in calls.
-@onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
+@onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 
 
 ## On creation, update the visual of the job

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bovujicvncwou"]
+
+[ext_resource type="Script" path="res://scripts/fps_counter.gd" id="1_p7x4d"]
+
+[node name="Interface" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -63.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = 29.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 42
+text = "fps: XX"
+script = ExtResource("1_p7x4d")

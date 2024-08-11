@@ -1,0 +1,86 @@
+[gd_scene load_steps=16 format=3 uid="uid://fxp4kxn7v7ue"]
+
+[ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="2_rc2ev"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="3_qw1v2"]
+[ext_resource type="Script" path="res://scripts/idle_state.gd" id="4_1ls88"]
+[ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="5_1p4ey"]
+[ext_resource type="Script" path="res://scripts/dragging_job_state.gd" id="6_x8poa"]
+[ext_resource type="Script" path="res://scripts/dropping_job_state.gd" id="7_esomc"]
+[ext_resource type="Script" path="res://scripts/start_pipe_state.gd" id="8_c5fyd"]
+[ext_resource type="Script" path="res://scripts/drop_pipe_state.gd" id="9_bx0x8"]
+[ext_resource type="Script" path="res://scripts/continue_pipe_state.gd" id="10_eaoo2"]
+[ext_resource type="Script" path="res://scripts/ending_pipe_state.gd" id="11_eapfc"]
+[ext_resource type="Script" path="res://scripts/erase_pipe_state.gd" id="12_bw8ve"]
+[ext_resource type="Script" path="res://scripts/abandon_pipe_state.gd" id="13_8t8lg"]
+[ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="14_l1y2n"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="15_ou5o5"]
+
+[node name="Game" type="Node"]
+
+[node name="Board" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_ytuhw")
+
+[node name="Grid" type="Node2D" parent="Board"]
+unique_name_in_owner = true
+script = ExtResource("2_rc2ev")
+
+[node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qw1v2")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Board/StateMachine"]
+script = ExtResource("4_1ls88")
+
+[node name="Holding Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("5_1p4ey")
+
+[node name="Dragging Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("6_x8poa")
+
+[node name="Dropping Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("7_esomc")
+
+[node name="Starting Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("8_c5fyd")
+
+[node name="Dropping Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("9_bx0x8")
+
+[node name="Continuing Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("10_eaoo2")
+
+[node name="Ending Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("11_eapfc")
+
+[node name="Erasing Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("12_bw8ve")
+
+[node name="Abandoning Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("13_8t8lg")
+
+[node name="Witch" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(241, 18)
+
+[node name="Witch4" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(269, 19)
+
+[node name="Witch2" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(328, 20)
+
+[node name="Witch3" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(299, 19)
+
+[node name="Staging" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(4, 4)
+script = ExtResource("15_ou5o5")
+
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Continuing Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Ending Pipe" method="_on_board_changed_mouse_cell"]

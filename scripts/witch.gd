@@ -4,7 +4,7 @@ class_name Witch extends Node2D
 ## location for its current rest point.
 
 ## reference for board to reduce the overhead  of additional calls.
-@onready var board_node := get_node("/root/Main/Board") as Board
+@onready var board_node := get_node("/root/Main/Game/Board") as Board
 
 ## determines whether left click is being held on this witch or not
 var selected: bool = false
