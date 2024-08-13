@@ -3,11 +3,16 @@ class_name DroppingJobState extends State
 ## job to the dropped location, or abandons the movement if
 ## the location is invalid.
 
+## Signal that tells the GUI Dropper to potentially delete the job it created
+signal dropped
+
 ## Reference for board node to reduce overhead in repeated calls.
 @onready var board_node := %Board as Board
 
 ## Reference for grid node to reduce overhead in repeated calls.
 @onready var grid_node := %Grid as Grid
+
+
 
 
 ## On entry, attempt to move job if all checks pass
@@ -43,6 +48,9 @@ func enter(args: Array) -> void:
 	var first_index := Vector2i(drop_index.x - segment, drop_index.y)
 	if is_legal_drop(focused_job, first_index):
 		move(focused_job, first_index)
+		dropped.emit(true, focused_job)
+	else:
+		dropped.emit(false, focused_job)
 	
 	# TODO: Set to a signal for Board to modify after completion
 	board_node.remove_focused_object()
