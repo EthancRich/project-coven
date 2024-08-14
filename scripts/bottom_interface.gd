@@ -71,7 +71,11 @@ func on_dropped_job(successful_drop: bool, job: Job):
 	# If this result isn't from this GUI moving a job, ignore
 	if !gui_job_dropping:
 		return
+	gui_job_dropping = false
 		
 	# Delete the job if it wasn't placed in the grid
 	if !successful_drop: 
 		job.queue_free()
+	
+	# Pop the menu back up regardless of outcome
+	expand_shrink_menu(true)
