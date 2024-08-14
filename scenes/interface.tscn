@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bovujicvncwou"]
+[gd_scene load_steps=8 format=3 uid="uid://bovujicvncwou"]
 
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="1_p7x4d"]
 [ext_resource type="Script" path="res://scripts/bottom_interface.gd" id="2_2dlby"]
 [ext_resource type="Texture2D" uid="uid://dy40ai3vxkju" path="res://assets/Aseprite Assets/Stone-1x1.png" id="2_lj8be"]
+[ext_resource type="Script" path="res://scripts/panel_container_bottom.gd" id="3_qvd2p"]
 [ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_pw04r"]
 [ext_resource type="Script" path="res://scripts/job_button.gd" id="5_3adfp"]
 [ext_resource type="Texture2D" uid="uid://cfs3t5xlaitty" path="res://assets/Aseprite Assets/Stone-1x2.png" id="5_cyunj"]
@@ -23,35 +24,72 @@ text = "fps: XX"
 script = ExtResource("1_p7x4d")
 
 [node name="BottomInterface" type="Control" parent="."]
-custom_minimum_size = Vector2(1920, 0)
 layout_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 1920.0
-grow_vertical = 0
-script = ExtResource("2_2dlby")
-
-[node name="PanelContainer" type="PanelContainer" parent="BottomInterface"]
-custom_minimum_size = Vector2(1920, 100)
-layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -200.0
 offset_right = 1920.0
 grow_vertical = 0
+size_flags_horizontal = 6
+script = ExtResource("2_2dlby")
+
+[node name="PanelContainer" type="PanelContainer" parent="BottomInterface"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 360.0
+offset_right = -60.0
+grow_vertical = 2
+script = ExtResource("3_qvd2p")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="BottomInterface/PanelContainer"]
 layout_mode = 2
 follow_focus = true
+scroll_vertical_custom_step = 0.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BottomInterface/PanelContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="TextureButton" type="TextureButton" parent="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 2
+texture_normal = ExtResource("2_lj8be")
+texture_pressed = ExtResource("4_pw04r")
+texture_hover = ExtResource("5_cyunj")
+stretch_mode = 0
+script = ExtResource("5_3adfp")
+
+[node name="TextureButton2" type="TextureButton" parent="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 2
+texture_normal = ExtResource("2_lj8be")
+texture_pressed = ExtResource("4_pw04r")
+texture_hover = ExtResource("5_cyunj")
+stretch_mode = 0
+script = ExtResource("5_3adfp")
+
+[node name="TextureButton3" type="TextureButton" parent="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 2
+texture_normal = ExtResource("2_lj8be")
+texture_pressed = ExtResource("4_pw04r")
+texture_hover = ExtResource("5_cyunj")
+stretch_mode = 0
+script = ExtResource("5_3adfp")
+
+[node name="TextureButton4" type="TextureButton" parent="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1000, 200)
+layout_mode = 2
+texture_normal = ExtResource("2_lj8be")
+texture_pressed = ExtResource("4_pw04r")
+texture_hover = ExtResource("5_cyunj")
+stretch_mode = 0
+script = ExtResource("5_3adfp")
+
+[node name="TextureButton5" type="TextureButton" parent="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1000, 200)
 layout_mode = 2
 texture_normal = ExtResource("2_lj8be")
@@ -67,10 +105,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -60.0
-offset_top = -232.0
-offset_right = 60.0
-offset_bottom = -201.0
+offset_left = 90.0
+offset_top = -231.0
+offset_right = 210.0
+offset_bottom = -200.0
 grow_horizontal = 2
 grow_vertical = 0
 toggle_mode = true
@@ -78,8 +116,36 @@ button_pressed = true
 text = "Stations
 "
 
+[node name="LeftInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="LeftInterface"]
+custom_minimum_size = Vector2(320, 1080)
+layout_mode = 1
+offset_right = 258.0
+offset_bottom = 1080.0
+
 [connection signal="button_down" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" method="_on_button_down"]
 [connection signal="button_up" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" method="_on_button_up"]
 [connection signal="create_new_job" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" to="BottomInterface" method="_on_texture_button_create_new_job"]
 [connection signal="mouse_exited" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton" method="_on_mouse_exited"]
+[connection signal="button_down" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" method="_on_button_down"]
+[connection signal="button_up" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" method="_on_button_up"]
+[connection signal="create_new_job" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" to="BottomInterface" method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton2" method="_on_mouse_exited"]
+[connection signal="button_down" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" method="_on_button_down"]
+[connection signal="button_up" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" method="_on_button_up"]
+[connection signal="create_new_job" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" to="BottomInterface" method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton3" method="_on_mouse_exited"]
+[connection signal="button_down" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" method="_on_button_down"]
+[connection signal="button_up" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" method="_on_button_up"]
+[connection signal="create_new_job" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="BottomInterface" method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" method="_on_mouse_exited"]
+[connection signal="button_down" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_button_down"]
+[connection signal="button_up" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_button_up"]
+[connection signal="create_new_job" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="BottomInterface" method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="BottomInterface/PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_mouse_exited"]
 [connection signal="toggled" from="BottomInterface/CollapseButton" to="BottomInterface" method="expand_shrink_menu"]

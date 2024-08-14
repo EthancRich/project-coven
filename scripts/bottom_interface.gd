@@ -25,11 +25,11 @@ func _ready() -> void:
 func expand_shrink_menu(toggled_on: bool) -> void:
 	if toggled_on:
 		($PanelContainer as PanelContainer).visible = true
-		($CollapseButton as Button).position.y = -192
+		($CollapseButton as Button).position.y = -31
 		($CollapseButton as Button).button_pressed = true
 	else:
 		($PanelContainer as PanelContainer).visible = false
-		($CollapseButton as Button).position.y = 0
+		($CollapseButton as Button).position.y = 168
 		($CollapseButton as Button).button_pressed = false
 
 
