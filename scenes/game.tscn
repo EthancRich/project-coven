@@ -84,7 +84,7 @@ position = Vector2(299, 19)
 [node name="TimeBar" type="ColorRect" parent="Board"]
 modulate = Color(1, 1, 1, 0.380392)
 offset_right = 3.0
-offset_bottom = 1080.0
+offset_bottom = 2000.0
 mouse_filter = 2
 color = Color(0.988235, 0.964706, 0, 1)
 script = ExtResource("15_7lh2n")
