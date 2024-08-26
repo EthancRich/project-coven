@@ -1,4 +1,4 @@
-extends Control
+class_name OrderControl extends Control
 ## order control script provides additional information
 ## for the order and propagates the deadline information
 ## by capturing the signal from the potion button and
@@ -34,7 +34,8 @@ func set_potion_type(new_potion_enum: int) -> void:
 
 func _on_potion_button_create_new_deadline() -> void:
 	# Create a deadline object and add it to the board node
-	var deadline := deadline_scene.instantiate()
+	var deadline := deadline_scene.instantiate() as Deadline
+	deadline.connected_order = self
 	board_node.add_child(deadline)
 	
 	# Update the board's knowledge of mouse press

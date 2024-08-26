@@ -34,6 +34,7 @@ var is_right_click_down: bool = false
 ## Global variable that tracks which cell of a job is selected
 var focused_job_segment: int = -1
 
+
 ## _unhandled_input comes after each other input function that isn't handled.
 ## Updates states like mouse positions, mouse click states, and the currently
 ## focused object.

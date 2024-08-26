@@ -9,9 +9,6 @@ class_name Deadline extends Node2D
 ## The speed of the pulsing, with 1 as the normal speed.
 @export var pulse_speed := 1.0
 
-## The amount of elapsed time
-var elapsed_time := 0.0
-
 ## References to the children rectangles, for reduction in calls.
 @onready var inner_rect := $InnerRect as Control
 @onready var outer_rect := $OuterRect as Control
@@ -20,6 +17,12 @@ var elapsed_time := 0.0
 ## Unset deadlines follow the player's mouse,
 ## Set deadlines monitor for the produced potions.
 var is_set := false
+
+## The amount of elapsed time for animation tracking.
+var elapsed_time := 0.0
+
+## The order that this deadline is associated with.
+var connected_order: OrderControl = null
 
 
 ## Initialize Transparency
@@ -33,7 +36,7 @@ func _process(delta: float) -> void:
 	
 	if is_set:
 		# TODO: Monitor task completion vs timer
-		pass
+		update_order_label()
 	else:
 		# Update the bar's mouse position
 		update_deadline_x_position()
@@ -66,7 +69,25 @@ func update_deadline_x_position() -> void:
 		else:
 			position.x = mouse_pos_x + (64 - modulo)
 
+
+## Update the appropriate order's label as time bar passes.
+func update_order_label():
 	
+	# Get the label objects of the order
+	var num_label := connected_order.get_node("GridContainer/NumLabel") as Label
+	var text_label := connected_order.get_node("GridContainer/TextLabel") as Label
+	
+	# Get the difference between the time bar and deadline to calculate boxes apart
+	var pixel_diff := global_position.x - ($"../TimeBar" as ColorRect).global_position.x
+
+	# Adjust the labels based on the distance
+	if pixel_diff > 0:
+		num_label.text = str(int(pixel_diff) / 64)
+	else:
+		num_label.text = "Past"
+		text_label.text = " Due"
+	
+
 ## Sets the transparency of the rectangles, with a fade in the outer
 func set_transparency(t: float) -> void:
 	var new_val := get_new_transparency(t)

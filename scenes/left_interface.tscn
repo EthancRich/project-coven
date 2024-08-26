@@ -1,13 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://ky3oednrdp4i"]
 
+[ext_resource type="Script" path="res://scripts/left_interface.gd" id="1_5lilg"]
 [ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="1_mjl70"]
-[ext_resource type="PackedScene" uid="uid://c37ybt1pshuu0" path="res://scenes/order_control.tscn" id="2_n4eww"]
 
 [node name="LeftInterface" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_5lilg")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(320, 1080)
@@ -86,9 +87,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer"]
+[node name="OrderContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Order" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer/VBoxContainer" instance=ExtResource("2_n4eww")]
-layout_mode = 2
-size_flags_vertical = 2
