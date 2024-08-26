@@ -17,7 +17,7 @@ var gui_job_dropping := false
 ## On start up, expand the menu and set the connection
 func _ready() -> void:
 	dropping_state.dropped.connect(on_dropped_job)
-	expand_shrink_menu(true)
+	expand_shrink_menu(false)
 
 
 ## If toggled_on is true, then the context menu for the stations

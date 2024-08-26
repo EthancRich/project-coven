@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=19 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="2_rc2ev"]
@@ -14,6 +14,9 @@
 [ext_resource type="Script" path="res://scripts/erase_pipe_state.gd" id="12_bw8ve"]
 [ext_resource type="Script" path="res://scripts/abandon_pipe_state.gd" id="13_8t8lg"]
 [ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="14_l1y2n"]
+[ext_resource type="Script" path="res://scripts/dragging_deadline_state.gd" id="14_ssp8o"]
+[ext_resource type="Script" path="res://scripts/dropping_deadline_state.gd" id="15_0vhoi"]
+[ext_resource type="Script" path="res://scripts/time_bar.gd" id="15_7lh2n"]
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="15_ou5o5"]
 
 [node name="Game" type="Node"]
@@ -60,6 +63,12 @@ script = ExtResource("12_bw8ve")
 [node name="Abandoning Pipe" type="Node" parent="Board/StateMachine"]
 script = ExtResource("13_8t8lg")
 
+[node name="Dragging Deadline" type="Node" parent="Board/StateMachine"]
+script = ExtResource("14_ssp8o")
+
+[node name="Dropping Deadline" type="Node" parent="Board/StateMachine"]
+script = ExtResource("15_0vhoi")
+
 [node name="Witch" parent="Board" instance=ExtResource("14_l1y2n")]
 position = Vector2(241, 18)
 
@@ -71,6 +80,15 @@ position = Vector2(328, 20)
 
 [node name="Witch3" parent="Board" instance=ExtResource("14_l1y2n")]
 position = Vector2(299, 19)
+
+[node name="TimeBar" type="ColorRect" parent="Board"]
+modulate = Color(1, 1, 1, 0.380392)
+offset_right = 3.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.988235, 0.964706, 0, 1)
+script = ExtResource("15_7lh2n")
+squares_per_second = 0.1
 
 [node name="Staging" type="Node" parent="."]
 unique_name_in_owner = true

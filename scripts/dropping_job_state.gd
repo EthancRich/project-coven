@@ -14,7 +14,6 @@ signal dropped
 
 
 
-
 ## On entry, attempt to move job if all checks pass
 ## NOTE: args == [current_cell_index: Vector2i]
 func enter(args: Array) -> void:

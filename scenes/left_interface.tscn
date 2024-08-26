@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://ky3oednrdp4i"]
+
+[ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="1_mjl70"]
+[ext_resource type="PackedScene" uid="uid://c37ybt1pshuu0" path="res://order_control.tscn" id="2_n4eww"]
+
+[node name="LeftInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(320, 1080)
+layout_mode = 1
+offset_right = 258.0
+offset_bottom = 1080.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TopPanel" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="InfluenceLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Influence"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfluenceValLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0.568627, 1)
+theme_override_font_sizes/font_size = 32
+text = "150"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EmployeeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Witches"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_mjl70")
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_mjl70")
+expand_mode = 3
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_mjl70")
+expand_mode = 3
+
+[node name="TextureRect4" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("1_mjl70")
+expand_mode = 3
+
+[node name="BottomPanel" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer"]
+layout_mode = 2
+
+[node name="Order" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer/VBoxContainer" instance=ExtResource("2_n4eww")]
+layout_mode = 2
+size_flags_vertical = 2
