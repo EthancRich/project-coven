@@ -27,7 +27,7 @@ func enter(args: Array) -> void:
 			push_warning(self.name, " [enter]", " no Deadline object provided, defaulting to null")
 		transitioning.emit(self, "Idle")
 	
-	if is_deadline_valid():
+	if is_deadline_valid(current_deadline):
 		current_deadline.is_set = true
 	else:
 		current_deadline.queue_free()
@@ -36,10 +36,13 @@ func enter(args: Array) -> void:
 	# Transition back to idle
 	transitioning.emit(self, "Idle")
 	
+
+## Returns true if the deadline can be placed, false otherwise.
+func is_deadline_valid(deadline: Deadline) -> bool:
 	
-func is_deadline_valid() -> bool:
-	return false
-		# Decide if it's in a valid state or not
+	# TODO: Adjust the logic below [PLACEHOLDER LOGIC]
+	return deadline.position.x > %TimeBar.position.x
+	
 	# VALID:
 		# To the right of the current timer
 		# Influence is less than the cost of the deadline

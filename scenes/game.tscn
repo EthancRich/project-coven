@@ -82,6 +82,7 @@ position = Vector2(328, 20)
 position = Vector2(299, 19)
 
 [node name="TimeBar" type="ColorRect" parent="Board"]
+unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.380392)
 offset_right = 3.0
 offset_bottom = 2000.0
