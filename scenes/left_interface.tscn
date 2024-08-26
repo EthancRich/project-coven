@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ky3oednrdp4i"]
 
 [ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="1_mjl70"]
-[ext_resource type="PackedScene" uid="uid://c37ybt1pshuu0" path="res://order_control.tscn" id="2_n4eww"]
+[ext_resource type="PackedScene" uid="uid://c37ybt1pshuu0" path="res://scenes/order_control.tscn" id="2_n4eww"]
 
 [node name="LeftInterface" type="Control"]
 layout_mode = 3

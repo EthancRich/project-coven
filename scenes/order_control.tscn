@@ -1,16 +1,16 @@
 [gd_scene load_steps=5 format=3 uid="uid://c37ybt1pshuu0"]
 
-[ext_resource type="Script" path="res://scripts/order_control.gd" id="1_4snqh"]
-[ext_resource type="Texture2D" uid="uid://8ljoj0de4rg1" path="res://assets/Aseprite Assets/Potion-1.png" id="1_c1gdv"]
-[ext_resource type="Texture2D" uid="uid://cmqn5ffftwbqh" path="res://assets/Aseprite Assets/Potion-2.png" id="2_uam1f"]
-[ext_resource type="Script" path="res://scripts/potion_button.gd" id="3_c8iq2"]
+[ext_resource type="Script" path="res://scripts/order_control.gd" id="1_oc5p2"]
+[ext_resource type="Texture2D" uid="uid://8ljoj0de4rg1" path="res://assets/Aseprite Assets/Potion-1.png" id="2_2bmqy"]
+[ext_resource type="Texture2D" uid="uid://cmqn5ffftwbqh" path="res://assets/Aseprite Assets/Potion-2.png" id="3_4ife6"]
+[ext_resource type="Script" path="res://scripts/potion_button.gd" id="4_ad5gp"]
 
 [node name="Order" type="Control"]
 custom_minimum_size = Vector2(280, 74)
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
-script = ExtResource("1_4snqh")
+script = ExtResource("1_oc5p2")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 custom_minimum_size = Vector2(280, 74)
@@ -23,10 +23,10 @@ columns = 3
 layout_mode = 2
 size_flags_horizontal = 3
 keep_pressed_outside = true
-texture_normal = ExtResource("1_c1gdv")
-texture_pressed = ExtResource("2_uam1f")
+texture_normal = ExtResource("2_2bmqy")
+texture_pressed = ExtResource("3_4ife6")
 stretch_mode = 5
-script = ExtResource("3_c8iq2")
+script = ExtResource("4_ad5gp")
 
 [node name="NumLabel" type="Label" parent="GridContainer"]
 layout_mode = 2
