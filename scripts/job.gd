@@ -49,10 +49,14 @@ var dest_pipe: Pipe = null
 ## How quickly the progress bar's percentage changes each second.
 var percent_per_second := 0.0
 
+## Represents whether the job has finished.
+var is_complete := false
+
 ## References to reduce repeated calls.
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 @onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
 @onready var progress_bar := $ProgressBar as TextureProgressBar
+
 
 ## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
@@ -61,11 +65,26 @@ func _ready() -> void:
 
 ## Updates job progress if prereqs are met
 func _process(delta: float) -> void:
-	# TODO: Switch this to update progress on a flag
+	
+	if is_complete:
+		return
+		
+	# TODO: Switch this to require prereqs
 	if current_witches.size() > 0:
 		progress_bar.value += percent_per_second * delta
-		print(percent_per_second, " | ", delta, " | ", percent_per_second * delta, " | ", progress_bar.value)
+	
+	# Complete the job if the bar is filled
+	if not is_complete and progress_bar.value == 100:
+		complete_job()
 
+
+## Complete Job function updates the state of the job and 
+## updates the visual sprites that indicate a completed task.
+func complete_job() -> void:
+	is_complete = true
+	($CompleteColorRect as ColorRect).visible = true
+	progress_bar.visible = false
+	
 
 ## Pushes provided cell to the back of the current_cells array.
 ## TODO: Convert this process to a signal-based process where
@@ -142,6 +161,9 @@ func update_job_shape() -> void:
 	# Update the size of the progress bar and progress rate
 	progress_bar.size.x = size * 64
 	percent_per_second = 100.0 * time_bar.pixels_per_second / (size * 64)
+	
+	# Update the size of the complete sprite
+	($CompleteColorRect as ColorRect).size.x = size * 64
 	
 	
 ## Causes a job to expand to the right a single cell. The function will
