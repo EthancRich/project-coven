@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqu4o4toydudn"]
+[gd_scene load_steps=10 format=3 uid="uid://bqu4o4toydudn"]
 
 [ext_resource type="Script" path="res://scripts/job.gd" id="1_0xv01"]
 [ext_resource type="Texture2D" uid="uid://dy40ai3vxkju" path="res://assets/Aseprite Assets/Stone-1x1.png" id="2_iqp16"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_jmvrd"]
 [ext_resource type="Texture2D" uid="uid://xi4phhxrdg8o" path="res://assets/Aseprite Assets/Stone-1x4.png" id="5_clq4v"]
 [ext_resource type="Texture2D" uid="uid://csixnlaqunh5y" path="res://assets/Aseprite Assets/Stone-1x5.png" id="6_8q3sb"]
+[ext_resource type="Texture2D" uid="uid://ufu13hsj4xyn" path="res://assets/Aseprite Assets/ProgressBarColor.png" id="7_42lpu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nsohp"]
 animations = [{
@@ -101,6 +102,15 @@ position = Vector2(8, 24)
 
 [node name="Marker3" type="Marker2D" parent="WitchMarkers"]
 position = Vector2(8, 8)
+
+[node name="ProgressBar" type="TextureProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0.545098)
+offset_right = 64.0
+offset_bottom = 64.0
+step = 0.0
+nine_patch_stretch = true
+stretch_margin_right = 32
+texture_progress = ExtResource("7_42lpu")
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]

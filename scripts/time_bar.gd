@@ -1,4 +1,4 @@
-extends ColorRect
+class_name TimeBar extends ColorRect
 
 ## The number of squares per second bar moves
 @export var squares_per_second: float = 1.0
@@ -8,7 +8,7 @@ extends ColorRect
 var square_width: int = 64
 
 ## Calculated value.
-var pixels_per_second: float = 0
+var pixels_per_second: float = 0.0
 
 
 ## Initialize pixels_per_second

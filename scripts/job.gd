@@ -46,13 +46,26 @@ var current_witches: Array[Witch]
 var source_pipes_array: Array[Pipe] = []
 var dest_pipe: Pipe = null
 
-## A reference to the grid node to reduce overhead in calls.
+## How quickly the progress bar's percentage changes each second.
+var percent_per_second := 0.0
+
+## References to reduce repeated calls.
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
+@onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
+@onready var progress_bar := $ProgressBar as TextureProgressBar
 
-
-## On creation, update the visual of the job
+## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
-	update_job_shape()
+	time_bar.ready.connect(update_job_shape)
+
+
+## Updates job progress if prereqs are met
+func _process(delta: float) -> void:
+	# TODO: Switch this to update progress on a flag
+	if current_witches.size() > 0:
+		progress_bar.value += percent_per_second * delta
+		print(percent_per_second, " | ", delta, " | ", percent_per_second * delta, " | ", progress_bar.value)
+
 
 ## Pushes provided cell to the back of the current_cells array.
 ## TODO: Convert this process to a signal-based process where
@@ -125,6 +138,10 @@ func update_job_shape() -> void:
 	var collisionObj := $StaticBody2D/CollisionShape2D as CollisionShape2D
 	collisionObj.position.x = 32 * size
 	collisionObj.scale.x = 3 * size
+	
+	# Update the size of the progress bar and progress rate
+	progress_bar.size.x = size * 64
+	percent_per_second = 100.0 * time_bar.pixels_per_second / (size * 64)
 	
 	
 ## Causes a job to expand to the right a single cell. The function will
