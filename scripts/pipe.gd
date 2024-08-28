@@ -12,6 +12,10 @@ var pipe_indexes: Array[Vector2i]
 ## NOTE: If there is no last piece, then the value is (-1, -1)
 var last_piece_index := Vector2i(-1, -1)
 
+## The left and right jobs that this pipe connects
+var source_job: Job = null
+var dest_job: Job = null
+
 ## Grid node reference to reduce overhead in repeated calls
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid	
 	
@@ -161,3 +165,18 @@ func update_pipe_sprites() -> void:
 		return
 	
 	changing_piece.update_sprite(animation_string)
+
+
+## delete function first removes the pointer references
+## in the associated jobs, then deletes itself.
+func delete() -> void:
+	# Remove the pipe references
+	if source_job:
+		source_job.dest_pipe = null
+	if dest_job:
+		dest_job.source_pipes_array.erase(self)
+	
+	# Self destruct pipe
+	queue_free()
+				
+

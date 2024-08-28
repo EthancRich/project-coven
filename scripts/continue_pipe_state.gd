@@ -92,6 +92,8 @@ func _on_board_changed_mouse_cell(_prev_cell_index: Vector2i, current_cell_index
 			# NOTE: Adding job cell to indexes HERE
 			pipe.add_pipe_index(current_cell_index)
 			pipe.update_pipe_sprites()
+			# Add the destination job to the pipe as a pointer
+			pipe.dest_job = hovered_job
 			transitioning.emit(self, "Ending Pipe")
 			return
 	

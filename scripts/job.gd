@@ -42,6 +42,10 @@ var current_cells: Array[Cell]
 ## Array containing references to all witches occupying job.
 var current_witches: Array[Witch]
 
+## The leftmost(s) and rightmost pipes that may be connected to this job.
+var source_pipes_array: Array[Pipe] = []
+var dest_pipe: Pipe = null
+
 ## A reference to the grid node to reduce overhead in calls.
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 
