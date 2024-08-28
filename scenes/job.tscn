@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqu4o4toydudn"]
+[gd_scene load_steps=9 format=3 uid="uid://bqu4o4toydudn"]
 
 [ext_resource type="Script" path="res://scripts/job.gd" id="1_0xv01"]
-[ext_resource type="Texture2D" uid="uid://bhjqgpa2v6wtb" path="res://assets/icon.svg" id="2_anl2u"]
 [ext_resource type="Texture2D" uid="uid://dy40ai3vxkju" path="res://assets/Aseprite Assets/Stone-1x1.png" id="2_iqp16"]
 [ext_resource type="Texture2D" uid="uid://cfs3t5xlaitty" path="res://assets/Aseprite Assets/Stone-1x2.png" id="3_2odat"]
 [ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_jmvrd"]
@@ -57,24 +56,11 @@ size = Vector2(21.3334, 21.1666)
 [node name="Job" type="Node2D"]
 script = ExtResource("1_0xv01")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.125, 0.125)
-texture = ExtResource("2_anl2u")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(160, 32)
 scale = Vector2(1.77778, 1.77778)
 sprite_frames = SubResource("SpriteFrames_nsohp")
 animation = &"1x1"
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = -20.0
-offset_top = -19.0
-offset_right = 20.0
-offset_bottom = 21.0
-color = Color(0.47451, 1, 0.443137, 0.356863)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 input_pickable = true
