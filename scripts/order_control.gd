@@ -24,7 +24,7 @@ func _ready() -> void:
 ## Resets a bool in Button that allows new deadline to be made
 func failed_deadline_drop() -> void:
 	($GridContainer/PotionButton as PotionButton).is_deadline_created = false
-
+ 
 
 ## Sets the order's potion enum and updates the texture button's textures.
 func set_potion_type(new_potion_enum: int) -> void:
