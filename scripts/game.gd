@@ -55,3 +55,7 @@ func _on_dropping_pipe_pipe_piece_dropped() -> void:
 
 func _on_erasing_pipe_pipe_piece_erased() -> void:
 	sounds.play_audio("DropPipePiece")
+
+
+func _on_ending_pipe_pipe_dropped() -> void:
+	sounds.play_audio("PlaceJob")

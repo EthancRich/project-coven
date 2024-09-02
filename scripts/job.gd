@@ -44,8 +44,17 @@ var current_cells: Array[Cell]
 var current_witches: Array[Witch]
 
 ## The leftmost(s) and rightmost pipes that may be connected to this job.
-var source_pipes_array: Array[Pipe] = []
+var source_pipes_array: Array[Pipe] = [] # TODO: Is this needed?
 var dest_pipe: Pipe = null
+
+## The recipe for the item conversion on this job
+@export var recipe_input_items_array: Array[Item] = []
+@export var recipe_output_item: Item
+
+## The active tracking of what items the current job has and doesn't have.
+var input_items_array: Array[Item] = []
+var output_item: Item = null
+var input_items_match: bool = false
 
 ## How quickly the progress bar's percentage changes each second.
 var percent_per_second := 0.0
@@ -77,6 +86,8 @@ func _ready() -> void:
 		# FIXME: Causes issues with the statically defined job objects in the tree
 		# Jobs cannot make progress until update_job_shape is called to define percent_per_second
 		time_bar.ready.connect(update_job_shape)
+		
+	update_input_items_match()
 
 
 ## Updates job progress if prereqs are met
@@ -85,11 +96,10 @@ func _process(delta: float) -> void:
 	if is_complete:
 		return
 		
-	# TODO: Switch this to require prereqs
-	if current_witches.size() > 0:
+	# TODO: Update input_items_match elsewhere
+	if input_items_match and current_witches.size() > 0:
 		progress_bar.value += percent_per_second * delta
 	
-	# Complete the job if the bar is filled
 	if not is_complete and progress_bar.value == 100:
 		complete_job()
 
@@ -97,10 +107,84 @@ func _process(delta: float) -> void:
 ## Complete Job function updates the state of the job and 
 ## updates the visual sprites that indicate a completed task.
 func complete_job() -> void:
+	
+	## Create a copy of the recipe output item and supply it to the job
+	output_item = recipe_output_item.duplicate()
+	try_deliver_output()
+	
 	is_complete = true
 	($CompleteColorRect as ColorRect).visible = true
 	progress_bar.visible = false
 	job_complete.emit()
+
+
+## Try to push the output item to the job with the output pipe.
+func try_deliver_output() -> void:
+	
+	# Confirm that there is an output item ready and a pipe to send it
+	if not output_item or not dest_pipe:
+		return
+	
+	# Confirm that the destination job exists
+	var dest_job := dest_pipe.dest_job
+	if not dest_job:
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [try_deliver_output]", " Dest Pipe exists but no dest job.")
+		return
+	
+	# Confirm that the destination job uses this item
+	if not dest_job.accepts_item(output_item):
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [try_deliver_output]", " Dest Job cannot use output item.")
+		return
+		
+	# Deliver the item
+	dest_job.input_items_array.push_back(output_item)
+	output_item = null
+	dest_job.update_input_items_match()
+	
+
+## Returns true if the item shares an id with an item in the recipe inputs, false otherwise.
+func accepts_item(input: Item) -> bool:
+	for item in recipe_input_items_array:
+		if item.id == input.id:	
+			return true
+	return false
+
+
+## Predefined function for comparing item arrays
+func update_input_items_match() -> void:
+	if item_arrays_match(input_items_array, recipe_input_items_array):
+		input_items_match = true
+	else:
+		input_items_match = false
+			
+
+## Returns true these arrays have the same items by id, and false otherwise
+func item_arrays_match(item_array_1: Array[Item], item_array_2: Array[Item]) -> bool:
+	
+	if item_array_1.is_empty() and item_array_2.is_empty():
+		return true
+	
+	if item_array_1.size() != item_array_2.size():
+		return false
+	
+	# Create duplicates of the arrays to not modify them
+	var array_1 := item_array_1.duplicate(true) as Array[Item]
+	var array_2 := item_array_2.duplicate(true) as Array[Item]
+	
+	for item_1: Item in array_1:
+		
+		var found_match := false
+		
+		for item_2 in array_2:
+			if item_1.id == item_2.id:
+				found_match = true
+				
+		if not found_match:
+			return false
+		
+	return true
 	
 
 ## Pushes provided cell to the back of the current_cells array.

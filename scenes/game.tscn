@@ -136,4 +136,5 @@ stream = ExtResource("26_gv03d")
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Ending Pipe" method="_on_board_changed_mouse_cell"]
 [connection signal="dropped" from="Board/StateMachine/Dropping Job" to="." method="_on_dropping_job_dropped"]
 [connection signal="pipe_piece_dropped" from="Board/StateMachine/Dropping Pipe" to="." method="_on_dropping_pipe_pipe_piece_dropped"]
+[connection signal="pipe_dropped" from="Board/StateMachine/Ending Pipe" to="." method="_on_ending_pipe_pipe_dropped"]
 [connection signal="pipe_piece_erased" from="Board/StateMachine/Erasing Pipe" to="." method="_on_erasing_pipe_pipe_piece_erased"]
