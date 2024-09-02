@@ -46,3 +46,7 @@ func _on_dropping_job_dropped(success: bool, _job: Job) -> void:
 		sounds.play_audio("PlaceJob")
 	else:
 		sounds.play_audio("InvalidPlaceJob")
+		
+
+func _on_witch_landlocked() -> void:
+	sounds.play_audio("InvalidPlaceJob")

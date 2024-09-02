@@ -5,6 +5,7 @@ class_name Witch extends Node2D
 
 ## reference for board to reduce the overhead  of additional calls.
 @onready var board_node := get_node("/root/Main/Game/Board") as Board
+@onready var game_node := get_node("/root/Main/Game") as Game
 
 ## determines whether left click is being held on this witch or not
 var selected: bool = false
@@ -17,6 +18,14 @@ var in_boundary: bool = false
 ## defined, or stays still if it's null.
 var rest_point: Variant = null
 
+## Emitted when a witch tries to move but cannot because there is something to the right
+signal landlocked
+
+
+## Set the game node to listen for sound signals
+func _ready() -> void:
+	landlocked.connect(game_node._on_witch_landlocked)
+	
 
 ## Handles inputs for the witch. This will add or remove
 ## the witch node from a job if it enters or leaves its vicinity.
@@ -34,6 +43,7 @@ func _input(event: InputEvent) -> void:
 		
 		# job landlocked on right and can't expand
 		if is_locked_by_job(): 
+			landlocked.emit()
 			return
 		
 		var current_cell := board_node.get_current_hovered_cell()
