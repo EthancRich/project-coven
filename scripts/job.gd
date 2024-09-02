@@ -4,6 +4,9 @@ class_name Job extends Node2D
 ## track the tasks' progress, and workers on the task.
 ## Job is in a one to many relationship with cells.
 
+## Sound player for all the sounds related to the jobs.
+@onready var sounds: AudioManager = %Sounds as AudioManager
+
 ## The current size (length) of the job, in cells.
 @export var size: int = 1
 
@@ -60,7 +63,10 @@ var is_complete := false
 
 ## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
-	time_bar.ready.connect(update_job_shape)
+	if time_bar:
+		update_job_shape()
+	else: 
+		time_bar.ready.connect(update_job_shape)
 
 
 ## Updates job progress if prereqs are met
@@ -187,6 +193,7 @@ func increase_size() -> void:
 	current_cells.push_back(new_cell)
 	self.size = size + 1
 	update_job_shape()
+	sounds.play_audio("ExpandJob")
 	
 	
 ## Returns the cell that occupies the space directly to the right
@@ -241,6 +248,7 @@ func decrease_size() -> void:
 	current_cells.pop_back()
 	self.size = size - 1
 	update_job_shape()
+	sounds.play_audio("ShrinkJob")
 
 
 ## Adds new child witches to a location and updates the size of the job.
@@ -331,6 +339,11 @@ func will_job_expand() -> bool:
 			
 	return false
 	
+
+## Allows calling the sounds from outside the scene.
+func play_audio(audio_name: String) -> void:
+	sounds.play_audio(audio_name)
+
 
 ## Causes the opacity of the job to decrease when mouse is inside
 func _on_static_body_2d_mouse_entered() -> void:

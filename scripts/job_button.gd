@@ -9,7 +9,7 @@ extends TextureButton
 signal create_new_job
 
 ## The job associated with this button
-@export var job: PackedScene = preload("res://scenes/red_job.tscn")
+@export var job: PackedScene
 
 ## Whether the button is currently pressed or not.
 @warning_ignore("shadowed_variable_base_class")

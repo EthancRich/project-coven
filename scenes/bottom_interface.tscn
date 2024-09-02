@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://w7nxakjxpj46"]
+[gd_scene load_steps=9 format=3 uid="uid://w7nxakjxpj46"]
 
 [ext_resource type="Script" path="res://scripts/bottom_interface.gd" id="1_whuqi"]
 [ext_resource type="Script" path="res://scripts/panel_container_bottom.gd" id="2_0bspq"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_7vsb5"]
 [ext_resource type="Texture2D" uid="uid://cfs3t5xlaitty" path="res://assets/Aseprite Assets/Stone-1x2.png" id="5_5255s"]
 [ext_resource type="Script" path="res://scripts/job_button.gd" id="6_doe77"]
+[ext_resource type="PackedScene" uid="uid://dgcugsewug5jl" path="res://scenes/red_job.tscn" id="7_vk2un"]
+[ext_resource type="PackedScene" uid="uid://drq7qgfu51pr8" path="res://scenes/blue_job.tscn" id="8_wwojq"]
 
 [node name="BottomInterface" type="Control"]
 layout_mode = 3
@@ -45,6 +47,7 @@ texture_pressed = ExtResource("4_7vsb5")
 texture_hover = ExtResource("5_5255s")
 stretch_mode = 0
 script = ExtResource("6_doe77")
+job = ExtResource("7_vk2un")
 
 [node name="TextureButton2" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1000, 200)
@@ -54,6 +57,7 @@ texture_pressed = ExtResource("4_7vsb5")
 texture_hover = ExtResource("5_5255s")
 stretch_mode = 0
 script = ExtResource("6_doe77")
+job = ExtResource("8_wwojq")
 
 [node name="TextureButton3" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1000, 200)
@@ -63,6 +67,7 @@ texture_pressed = ExtResource("4_7vsb5")
 texture_hover = ExtResource("5_5255s")
 stretch_mode = 0
 script = ExtResource("6_doe77")
+job = ExtResource("7_vk2un")
 
 [node name="TextureButton4" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1000, 200)
@@ -72,6 +77,7 @@ texture_pressed = ExtResource("4_7vsb5")
 texture_hover = ExtResource("5_5255s")
 stretch_mode = 0
 script = ExtResource("6_doe77")
+job = ExtResource("7_vk2un")
 
 [node name="TextureButton5" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1000, 200)

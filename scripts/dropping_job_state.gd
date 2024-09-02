@@ -47,6 +47,7 @@ func enter(args: Array) -> void:
 	var first_index := Vector2i(drop_index.x - segment, drop_index.y)
 	if is_legal_drop(focused_job, first_index):
 		move(focused_job, first_index)
+		focused_job.play_audio("PlaceJob")
 		dropped.emit(true, focused_job)
 	else:
 		dropped.emit(false, focused_job)

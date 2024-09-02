@@ -8,11 +8,7 @@ script = ExtResource("2_4cftj")
 size = 5
 min_size = 2
 
-[node name="Sprite2D" parent="." index="0"]
-position = Vector2(64, 32)
-scale = Vector2(1, 0.5)
-
-[node name="AnimatedSprite2D" parent="." index="1"]
+[node name="AnimatedSprite2D" parent="." index="0"]
 modulate = Color(0.376471, 0.227451, 1, 1)
 
 [node name="CollisionShape2D" parent="StaticBody2D" index="0"]

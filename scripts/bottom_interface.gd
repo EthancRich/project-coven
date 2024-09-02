@@ -45,7 +45,7 @@ func _on_texture_button_create_new_job(job_scene: PackedScene) -> void:
 	expand_shrink_menu(false)
 	
 	# Create an instance of the job
-	var job := job_scene.instantiate()
+	var job := job_scene.instantiate() as Job
 	job.position = Vector2(-1000, 1000)
 	
 	# Set the job as the focused object of board
