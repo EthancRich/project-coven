@@ -4,6 +4,7 @@ class_name Game extends Node
 ## board and static agnostic.
 
 ## Preloads and References
+@onready var sounds: AudioManager = %Sounds as AudioManager
 var potion_order_scene = preload("res://scenes/order_control.tscn")
 
 
@@ -23,5 +24,25 @@ func create_order(potion_enum: int) -> void:
 
 
 
+## Whenever a job is created, set the game node to listen for job signals
+func _on_grid_created_job(new_job: Job) -> void:
+	if new_job:
+		new_job.job_grew.connect(_on_job_grew)
+		new_job.job_shrunk.connect(_on_job_shrunk)
+		
+
+## Plays sound for growing job
+func _on_job_grew() -> void:
+	sounds.play_audio("ExpandJob")
+	
+	
+## Plays sound for shrinking job
+func _on_job_shrunk() -> void:
+	sounds.play_audio("ShrinkJob")
 
 
+func _on_dropping_job_dropped(success: bool, _job: Job) -> void:
+	if success:
+		sounds.play_audio("PlaceJob")
+	else:
+		sounds.play_audio("InvalidPlaceJob")

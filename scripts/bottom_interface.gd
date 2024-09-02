@@ -6,6 +6,7 @@ extends Control
 
 
 ## Node references that are necessary for signal connections.
+@onready var game_node := get_node("/root/Main/Game") as Game
 @onready var board_node := get_node("/root/Main/Game/Board") as Board
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 @onready var idle_state := get_node("/root/Main/Game/Board/StateMachine/Idle") as State
@@ -55,6 +56,10 @@ func _on_texture_button_create_new_job(job_scene: PackedScene) -> void:
 	
 	# Add the job to the scene tree under grid
 	grid_node.add_child(job)
+	
+	# Set the game node to listen to the new job's signals
+	job.job_grew.connect(game_node._on_job_grew)
+	job.job_shrunk.connect(game_node._on_job_shrunk)
 	
 	# Update the board's knowledge of mouse press
 	# It's off because of the GUI eating the press input

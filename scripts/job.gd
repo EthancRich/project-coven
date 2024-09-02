@@ -4,8 +4,6 @@ class_name Job extends Node2D
 ## track the tasks' progress, and workers on the task.
 ## Job is in a one to many relationship with cells.
 
-## Sound player for all the sounds related to the jobs.
-@onready var sounds: AudioManager = %Sounds as AudioManager
 
 ## The current size (length) of the job, in cells.
 @export var size: int = 1
@@ -55,6 +53,10 @@ var percent_per_second := 0.0
 ## Represents whether the job has finished.
 var is_complete := false
 
+## Signals emitted on growing or shrinking the job
+signal job_grew
+signal job_shrunk
+
 ## References to reduce repeated calls.
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 @onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
@@ -66,7 +68,7 @@ func _ready() -> void:
 	if time_bar:
 		update_job_shape()
 	else: 
-		time_bar.ready.connect(update_job_shape)
+		time_bar.ready.connect(update_job_shape) # Still having issues with this one
 
 
 ## Updates job progress if prereqs are met
@@ -193,7 +195,7 @@ func increase_size() -> void:
 	current_cells.push_back(new_cell)
 	self.size = size + 1
 	update_job_shape()
-	sounds.play_audio("ExpandJob")
+	job_grew.emit()
 	
 	
 ## Returns the cell that occupies the space directly to the right
@@ -248,7 +250,7 @@ func decrease_size() -> void:
 	current_cells.pop_back()
 	self.size = size - 1
 	update_job_shape()
-	sounds.play_audio("ShrinkJob")
+	job_shrunk.emit()
 
 
 ## Adds new child witches to a location and updates the size of the job.
@@ -338,11 +340,6 @@ func will_job_expand() -> bool:
 			return true
 			
 	return false
-	
-
-## Allows calling the sounds from outside the scene.
-func play_audio(audio_name: String) -> void:
-	sounds.play_audio(audio_name)
 
 
 ## Causes the opacity of the job to decrease when mouse is inside

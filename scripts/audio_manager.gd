@@ -22,8 +22,8 @@ func stop_all() -> void:
 
 
 ## play_audio searches for the correct AudioStreamPlayer and plays that node.
-func play_audio(name: String) -> void:
-	var audio := get_node(name)
+func play_audio(audio_name: String) -> void:
+	var audio := get_node(audio_name)
 	if audio is AudioStreamPlayer:
 		audio.play()
 	else:

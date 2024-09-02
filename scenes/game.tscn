@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=25 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
@@ -19,6 +19,11 @@
 [ext_resource type="Script" path="res://scripts/dropping_deadline_state.gd" id="15_0vhoi"]
 [ext_resource type="Script" path="res://scripts/time_bar.gd" id="15_7lh2n"]
 [ext_resource type="Script" path="res://scripts/camera_controller.gd" id="15_ou5o5"]
+[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="20_2e0wb"]
+[ext_resource type="AudioStream" uid="uid://cxwl5tm1dce0q" path="res://audio/tump.mp3" id="21_uisw1"]
+[ext_resource type="AudioStream" uid="uid://bwmo0cem3rj2j" path="res://audio/fwip.mp3" id="22_ssaoo"]
+[ext_resource type="AudioStream" uid="uid://jdrptlyvtp38" path="res://audio/expand 2.mp3" id="23_ikeph"]
+[ext_resource type="AudioStream" uid="uid://b6gikkf3dwatp" path="res://audio/Ping.mp3" id="24_1v8by"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7jktb")
@@ -101,7 +106,24 @@ anchor_mode = 0
 zoom = Vector2(4, 4)
 script = ExtResource("15_ou5o5")
 
+[node name="Sounds" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("20_2e0wb")
+
+[node name="PlaceJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("21_uisw1")
+
+[node name="ShrinkJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("22_ssaoo")
+
+[node name="ExpandJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("23_ikeph")
+
+[node name="InvalidPlaceJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("24_1v8by")
+
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Continuing Pipe" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Ending Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="dropped" from="Board/StateMachine/Dropping Job" to="." method="_on_dropping_job_dropped"]
