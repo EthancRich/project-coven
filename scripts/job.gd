@@ -53,11 +53,13 @@ var percent_per_second := 0.0
 ## Represents whether the job has finished.
 var is_complete := false
 
-## Signals emitted on growing or shrinking the job
+## Signals emitted on job actions
 signal job_grew
 signal job_shrunk
+signal job_complete
 
 ## References to reduce repeated calls.
+@onready var game_node := get_node("/root/Main/Game") as Game
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 @onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
 @onready var progress_bar := $ProgressBar as TextureProgressBar
@@ -65,10 +67,16 @@ signal job_shrunk
 
 ## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
+	job_grew.connect(game_node._on_job_grew)
+	job_shrunk.connect(game_node._on_job_shrunk)
+	job_complete.connect(game_node._on_job_complete)
+	
 	if time_bar:
 		update_job_shape()
 	else: 
-		time_bar.ready.connect(update_job_shape) # Still having issues with this one
+		# FIXME: Causes issues with the statically defined job objects in the tree
+		# Jobs cannot make progress until update_job_shape is called to define percent_per_second
+		time_bar.ready.connect(update_job_shape)
 
 
 ## Updates job progress if prereqs are met
@@ -92,6 +100,7 @@ func complete_job() -> void:
 	is_complete = true
 	($CompleteColorRect as ColorRect).visible = true
 	progress_bar.visible = false
+	job_complete.emit()
 	
 
 ## Pushes provided cell to the back of the current_cells array.

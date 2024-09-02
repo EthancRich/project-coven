@@ -3,9 +3,14 @@ class_name ErasePipeState extends State
 ## on whether the enter call provided a piece to end with. The default
 ## operation is to delete a single piece.
 
+## Signal for pipe sounds
+signal pipe_piece_erased
 
 ## Action to take upon entering.
 func enter(args: Array):
+	
+	# Delete pipe piece sound
+	pipe_piece_erased.emit()
 	
 	# Obtain the pipe indexes
 	var pipe := get_tree().get_first_node_in_group("active_pipe") as Pipe

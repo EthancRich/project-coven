@@ -5,9 +5,6 @@ class_name Grid extends Node2D
 ## indexes and positions.
 
 
-## Node reference
-@onready var game_node := get_parent().get_parent() as Game
-
 ## The number of cells high
 @export var grid_height: int = 20
 
@@ -82,9 +79,6 @@ func create_job(job_type: int, index2D: Vector2i, num_cells: int) -> void:
 	
 	# Add to the scene tree
 	self.add_child(new_job)
-	new_job.job_grew.connect(game_node._on_job_grew)
-	new_job.job_shrunk.connect(game_node._on_job_shrunk)
-	
 		
 
 ## Converts from an (x,y) in global pixels to (x,y) in grid units.

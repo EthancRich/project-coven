@@ -10,6 +10,8 @@ class_name DropPipeState extends State
 ## PackedScene of pipe pieces to instantiate
 var pipe_piece_scene: PackedScene = preload("res://scenes/pipe_piece.tscn")
 
+## Signal for when a pipe piece is successfully dropped
+signal pipe_piece_dropped
 
 ## Upon entry, drop a pipe and then transition
 ## NOTE: args == [current_cell: Cell]
@@ -43,5 +45,6 @@ func enter(args: Array) -> void:
 	# Attempt to add the pipe piece to the pipe parent object
 	if pipe_piece.add_piece_to_pipe():
 		transitioning.emit(self, "Continuing Pipe")
+		pipe_piece_dropped.emit()
 	else:
 		transitioning.emit(self, "Abandoning Pipe")
