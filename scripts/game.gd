@@ -5,14 +5,23 @@ class_name Game extends Node
 
 ## Preloads and References
 @onready var sounds: AudioManager = %Sounds as AudioManager
+@onready var influence_val_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceValLabel" as Label
+@onready var influence_diff_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceDiffLabel" as Label
 var potion_order_scene = preload("res://scenes/order_control.tscn")
 
+## The health and money resource
+var influence: int
 
-## Create orders to start
-## TODO: Automate this process
+## The difference considered to be combined if option is successful
+var influence_diff: int
+
+
+## TODO: Automate the process of creating orders
 func _ready() -> void:
 	create_order(0)
 	create_order(0)
+	set_influence_instant(100)
+	#set_potential_influence_diff(-4)
 
 
 ## Instantiate a new order, and pass it to the UI to add
@@ -22,10 +31,40 @@ func create_order(potion_enum: int) -> void:
 	($"../Interface" as Interface).add_potion_order(new_order)
 
 
+## Update the value of influence_diff
+func set_potential_influence_diff(new_diff: int) -> void:
+	influence_diff = new_diff
+	update_influence_labels()
 
 
-## AUDIO CALLBACKS
+## finalize the difference into the new influence
+func confirm_influence_change() -> void:
+	influence += influence_diff
+	influence_diff = 0
+	update_influence_labels()
 
+
+## Bypass influence diff system and hard set influence
+func set_influence_instant(new_influence: int) -> void:
+	influence = new_influence
+	influence_diff = 0
+	update_influence_labels()
+	
+
+## Updates the influence label depending on the value
+func update_influence_labels() -> void:
+	
+	if influence_diff == 0:
+		influence_val_label.text = str(influence)
+		influence_diff_label.text = ""
+		return
+		
+	influence_val_label.text = "(" + str(influence + influence_diff) + ")"
+	influence_diff_label.text = str(influence_diff)
+	
+
+
+## AUDIO CALLBACKS ##
 func _on_job_grew() -> void:
 	sounds.play_audio("ExpandJob")
 	
