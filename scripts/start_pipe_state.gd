@@ -38,7 +38,7 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 		return
 	
 	var job := prev_hovered_cell.contained_object as Job
-	if not job:
+	if not job or job.is_pickup_job:
 		return
 	
 	# Confirm that the player moved away from the rightmost cell of a job

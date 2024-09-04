@@ -26,7 +26,6 @@ func update(_delta: float) -> void:
 		# Complete the pipe by pointing each job to the pipe
 		pipe.source_job.dest_pipe = pipe
 		pipe.dest_job.source_pipes_array.push_back(pipe)
-		pipe.source_job.try_deliver_output()
 		
 		# Reparent the pipe from the stage to the board
 		pipe.reparent_pipe(grid_node)
@@ -34,6 +33,7 @@ func update(_delta: float) -> void:
 		
 		transitioning.emit(self, "Idle")
 		pipe_dropped.emit()
+		pipe.source_job.try_deliver_output()
 
 
 ## Check to see if the player has exited a valid end state, then transition.

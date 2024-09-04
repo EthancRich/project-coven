@@ -18,6 +18,9 @@ var in_boundary: bool = false
 ## defined, or stays still if it's null.
 var rest_point: Variant = null
 
+## Holds the last static location, in pixels, of the witch
+var prev_position: Vector2 = Vector2(64,64)
+
 ## Emitted when a witch tries to move but cannot because there is something to the right
 signal landlocked
 
@@ -25,6 +28,8 @@ signal landlocked
 ## Set the game node to listen for sound signals
 func _ready() -> void:
 	landlocked.connect(game_node._on_witch_landlocked)
+	prev_position = global_position
+	print(prev_position)
 	
 
 ## Handles inputs for the witch. This will add or remove
@@ -34,6 +39,8 @@ func _input(event: InputEvent) -> void:
 	# Witch is selected if clicked on the witch
 	if event.is_action_pressed("click") and in_boundary:
 		get_viewport().set_input_as_handled()
+		prev_position = global_position
+		print(prev_position)
 		selected = true
 	
 	# Witch was released after a hold
@@ -58,10 +65,21 @@ func _input(event: InputEvent) -> void:
 			
 		# Reparent the witch to either board or job
 		# TODO: Change where the witch is parented when not occupying a job
-		if current_cell.contains_job():
+		var job := current_cell.contained_object as Job
+		
+		# If the job is a pickup box, have it sproing back to it's last position
+		if job and job.is_pickup_job:
+			rest_point = prev_position
+			landlocked.emit() # For the sproing noise
+		# If it's a job, then reparent it and let the job handle the rest point
+		elif job:
 			reparent(current_cell.contained_object)
+		# If it is leaving a job to the board, reparent it and reset it's rest point
 		elif not (get_parent() is Board):
 			reparent(board_node)
+		# Otherwise, just reset the rest point so the witch lands where the cursor drops it
+		else:
+			rest_point = null
 		
 
 ## Interpolates the location of the witch each frame.
@@ -70,6 +88,7 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.lerp(get_global_mouse_position(), 20 * delta)
 	elif rest_point is Vector2:
 		global_position = global_position.lerp(rest_point, 10 * delta)
+	# if rest_point is null, then do not adjust global position
 		
 
 ## returns true if, by removing a witch from the current job,

@@ -27,12 +27,16 @@ class_name Job extends Node2D
 ## size of the job will not be decreasd further.
 ## NOTE: Cannot exceed 4 as there is a static number of positions
 ## on the job's UI for the workers to sit.
-## NOTE: If the value is 0, then overridden by auto_max_workers.
-@export var max_workers: int = 0
+## NOTE: If the value is -1, then overridden by auto_max_workers.
+## NOTE: If the value is 0, then job becomes ****PickUp Job****.
+@export var max_workers: int = -1
 
 ## Suggested max worker count based on the scope of the job.
 ## NOTE: This value can be overridden by giving max_workers > 0.
 @onready var auto_max_workers: int = min(4, min_workers + max_size - min_size)
+
+## If true, this job acts as a recepticle for collecting potions before delivery.
+var is_pickup_job: bool
 
 ## A percentage completion of the job, from 0 to 1.
 @export var progress: float = 0.0
@@ -76,18 +80,29 @@ signal job_complete
 
 ## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
-	job_grew.connect(game_node._on_job_grew)
-	job_shrunk.connect(game_node._on_job_shrunk)
-	job_complete.connect(game_node._on_job_complete)
 	
-	if time_bar:
-		update_job_shape()
-	else: 
-		# FIXME: Causes issues with the statically defined job objects in the tree
-		# Jobs cannot make progress until update_job_shape is called to define percent_per_second
-		time_bar.ready.connect(update_job_shape)
+	if max_workers == 0:
+		is_pickup_job = true
+	
+	# For regular jobs, do the following:
+	if not is_pickup_job:
 		
-	update_input_items_match()
+		job_grew.connect(game_node._on_job_grew)
+		job_shrunk.connect(game_node._on_job_shrunk)
+		job_complete.connect(game_node._on_job_complete)
+		
+		if time_bar:
+			update_job_shape()
+		else: 
+			# FIXME: Causes issues with the statically defined job objects in the tree
+			# Jobs cannot make progress until update_job_shape is called to define percent_per_second
+			time_bar.ready.connect(update_job_shape)
+			
+		update_input_items_match()
+	
+	# For Pickup Jobs
+	else:
+		pass
 
 
 ## Updates job progress if prereqs are met
@@ -96,10 +111,9 @@ func _process(delta: float) -> void:
 	if is_complete:
 		return
 		
-	# TODO: Update input_items_match elsewhere
 	if input_items_match and current_witches.size() > 0:
 		progress_bar.value += percent_per_second * delta
-	
+		
 	if not is_complete and progress_bar.value == 100:
 		complete_job()
 
@@ -121,27 +135,30 @@ func complete_job() -> void:
 ## Try to push the output item to the job with the output pipe.
 func try_deliver_output() -> void:
 	
+	print(1)
 	# Confirm that there is an output item ready and a pipe to send it
 	if not output_item or not dest_pipe:
 		return
 	
+	print(2)
 	# Confirm that the destination job exists
 	var dest_job := dest_pipe.dest_job
 	if not dest_job:
 		if Global.DEBUG_MODE:
 			push_warning(self.name, " [try_deliver_output]", " Dest Pipe exists but no dest job.")
 		return
-	
+	print(3)
 	# Confirm that the destination job uses this item
 	if not dest_job.accepts_item(output_item):
 		if Global.DEBUG_MODE:
 			push_warning(self.name, " [try_deliver_output]", " Dest Job cannot use output item.")
 		return
-		
+	print(4)
 	# Deliver the item
 	dest_job.input_items_array.push_back(output_item)
 	output_item = null
 	dest_job.update_input_items_match()
+	print(5)
 	
 
 ## Returns true if the item shares an id with an item in the recipe inputs, false otherwise.
@@ -155,8 +172,10 @@ func accepts_item(input: Item) -> bool:
 ## Predefined function for comparing item arrays
 func update_input_items_match() -> void:
 	if item_arrays_match(input_items_array, recipe_input_items_array):
+		print("true")
 		input_items_match = true
 	else:
+		print("false")
 		input_items_match = false
 			
 
@@ -404,7 +423,7 @@ func update_job_size(state_string: String) -> void:
 	var witch_count := current_witches.size()
 	
 	if state_string.to_lower() == "entered":
-		if max_workers > 0: # Override max
+		if max_workers >= 0: # Override max
 			if witch_count > min_workers and witch_count <= max_workers:
 				decrease_size()
 		else:				# Auto max
@@ -412,7 +431,7 @@ func update_job_size(state_string: String) -> void:
 				decrease_size()
 				
 	elif state_string.to_lower() == "exiting":
-		if max_workers > 0:	# Override max
+		if max_workers >= 0:	# Override max
 			if witch_count >= min_workers and witch_count < max_workers:
 				increase_size()
 		else:				# Auto max
@@ -425,7 +444,7 @@ func update_job_size(state_string: String) -> void:
 func will_job_expand() -> bool:
 	var adjusted_witch_count := current_witches.size() - 1
 	
-	if max_workers > 0:	# Override max
+	if max_workers >= 0:	# Override max
 		if adjusted_witch_count >= min_workers and adjusted_witch_count < max_workers:
 			return true
 	else:				# Auto max
