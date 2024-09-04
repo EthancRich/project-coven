@@ -5,6 +5,7 @@ class_name OrderControl extends Control
 ## converting it into a deadline object.
 
 ## Reference to the other nodes for creating new deadlines
+@onready var game_node := get_node("/root/Main/Game") as Game
 @onready var board_node := get_node("/root/Main/Game/Board") as Board
 @onready var idle_state := get_node("/root/Main/Game/Board/StateMachine/Idle") as State
 @onready var dropping_state := get_node("/root/Main/Game/Board/StateMachine/Dropping Deadline") as DroppingDeadlineState
@@ -18,12 +19,14 @@ var potion_enum := -1
 
 ## Sets the order to listen for a state machine's signal
 func _ready() -> void:
-	dropping_state.failed_deadline_drop.connect(failed_deadline_drop)
+	dropping_state.deadline_dropped.connect(_on_dropping_deadline_state_deadline_dropped)
 
 
 ## Resets a bool in Button that allows new deadline to be made
-func failed_deadline_drop() -> void:
-	($GridContainer/PotionButton as PotionButton).is_deadline_created = false
+## FIXME: Currently, all orders receive this signal, when we only want the related one to signal
+func _on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
+	if not success:
+		($GridContainer/PotionButton as PotionButton).is_deadline_created = false
  
 
 ## Sets the order's potion enum and updates the texture button's textures.
@@ -37,6 +40,9 @@ func _on_potion_button_create_new_deadline() -> void:
 	var deadline := deadline_scene.instantiate() as Deadline
 	deadline.connected_order = self
 	board_node.add_child(deadline)
+	
+	# Set the game node to respond to deadline signal
+	deadline.moved_position.connect(game_node._on_deadline_moved_position)
 	
 	# Update the board's knowledge of mouse press
 	# It's off because of the GUI eating the press input

@@ -7,6 +7,7 @@ class_name Game extends Node
 @onready var sounds: AudioManager = %Sounds as AudioManager
 @onready var influence_val_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceValLabel" as Label
 @onready var influence_diff_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceDiffLabel" as Label
+@onready var time_bar: TimeBar = %TimeBar as TimeBar
 var potion_order_scene = preload("res://scenes/order_control.tscn")
 
 ## The health and money resource
@@ -63,6 +64,33 @@ func update_influence_labels() -> void:
 	influence_diff_label.text = str(influence_diff)
 	
 
+## Updates the influence when the deadline is dropped
+func _on_dropping_deadline_deadline_dropped(success: bool) -> void:
+	if success:
+		confirm_influence_change()
+		sounds.play_audio("PlaceJob")
+	else:
+		set_potential_influence_diff(0)
+		sounds.play_audio("InvalidPlaceJob")
+
+
+## Gets the difference between the deadline and time bar and updates the influence diff
+func _on_deadline_moved_position(deadline_position: Vector2) -> void:
+	sounds.play_audio("DropPipePiece")
+	
+	var pixel_diff := int(deadline_position.x - time_bar.position.x)
+	set_potential_influence_diff(calculate_influence_difference(pixel_diff))
+
+
+## Converts a pixel diff into an influence diff for deadlines
+func calculate_influence_difference(pixels: int) -> int:
+	
+	# Time bar is ahead of the deadline
+	if pixels < 0:
+		return 0
+	# Deadline is ahead of time bar
+	return -1 * (pixels / 64) - 1
+
 
 ## AUDIO CALLBACKS ##
 func _on_job_grew() -> void:
@@ -98,3 +126,4 @@ func _on_erasing_pipe_pipe_piece_erased() -> void:
 
 func _on_ending_pipe_pipe_dropped() -> void:
 	sounds.play_audio("PlaceJob")
+

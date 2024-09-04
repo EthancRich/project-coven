@@ -24,6 +24,9 @@ var elapsed_time := 0.0
 ## The order that this deadline is associated with.
 var connected_order: OrderControl = null
 
+# Signals
+signal moved_position(deadline_global_position: Vector2)
+
 
 ## Initialize Transparency
 func _ready() -> void:
@@ -54,6 +57,7 @@ func update_deadline_x_position() -> void:
 	var tolerance := 10 # 32 is max, 0 is min
 	var mouse_pos_x := get_global_mouse_position().x
 	var modulo := fmod(mouse_pos_x, 64)
+	var prev_x := position.x
 	
 	# Update the position if close enough to a gridline
 	if (modulo - 32) < -tolerance:
@@ -68,6 +72,10 @@ func update_deadline_x_position() -> void:
 			position.x = mouse_pos_x - modulo
 		else:
 			position.x = mouse_pos_x + (64 - modulo)
+			
+	# If the deadline changed positions, emit the appropriate signal
+	if prev_x != position.x:
+		moved_position.emit(global_position)
 
 
 ## Update the appropriate order's label as time bar passes.

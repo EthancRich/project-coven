@@ -5,7 +5,7 @@ class_name DroppingDeadlineState extends State
 ## placement is invalid.
 
 ## Signals that the deadline couldn't be placed.
-signal failed_deadline_drop
+signal deadline_dropped(success: bool)
 
 
 ## The deadline logic begins upon entry.
@@ -29,9 +29,10 @@ func enter(args: Array) -> void:
 	
 	if is_deadline_valid(current_deadline):
 		current_deadline.is_set = true
+		deadline_dropped.emit(true)
 	else:
 		current_deadline.queue_free()
-		failed_deadline_drop.emit()
+		deadline_dropped.emit(false)
 	
 	# Transition back to idle
 	transitioning.emit(self, "Idle")
