@@ -9,6 +9,8 @@ class_name Game extends Node
 @onready var influence_diff_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceDiffLabel" as Label
 @onready var time_bar: TimeBar = %TimeBar as TimeBar
 var potion_order_scene = preload("res://scenes/order_control.tscn")
+@export var potion_1: Item
+@export var potion_2: Item
 
 ## The health and money resource
 var influence: int
@@ -19,16 +21,15 @@ var influence_diff: int
 
 ## TODO: Automate the process of creating orders
 func _ready() -> void:
-	create_order(0)
-	create_order(0)
+	create_order(potion_1)
+	create_order(potion_1)
 	set_influence_instant(100)
-	#set_potential_influence_diff(-4)
 
 
 ## Instantiate a new order, and pass it to the UI to add
-func create_order(potion_enum: int) -> void:
+func create_order(new_potion: Item) -> void:
 	var new_order := potion_order_scene.instantiate() as OrderControl
-	new_order.set_potion_type(potion_enum)
+	new_order.set_potion(new_potion)
 	($"../Interface" as Interface).add_potion_order(new_order)
 
 
@@ -127,3 +128,6 @@ func _on_erasing_pipe_pipe_piece_erased() -> void:
 func _on_ending_pipe_pipe_dropped() -> void:
 	sounds.play_audio("PlaceJob")
 
+
+func _on_order_control_order_fulfilled() -> void:
+	sounds.play_audio("OrderFulfilled")

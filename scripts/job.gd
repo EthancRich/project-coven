@@ -102,7 +102,7 @@ func _ready() -> void:
 	
 	# For Pickup Jobs
 	else:
-		pass
+		add_to_group("pickup")
 
 
 ## Updates job progress if prereqs are met
@@ -135,30 +135,28 @@ func complete_job() -> void:
 ## Try to push the output item to the job with the output pipe.
 func try_deliver_output() -> void:
 	
-	print(1)
 	# Confirm that there is an output item ready and a pipe to send it
 	if not output_item or not dest_pipe:
 		return
-	
-	print(2)
+
 	# Confirm that the destination job exists
 	var dest_job := dest_pipe.dest_job
 	if not dest_job:
 		if Global.DEBUG_MODE:
 			push_warning(self.name, " [try_deliver_output]", " Dest Pipe exists but no dest job.")
 		return
-	print(3)
+
 	# Confirm that the destination job uses this item
-	if not dest_job.accepts_item(output_item):
+	if not dest_job.is_pickup_job and not dest_job.accepts_item(output_item):
 		if Global.DEBUG_MODE:
 			push_warning(self.name, " [try_deliver_output]", " Dest Job cannot use output item.")
 		return
-	print(4)
+
 	# Deliver the item
 	dest_job.input_items_array.push_back(output_item)
 	output_item = null
 	dest_job.update_input_items_match()
-	print(5)
+
 	
 
 ## Returns true if the item shares an id with an item in the recipe inputs, false otherwise.

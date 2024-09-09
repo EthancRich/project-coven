@@ -31,6 +31,7 @@ func enter(args: Array) -> void:
 		current_deadline.is_set = true
 		deadline_dropped.emit(true)
 	else:
+		current_deadline.connected_order.connected_deadline = null
 		current_deadline.queue_free()
 		deadline_dropped.emit(false)
 	

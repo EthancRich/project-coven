@@ -3,14 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_qwgkr"]
 [ext_resource type="Script" path="res://scripts/normal_job.gd" id="2_4cftj"]
 [ext_resource type="Resource" uid="uid://csd2xsp44h1j6" path="res://resources/dummy_item_1.tres" id="3_y1k1v"]
-[ext_resource type="Resource" uid="uid://c2bt2gdk6lm7q" path="res://resources/dummy_item_2.tres" id="4_exbed"]
+[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="4_0wyo6"]
 
 [node name="BlueJob" instance=ExtResource("1_qwgkr")]
 script = ExtResource("2_4cftj")
 size = 5
 min_size = 2
 recipe_input_items_array = Array[Resource("res://scripts/item.gd")]([ExtResource("3_y1k1v")])
-recipe_output_item = ExtResource("4_exbed")
+recipe_output_item = ExtResource("4_0wyo6")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 modulate = Color(0.376471, 0.227451, 1, 1)

@@ -17,6 +17,7 @@ class_name Deadline extends Node2D
 ## Unset deadlines follow the player's mouse,
 ## Set deadlines monitor for the produced potions.
 var is_set := false
+var is_hit := false
 
 ## The amount of elapsed time for animation tracking.
 var elapsed_time := 0.0
@@ -24,7 +25,7 @@ var elapsed_time := 0.0
 ## The order that this deadline is associated with.
 var connected_order: OrderControl = null
 
-# Signals
+## Signals
 signal moved_position(deadline_global_position: Vector2)
 
 
@@ -37,9 +38,11 @@ func _ready() -> void:
 ## Updates each frame.
 func _process(delta: float) -> void:
 	
+	if is_hit:
+		return
+	
 	if is_set:
-		# TODO: Monitor task completion vs timer
-		update_order_label()
+		update_deadline_state()
 	else:
 		# Update the bar's mouse position
 		update_deadline_x_position()
@@ -78,15 +81,22 @@ func update_deadline_x_position() -> void:
 		moved_position.emit(global_position)
 
 
+## Updates the labels and the order itself depending on the deadline and time bar
+func update_deadline_state() -> void:
+	var pixel_diff := global_position.x - ($"../TimeBar" as ColorRect).global_position.x
+	update_order_label(pixel_diff)
+	
+	if pixel_diff <= 0:
+		connected_order.is_deadline_hit = true
+		is_hit = true
+
+
 ## Update the appropriate order's label as time bar passes.
-func update_order_label():
+func update_order_label(pixel_diff) -> void:
 	
 	# Get the label objects of the order
 	var num_label := connected_order.get_node("GridContainer/NumLabel") as Label
 	var text_label := connected_order.get_node("GridContainer/TextLabel") as Label
-	
-	# Get the difference between the time bar and deadline to calculate boxes apart
-	var pixel_diff := global_position.x - ($"../TimeBar" as ColorRect).global_position.x
 
 	# Adjust the labels based on the distance
 	if pixel_diff > 0:
@@ -94,6 +104,7 @@ func update_order_label():
 	else:
 		num_label.text = "Past"
 		text_label.text = " Due"
+		
 	
 
 ## Sets the transparency of the rectangles, with a fade in the outer
