@@ -45,8 +45,8 @@ func _ready() -> void:
 			grid_reference.push_back(new_cell)
 	
 	# Create two jobs and put them on the grid for demo purposes
-	create_job(0, Vector2i(1,0), 3)
-	create_job(1, Vector2i(1,1), 5)
+	#create_job(0, Vector2i(1,0), 3)
+	#create_job(1, Vector2i(1,1), 5)
 	
 	
 ## Creates a single job and places it on the grid in a provided location.

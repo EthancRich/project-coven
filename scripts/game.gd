@@ -5,15 +5,14 @@ class_name Game extends Node
 
 ## Preloads and References
 @onready var sounds: AudioManager = %Sounds as AudioManager
-@onready var influence_val_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceValLabel" as Label
-@onready var influence_diff_label: Label = $"../Interface/LeftInterface/PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceDiffLabel" as Label
+@onready var left_interface: Control = $"../Interface/LeftInterface" as Control
 @onready var time_bar: TimeBar = %TimeBar as TimeBar
 var potion_order_scene = preload("res://scenes/order_control.tscn")
 @export var potion_1: Item
 @export var potion_2: Item
 
 ## The health and money resource
-var influence: int
+var influence: int = 100
 
 ## The difference considered to be combined if option is successful
 var influence_diff: int
@@ -42,13 +41,18 @@ func set_potential_influence_diff(new_diff: int) -> void:
 ## finalize the difference into the new influence
 func confirm_influence_change() -> void:
 	influence += influence_diff
+	left_interface.play_influence_label_animation(influence_diff)
 	influence_diff = 0
 	update_influence_labels()
+	
+	
 
 
 ## Bypass influence diff system and hard set influence
 func set_influence_instant(new_influence: int) -> void:
+	var instant_diff = new_influence - influence
 	influence = new_influence
+	left_interface.play_influence_label_animation(instant_diff)
 	influence_diff = 0
 	update_influence_labels()
 	
@@ -56,13 +60,16 @@ func set_influence_instant(new_influence: int) -> void:
 ## Updates the influence label depending on the value
 func update_influence_labels() -> void:
 	
+	var influence_val_str: String = ""
+	var influence_diff_str: String = ""
+	
 	if influence_diff == 0:
-		influence_val_label.text = str(influence)
-		influence_diff_label.text = ""
-		return
+		influence_val_str = str(influence)
+	else:
+		influence_val_str = "(" + str(influence + influence_diff) + ")"
+		influence_diff_str = str(influence_diff)
 		
-	influence_val_label.text = "(" + str(influence + influence_diff) + ")"
-	influence_diff_label.text = str(influence_diff)
+	left_interface.set_influence_labels(influence_val_str, influence_diff_str)
 	
 
 ## Updates the influence when the deadline is dropped
@@ -91,6 +98,12 @@ func calculate_influence_difference(pixels: int) -> int:
 		return 0
 	# Deadline is ahead of time bar
 	return -1 * (pixels / 64) - 1
+
+
+func _on_order_control_order_fulfilled() -> void:
+	sounds.play_audio("OrderFulfilled")
+	set_influence_instant(influence + 30)
+	# TODO: Change to be an order component and not a fixed value
 
 
 ## AUDIO CALLBACKS ##
@@ -127,7 +140,3 @@ func _on_erasing_pipe_pipe_piece_erased() -> void:
 
 func _on_ending_pipe_pipe_dropped() -> void:
 	sounds.play_audio("PlaceJob")
-
-
-func _on_order_control_order_fulfilled() -> void:
-	sounds.play_audio("OrderFulfilled")

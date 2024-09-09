@@ -34,7 +34,7 @@ func _ready() -> void:
 
 
 ## Tries to fulfill the order if the deadline is set
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_deadline_hit:
 		if attempt_fulfill_order():
 			connected_deadline.queue_free()
