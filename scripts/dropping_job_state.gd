@@ -59,6 +59,12 @@ func enter(args: Array) -> void:
 ## returns true if the drop location has all required cells in bounds and empty.
 func is_legal_drop(focused_job: Job, first_index: Vector2i) -> bool:
 	
+	# Check to see the job has connected pipes
+	if focused_job.source_pipes_array.size() > 0 or focused_job.dest_pipe:
+		if Global.DEBUG_MODE:
+			print(self.name, " [is_legal_drop]", "Aborting drop: source job is connected to pipes")
+		return false
+	
 	# Get all cells that the new job will occupy after moving
 	var hovering_cells_array := get_hovering_cells(focused_job, first_index)
 	if hovering_cells_array.is_empty():
