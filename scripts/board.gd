@@ -66,14 +66,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.is_action_released("rclick"):
 			is_right_click_down = false
 	
-	# Button presses occur, adjust the sizes of the jobs. TODO: Remove.
+	# Button presses occur
 	elif event is InputEventKey:
-		
-		if event.is_action_pressed("increase"):
-			get_tree().call_group("focused", "increase_size")
+		if event.is_action_pressed("delete"):
+			get_tree().call_group("focused", "delete") # NOTE: Assumes focused object is job
+			remove_focused_object()
 			
-		elif event.is_action_pressed("decrease"):
-			get_tree().call_group("focused", "decrease_size")
+			
+		
 			
 
 ## Takes the current index and converts it to the cell in the grid.

@@ -73,6 +73,7 @@ signal job_complete
 
 ## References to reduce repeated calls.
 @onready var game_node := get_node("/root/Main/Game") as Game
+@onready var board_node := get_node("/root/Main/Game/Board") as Board
 @onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
 @onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
 @onready var progress_bar := $ProgressBar as TextureProgressBar
@@ -451,6 +452,26 @@ func will_job_expand() -> bool:
 			
 	return false
 
+
+func delete() -> void:
+	
+	# Delete the pipes that this job is attached to
+	while (source_pipes_array.size() > 0):
+		source_pipes_array[0].delete()
+	if dest_pipe:
+		dest_pipe.delete()
+		
+	# Set the occupied cells to forget the job
+	for cell: Cell in current_cells:
+		cell.contained_object = null
+	
+	# Reparent witches to not get deleted
+	while current_witches.size() > 0:
+		current_witches[0].reparent(board_node)
+
+	# Delete self
+	queue_free()
+	
 
 ## Causes the opacity of the job to decrease when mouse is inside
 func _on_static_body_2d_mouse_entered() -> void:
