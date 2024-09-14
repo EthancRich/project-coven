@@ -100,8 +100,12 @@ func is_locked_by_job() -> bool:
 			push_warning(self.name, " [is_locked_by_job]", " no job parent to current witch.")
 		return false
 		
+	# If the object to the right is just a pipe, it's fine
+	if job.get_right_adjacent_cell().contained_object is PipePiece:
+		return false
+	
 	# if job can't expand and will attempt upon witch leaving
-	if job.get_right_adjacent_cell() == null and job.will_job_expand():
+	if job.get_right_adjacent_cell().is_occupied() and job.will_job_expand():
 		return true
 	
 	# Otherwise, not locked

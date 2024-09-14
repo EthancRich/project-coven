@@ -21,6 +21,6 @@ theme_override_font_sizes/font_size = 42
 text = "fps: XX"
 script = ExtResource("1_p7x4d")
 
-[node name="BottomInterface" parent="." instance=ExtResource("2_m7l3g")]
+[node name="Control" parent="." instance=ExtResource("2_m7l3g")]
 
 [node name="LeftInterface" parent="." instance=ExtResource("8_efyqt")]

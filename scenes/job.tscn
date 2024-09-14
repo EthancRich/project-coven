@@ -61,7 +61,7 @@ script = ExtResource("1_0xv01")
 position = Vector2(160, 32)
 scale = Vector2(1.77778, 1.77778)
 sprite_frames = SubResource("SpriteFrames_nsohp")
-animation = &"1x1"
+animation = &"1x2"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 input_pickable = true

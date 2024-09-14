@@ -297,7 +297,10 @@ func increase_size() -> void:
 		
 	# Check that the next cell over is valid to expand
 	var new_cell := get_right_adjacent_cell()
-	if new_cell == null: # Warnings provided by get_right_additional_cell
+	if new_cell.get_contained_object() is PipePiece: # Delete pipe if exist to the right
+		dest_pipe.delete()
+		
+	elif new_cell.is_occupied(): # Warnings provided by get_right_additional_cell
 		return
 	
 	# Update the references, size, and visuals.
@@ -309,7 +312,7 @@ func increase_size() -> void:
 	
 	
 ## Returns the cell that occupies the space directly to the right
-## of the job if it's empty, and null otherwise.
+## of the job.
 func get_right_adjacent_cell() -> Cell:
 	
 	# Get the rightmost cell being occupied by the job
@@ -326,14 +329,7 @@ func get_right_adjacent_cell() -> Cell:
 			push_warning(self.name, " [get_right_adjacent_cell]", " right adjacent cell is out of bounds.")
 		return null
 		
-	# Check if the adjacent cell is occupied
 	var adjacent_cell := grid_node.get_cell_at_index(new_index)
-	if adjacent_cell.is_occupied():
-		if Global.DEBUG_MODE:
-			push_warning(self.name, " [get_right_adjacent_cell]", " right adjacent cell is occupied.")
-		return null
-		
-	# Return the valid cell value
 	return adjacent_cell
 	
 	
@@ -354,6 +350,10 @@ func decrease_size() -> void:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [get_right_adjacent_cell]", " current job has no cell references.")
 		return
+	
+	# If destination pipe is not null, delete it upon shrinking
+	if dest_pipe:
+		dest_pipe.delete()
 		
 	# Update the references, size, and visuals.
 	rightmost_cell.remove_contained_object()
