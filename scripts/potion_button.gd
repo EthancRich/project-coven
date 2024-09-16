@@ -3,6 +3,9 @@ class_name PotionButton extends TextureButton
 ## is dragged out of while pressed, so that the game
 ## can create a new deadline for that order.
 
+## References
+@onready var board_node := get_node("/root/Main/Game/Board") as Board
+
 ## Fires when mouse leaves button while held.
 ## Represents a new deadline needing to be instantiated.
 signal create_new_deadline
@@ -25,14 +28,12 @@ func _on_button_down() -> void:
 ## Sets is_pressed according to the button state.
 func _on_button_up() -> void:
 	is_pressed = false
+	## This release event gets consumed in this function, so we have to set this here
+	board_node.is_left_click_down = false
 	
 
 ## Emits signal that the player intends to create a deadline.dda
 func _on_mouse_exited() -> void:
 	if not is_deadline_created and is_pressed:
-		
-		## FIXME: Fix this to reset when a deadline placement is resolved
 		is_deadline_created = true
-		
-		# Emit the signal
 		create_new_deadline.emit()

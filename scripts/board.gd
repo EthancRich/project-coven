@@ -58,12 +58,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				set_focused_object()
 				
 		elif event.is_action_released("click"):
+			print(self, " Releasing Click!")
 			is_left_click_down = false
 			
 		elif event.is_action_pressed("rclick"):
 			is_right_click_down = true
 			
 		elif event.is_action_released("rclick"):
+
 			is_right_click_down = false
 	
 	# Button presses occur

@@ -29,7 +29,6 @@ signal order_fulfilled
 
 ## Sets the order to listen for a state machine's signal
 func _ready() -> void:
-	dropping_state.deadline_dropped.connect(_on_dropping_deadline_state_deadline_dropped)
 	order_fulfilled.connect(game_node._on_order_control_order_fulfilled)
 
 
@@ -68,8 +67,8 @@ func fulfill_order(job: Job, removal_item: Item) -> void:
 
 
 ## Resets a bool in Button that allows new deadline to be made
-## FIXME: Currently, all orders receive this signal, when we only want the related one to signal
-func _on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
+## NOTE: This is a called function, not a signaled functions
+func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
 	if not success:
 		($GridContainer/PotionButton as PotionButton).is_deadline_created = false
  
@@ -94,12 +93,6 @@ func _on_potion_button_create_new_deadline() -> void:
 	# Update the board's knowledge of mouse press
 	# It's off because of the GUI eating the press input
 	board_node.is_left_click_down = true
-	
-	# Flip the button visibly briefly
-	# This is so stupid but necessary for the button to not
-	# Eat the button release signal on the backend
-	$GridContainer/PotionButton.visible = false
-	$GridContainer/PotionButton.visible = true
 	
 	# Force the state machine to transition to dragging
 	idle_state.transitioning.emit(idle_state, "Dragging Deadline", [deadline])

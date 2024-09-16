@@ -109,8 +109,8 @@ func update_order_label(pixel_diff) -> void:
 	if pixel_diff > 0:
 		num_label.text = str(int(pixel_diff) / 64)
 	else:
-		num_label.text = "Past"
-		text_label.text = " Due"
+		num_label.text = ""
+		text_label.text = "Due"
 		
 
 ## Based on the difference between the time bar and deadline positions, reduce influence
