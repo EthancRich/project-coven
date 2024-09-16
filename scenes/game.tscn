@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=29 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
@@ -27,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://24l13hrw06wr" path="res://audio/notif.mp3" id="25_equ3n"]
 [ext_resource type="AudioStream" uid="uid://bnomcsbp1m35l" path="res://audio/tick.mp3" id="26_gv03d"]
 [ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
+[ext_resource type="AudioStream" uid="uid://m4r8da8rn7cq" path="res://audio/fail order.mp3" id="28_1swrc"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7jktb")
@@ -133,6 +134,9 @@ stream = ExtResource("26_gv03d")
 
 [node name="OrderFulfilled" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("27_lc6p4")
+
+[node name="OrderFailed" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("28_1swrc")
 
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]

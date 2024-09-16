@@ -9,6 +9,9 @@ class_name Deadline extends Node2D
 ## The speed of the pulsing, with 1 as the normal speed.
 @export var pulse_speed := 1.0
 
+## The amount of the influence lost with this deadline
+var late_deadline_tick_amount := 5
+
 ## References to the children rectangles, for reduction in calls.
 @onready var inner_rect := $InnerRect as Control
 @onready var outer_rect := $OuterRect as Control
@@ -25,8 +28,12 @@ var elapsed_time := 0.0
 ## The order that this deadline is associated with.
 var connected_order: OrderControl = null
 
+## The previous quotient for calculating the late penalties.
+var prev_quotient := -1
+
 ## Signals
 signal moved_position(deadline_global_position: Vector2)
+signal late_tick(amount: int)
 
 
 ## Initialize Transparency
@@ -39,7 +46,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	if is_hit:
-		return
+		attempt_reduce_influence()
 	
 	if is_set:
 		update_deadline_state()
@@ -105,6 +112,22 @@ func update_order_label(pixel_diff) -> void:
 		num_label.text = "Past"
 		text_label.text = " Due"
 		
+
+## Based on the difference between the time bar and deadline positions, reduce influence
+func attempt_reduce_influence() -> void:
+	
+	# Get pixel difference
+	var pixel_diff := ($"../TimeBar" as ColorRect).global_position.x - global_position.x
+	
+	# NOTE: This value can be changed for frequency of late hits, pixel modulus
+	var mod := 32
+	
+	var current_quotient = int(pixel_diff) / mod
+	print(current_quotient, " ", prev_quotient)
+	
+	if current_quotient > prev_quotient:
+		prev_quotient = current_quotient
+		late_tick.emit(late_deadline_tick_amount)
 	
 
 ## Sets the transparency of the rectangles, with a fade in the outer

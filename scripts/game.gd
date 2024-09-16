@@ -90,6 +90,12 @@ func _on_deadline_moved_position(deadline_position: Vector2) -> void:
 	set_potential_influence_diff(calculate_influence_difference(pixel_diff))
 
 
+## When the deadline is late, reduce the influence by the given amount
+func _on_deadline_late_tick(amount: int) -> void:
+	sounds.play_audio("OrderFailed")
+	set_influence_instant(influence - amount)
+
+
 ## Converts a pixel diff into an influence diff for deadlines
 func calculate_influence_difference(pixels: int) -> int:
 	
