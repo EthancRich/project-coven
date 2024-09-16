@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=30 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
@@ -24,6 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://bwmo0cem3rj2j" path="res://audio/fwip.mp3" id="22_ssaoo"]
 [ext_resource type="AudioStream" uid="uid://jdrptlyvtp38" path="res://audio/expand 2.mp3" id="23_ikeph"]
 [ext_resource type="AudioStream" uid="uid://b6gikkf3dwatp" path="res://audio/Ping.mp3" id="24_1v8by"]
+[ext_resource type="AudioStream" uid="uid://dhbb4gqmu0xk4" path="res://audio/Bubble.mp3" id="24_psbsr"]
 [ext_resource type="AudioStream" uid="uid://24l13hrw06wr" path="res://audio/notif.mp3" id="25_equ3n"]
 [ext_resource type="AudioStream" uid="uid://bnomcsbp1m35l" path="res://audio/tick.mp3" id="26_gv03d"]
 [ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
@@ -122,6 +123,9 @@ stream = ExtResource("22_ssaoo")
 
 [node name="ExpandJob" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("23_ikeph")
+
+[node name="DeleteJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("24_psbsr")
 
 [node name="InvalidPlaceJob" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("24_1v8by")

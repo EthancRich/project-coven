@@ -123,7 +123,6 @@ func attempt_reduce_influence() -> void:
 	var mod := 32
 	
 	var current_quotient = int(pixel_diff) / mod
-	print(current_quotient, " ", prev_quotient)
 	
 	if current_quotient > prev_quotient:
 		prev_quotient = current_quotient

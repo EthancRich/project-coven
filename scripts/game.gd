@@ -125,6 +125,10 @@ func _on_job_complete() -> void:
 	sounds.play_audio("CompleteJob")
 
 
+func _on_job_deleted() -> void:
+	sounds.play_audio("DeleteJob")
+
+
 func _on_dropping_job_dropped(success: bool, _job: Job) -> void:
 	if success:
 		sounds.play_audio("PlaceJob")
@@ -146,3 +150,7 @@ func _on_erasing_pipe_pipe_piece_erased() -> void:
 
 func _on_ending_pipe_pipe_dropped() -> void:
 	sounds.play_audio("PlaceJob")
+	
+	
+func _on_pipe_deleted() -> void:
+	sounds.play_audio("DeleteJob")

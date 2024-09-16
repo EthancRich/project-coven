@@ -70,6 +70,7 @@ var is_complete := false
 signal job_grew
 signal job_shrunk
 signal job_complete
+signal deleted
 
 ## References to reduce repeated calls.
 @onready var game_node := get_node("/root/Main/Game") as Game
@@ -104,7 +105,10 @@ func _ready() -> void:
 	# For Pickup Jobs
 	else:
 		add_to_group("pickup")
-
+	
+	# For all jobs
+	deleted.connect(game_node._on_job_deleted)
+	
 
 ## Updates job progress if prereqs are met
 func _process(delta: float) -> void:
@@ -454,6 +458,9 @@ func will_job_expand() -> bool:
 
 
 func delete() -> void:
+	
+	# Emit signal for sounds
+	deleted.emit()
 	
 	# Delete the pipes that this job is attached to
 	while (source_pipes_array.size() > 0):
