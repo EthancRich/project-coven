@@ -9,6 +9,7 @@ class_name OrderControl extends Control
 @onready var board_node := get_node("/root/Main/Game/Board") as Board
 @onready var idle_state := get_node("/root/Main/Game/Board/StateMachine/Idle") as State
 @onready var dropping_state := get_node("/root/Main/Game/Board/StateMachine/Dropping Deadline") as DroppingDeadlineState
+@onready var texture_progress_bar: TextureProgressBar = %TextureProgressBar
 
 ## A preloaded scene for creating deadline objects.
 var deadline_scene := preload("res://scenes/deadline.tscn")
@@ -23,8 +24,12 @@ var potion: Item = null
 ## NOTE: This is set in the Deadline script
 var is_deadline_hit := false
 
+## Influence amount to be reduced
+var influence_amount := 5
+
 ## Signal for game sound effects
 signal order_fulfilled
+signal reduce_influence_tick(amount: int)
 
 
 ## Sets the order to listen for a state machine's signal
@@ -32,44 +37,12 @@ func _ready() -> void:
 	order_fulfilled.connect(game_node._on_order_control_order_fulfilled)
 
 
-## Tries to fulfill the order if the deadline is set
-func _process(_delta: float) -> void:
-	if is_deadline_hit:
-		if attempt_fulfill_order():
-			connected_deadline.queue_free()
-			queue_free()
-
-
-## Try to complete the order by looking for pickup jobs with the desired potion
-func attempt_fulfill_order() -> bool:
-	
-	# Get the pick up jobs on the board
-	var pickup_jobs := get_tree().get_nodes_in_group("pickup")
-	
-	# Check if they have the right items
-	for job: Job in pickup_jobs:
-		if not job:
-			continue
-			
-		for item: Item in job.input_items_array:
-			if item.id == potion.id:
-				fulfill_order(job, item)
-				return true
-	
-	# If no item is found, return false
-	return false
-
-
-## Consume the potion produced, and emit signal for sound effects
-func fulfill_order(job: Job, removal_item: Item) -> void:
-	job.input_items_array.erase(removal_item)
-	order_fulfilled.emit()
-
-
 ## Resets a bool in Button that allows new deadline to be made
 ## NOTE: This is a called function, not a signaled functions
 func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
-	if not success:
+	if success:
+		$StateMachine.current_state.transitioning.emit($StateMachine.current_state, "OrderSetState")
+	else:
 		($GridContainer/PotionButton as PotionButton).is_deadline_created = false
  
 
@@ -97,3 +70,7 @@ func _on_potion_button_create_new_deadline() -> void:
 	# Force the state machine to transition to dragging
 	idle_state.transitioning.emit(idle_state, "Dragging Deadline", [deadline])
 	
+
+## Reduce influence
+func _on_timer_timeout() -> void:
+	reduce_influence_tick.emit(influence_amount)

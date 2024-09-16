@@ -29,6 +29,7 @@ func _ready() -> void:
 func create_order(new_potion: Item) -> void:
 	var new_order := potion_order_scene.instantiate() as OrderControl
 	new_order.set_potion(new_potion)
+	new_order.reduce_influence_tick.connect(_on_order_control_reduce_influence_tick)
 	($"../Interface" as Interface).add_potion_order(new_order)
 
 
@@ -95,6 +96,12 @@ func _on_deadline_late_tick(amount: int) -> void:
 	sounds.play_audio("OrderFailed")
 	set_influence_instant(influence - amount)
 
+
+## When the order's deadline isn't set in time, then reduce influence
+func _on_order_control_reduce_influence_tick(amount: int) -> void:
+	sounds.play_audio("OrderFailed")
+	set_influence_instant(influence - amount)
+	
 
 ## Converts a pixel diff into an influence diff for deadlines
 func calculate_influence_difference(pixels: int) -> int:
