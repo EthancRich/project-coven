@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://drq7qgfu51pr8"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_tnmdx"]
+[ext_resource type="Script" path="res://scripts/normal_job.gd" id="2_o56pq"]
+[ext_resource type="Resource" uid="uid://csd2xsp44h1j6" path="res://resources/dummy_item_1.tres" id="3_ufr8n"]
+[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="4_2ruml"]
+
+[node name="BlueJob" instance=ExtResource("1_tnmdx")]
+script = ExtResource("2_o56pq")
+size = 5
+min_size = 2
+recipe_input_items_array = Array[Resource("res://scripts/item.gd")]([ExtResource("3_ufr8n")])
+recipe_output_item = ExtResource("4_2ruml")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(0.376471, 0.227451, 1, 1)
+
+[node name="CollisionShape2D" parent="StaticBody2D" index="0"]
+position = Vector2(64, 32)
+scale = Vector2(6, 3)

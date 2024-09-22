@@ -11,12 +11,6 @@ class_name Grid extends Node2D
 ## The number of cells long
 @export var grid_width: int = 30
 
-## TODO: Remove. For demo purposes. Contains a preloaded job for the grid.
-@export var job_scene_1: PackedScene = preload("res://scenes/red_job.tscn")
-
-## TODO: Remove. For demo purposes. Contains a preloaded job for the grid.
-@export var job_scene_2: PackedScene = preload("res://scenes/blue_job.tscn")
-
 ## A 1D array of the cells in the grid. These are mapped from the 2D grid space.
 ## NOTE: The grid cells are translated top to bottom, then side to side.
 var grid_reference: Array[Cell] = []
@@ -43,42 +37,6 @@ func _ready() -> void:
 			
 			# Place the cell reference into the grid_reference
 			grid_reference.push_back(new_cell)
-	
-	# Create two jobs and put them on the grid for demo purposes
-	#create_job(0, Vector2i(1,0), 3)
-	#create_job(1, Vector2i(1,1), 5)
-	
-	
-## Creates a single job and places it on the grid in a provided location.
-## TODO: Update for general use; currently just for testing purposes.
-## TODO: Namely, general jobs, and safety for locations.
-func create_job(job_type: int, index2D: Vector2i, num_cells: int) -> void:
-	
-	# Populate variable with a PackedScene of the job being created
-	var new_job: Job = null
-	match job_type:
-		0:	# Red Job
-			new_job = job_scene_1.instantiate() as Job
-		1:	# Blue Job
-			new_job = job_scene_2.instantiate() as Job
-		_:
-			new_job = job_scene_1.instantiate() as Job
-	
-	# Set the job's placement in the grid to the location of the cell at given index
-	new_job.position = grid_reference[index2D_to_1D(index2D)].position
-	
-	# Create an array of every cell the new job will be occupying. No safety checks :(
-	var cell_array: Array[Cell] = []
-	for i in range(num_cells):
-		var cell = grid_reference[index2D_to_1D(Vector2i(index2D.x+i, index2D.y))]
-		cell_array.push_back(cell)
-		
-	# Point the job to the cells, and each cell to the job
-	new_job.current_cells = cell_array
-	new_job.connect_current_cells()
-	
-	# Add to the scene tree
-	self.add_child(new_job)
 		
 
 ## Converts from an (x,y) in global pixels to (x,y) in grid units.

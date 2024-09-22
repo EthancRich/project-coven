@@ -35,6 +35,9 @@ class_name Job extends Node2D
 ## NOTE: This value can be overridden by giving max_workers > 0.
 @onready var auto_max_workers: int = min(4, min_workers + max_size - min_size)
 
+## Determines which of the sprite types to use in the script
+@export var is_fixed_size: bool = false
+
 ## If true, this job acts as a recepticle for collecting potions before delivery.
 var is_pickup_job: bool
 
@@ -116,7 +119,7 @@ func _process(delta: float) -> void:
 	if is_complete:
 		return
 		
-	if input_items_match and current_witches.size() > 0:
+	if input_items_match and current_witches.size() >= min_workers:
 		progress_bar.value += percent_per_second * delta
 		
 	if not is_complete and progress_bar.value == 100:
@@ -127,9 +130,13 @@ func _process(delta: float) -> void:
 ## updates the visual sprites that indicate a completed task.
 func complete_job() -> void:
 	
-	## Create a copy of the recipe output item and supply it to the job
-	output_item = recipe_output_item.duplicate()
-	try_deliver_output()
+	if not recipe_output_item:
+		if Global.DEBUG_MODE:
+			push_error(self, " complete_job:", " Cannot Complete Job! No Output declared!")
+	else:
+		## Create a copy of the recipe output item and supply it to the job
+		output_item = recipe_output_item.duplicate()
+		try_deliver_output()
 	
 	is_complete = true
 	($CompleteColorRect as ColorRect).visible = true
@@ -274,7 +281,10 @@ func update_job_shape() -> void:
 	
 	# Play the new animation
 	var animationName: String = "1x" + str(size)
-	($AnimatedSprite2D as AnimatedSprite2D).play(animationName)
+	if !is_fixed_size:
+		($AnimatedSprite2D as AnimatedSprite2D).play(animationName)
+	else:
+		($AnimatedSprite2D as AnimatedSprite2D).play(str(animationName + "a"))
 	
 	# Update the size and offset of the collision square
 	var collisionObj := $StaticBody2D/CollisionShape2D as CollisionShape2D
