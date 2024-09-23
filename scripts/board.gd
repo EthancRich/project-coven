@@ -128,7 +128,7 @@ func set_focused_object() -> void:
 		if focused_job_segment != -1:
 			print(self.name, " [set_focused_object]", " Set ", focused_job_segment, " as focused segment.")
 		else:
-			push_error(self.name, " [set_focused_ojbect]", " Cannot find segment in Job. ", focused_job_segment)
+			push_error(self.name, " [set_focused_object]", " Cannot find segment in Job. ", focused_job_segment)
 	
 	
 ## Removes all group tags from the currently focused objects. T he intent
