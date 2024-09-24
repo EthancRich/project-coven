@@ -5,6 +5,14 @@ class_name LeftInterface extends Control
 ## Reference variables
 @onready var influence_val_label: Label = %InfluenceValLabel
 @onready var influence_diff_label: Label = %InfluenceDiffLabel
+@onready var recruit_button: Button = $PanelContainer/MarginContainer/VBoxContainer/TopPanel/RecruitButton
+@onready var witch_images_1: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1
+@onready var witch_images_2: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2
+
+## Signals
+signal recruit_hovered
+signal recruit_pressed
+signal recruit_unhovered
 
 
 ## Adds the passed Order Control node to the container.
@@ -21,7 +29,7 @@ func set_influence_labels(infl_val: String, infl_diff: String) -> void:
 	
 	# Update labels
 	influence_val_label.text = infl_val
-	influence_diff_label.text = infl_diff
+	influence_diff_label.text = str(" " + infl_diff)
 	
 
 ## Play the gain or lose influence color change animation
@@ -33,7 +41,49 @@ func play_influence_label_animation(diff: int) -> void:
 	
 	var animation_player = influence_val_label.get_node("AnimationPlayer") as AnimationPlayer
 	if diff < 0:
-		animation_player.play("lose_influence")
+		animation_player.play("lose_influence")	
 	elif diff > 0:
 		animation_player.play("gain_influence")
 	
+
+## Turns the relevant witch icon visible
+func reveal_witch_image(witch_num: int) -> void:
+	
+	if witch_num > 8:
+		return
+	
+	if witch_num == 5:
+		witch_images_2.visible = true
+	
+	var witch_name := "WitchImage" + str(witch_num)
+	var witch_image: TextureRect = null
+	
+	if witch_num <= 4:
+		witch_image = witch_images_1.get_node(witch_name) as TextureRect
+	else:
+		witch_image = witch_images_2.get_node(witch_name) as TextureRect
+		
+	if not witch_image:
+		return
+		
+	witch_image.visible = true
+
+
+## Disables the recruitment button.
+func disable_recruit_button() -> void:
+	recruit_button.disabled = true
+	
+
+## When the mouse enters the recruit button, have it send a signal to change the influence
+func _on_recruit_button_mouse_entered() -> void:
+	recruit_hovered.emit()
+
+
+## When the mouse leaves the recruit button, have it send a signal to revert the influence change
+func _on_recruit_button_mouse_exited() -> void:
+	recruit_unhovered.emit()
+	
+
+## When the button is pressed
+func _on_recruit_button_pressed() -> void:
+	recruit_pressed.emit()

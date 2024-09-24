@@ -3,13 +3,21 @@ class_name Game extends Node
 ## Coordination and tracking tasks that are
 ## board and static agnostic.
 
+## Flag to help test things
+var debug_flag := true
+
 ## Preloads and References
 @onready var sounds: AudioManager = %Sounds as AudioManager
-@onready var left_interface: Control = $"../Interface/LeftInterface" as Control
 @onready var time_bar: TimeBar = %TimeBar as TimeBar
+var left_interface: LeftInterface
 var potion_order_scene = preload("res://scenes/order_control.tscn")
 @export var potion_1: Item
 @export var potion_2: Item
+@export var witch_scene: PackedScene
+
+## The influence cost of a single witch; can be modified over the runtime
+var witch_cost := 100
+var num_witches := 2
 
 ## The health and money resource
 var influence: int = 100
@@ -22,6 +30,13 @@ var influence_diff: int
 func _ready() -> void:
 	create_order(potion_1)
 	create_order(potion_1)
+	
+	# Set up the left interface signal connections
+	left_interface = $"../Interface/LeftInterface" as LeftInterface
+	left_interface.recruit_hovered.connect(_on_recruit_button_recruit_hovered)
+	left_interface.recruit_pressed.connect(_on_recruit_button_recruit_pressed)
+	left_interface.recruit_unhovered.connect(_on_recruit_button_recruit_unhovered)
+	
 	set_influence_instant(100)
 
 
@@ -46,8 +61,6 @@ func confirm_influence_change() -> void:
 	influence_diff = 0
 	update_influence_labels()
 	
-	
-
 
 ## Bypass influence diff system and hard set influence
 func set_influence_instant(new_influence: int) -> void:
@@ -117,6 +130,44 @@ func _on_order_control_order_fulfilled() -> void:
 	sounds.play_audio("OrderFulfilled")
 	set_influence_instant(influence + 30)
 	# TODO: Change to be an order component and not a fixed value
+
+
+## RECRUITING WITCH CALLBACKS ##
+func _on_recruit_button_recruit_hovered() -> void:
+	set_potential_influence_diff(-1 * witch_cost)
+	
+	
+func _on_recruit_button_recruit_unhovered() -> void:
+	set_potential_influence_diff(0)
+	
+	
+func _on_recruit_button_recruit_pressed() -> void:
+	
+	if influence + influence_diff > 0:
+		
+		# Play sound effect
+		sounds.play_audio("OrderFulfilled")
+		
+		# Update influence and witch cost
+		confirm_influence_change()
+		witch_cost += 50
+		set_potential_influence_diff(-1 * witch_cost)
+		num_witches += 1
+		
+		# Update the left interface images
+		left_interface.reveal_witch_image(num_witches)
+		
+		# Create witch and assign it to the board node
+		var witch: Witch = witch_scene.instantiate()
+		witch.global_position = Vector2(32, 32)
+		$Board.add_child(witch)
+		
+		# Disable recruit button if there are max witches
+		if num_witches >= 8:
+			left_interface.disable_recruit_button()
+		
+	else:
+		sounds.play_audio("InvalidPlaceJob")
 
 
 ## AUDIO CALLBACKS ##

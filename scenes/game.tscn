@@ -32,6 +32,7 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7jktb")
+witch_scene = ExtResource("14_l1y2n")
 
 [node name="Board" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -84,14 +85,8 @@ script = ExtResource("15_0vhoi")
 [node name="Witch" parent="Board" instance=ExtResource("14_l1y2n")]
 position = Vector2(241, 18)
 
-[node name="Witch4" parent="Board" instance=ExtResource("14_l1y2n")]
-position = Vector2(269, 19)
-
 [node name="Witch2" parent="Board" instance=ExtResource("14_l1y2n")]
-position = Vector2(328, 20)
-
-[node name="Witch3" parent="Board" instance=ExtResource("14_l1y2n")]
-position = Vector2(299, 19)
+position = Vector2(266, 18)
 
 [node name="TimeBar" type="ColorRect" parent="Board"]
 unique_name_in_owner = true
