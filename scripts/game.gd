@@ -16,7 +16,7 @@ var potion_order_scene = preload("res://scenes/order_control.tscn")
 @export var witch_scene: PackedScene
 
 ## The influence cost of a single witch; can be modified over the runtime
-var witch_cost := 100
+var witch_cost := 50
 var num_witches := 2
 
 ## The health and money resource
@@ -150,7 +150,7 @@ func _on_recruit_button_recruit_pressed() -> void:
 		
 		# Update influence and witch cost
 		confirm_influence_change()
-		witch_cost += 50
+		witch_cost += 25
 		set_potential_influence_diff(-1 * witch_cost)
 		num_witches += 1
 		
