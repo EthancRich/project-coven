@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://c37ybt1pshuu0"]
 
 [ext_resource type="Script" path="res://scripts/order_control.gd" id="1_oc5p2"]
-[ext_resource type="Texture2D" uid="uid://8ljoj0de4rg1" path="res://assets/Aseprite Assets/Potion-1.png" id="2_2bmqy"]
-[ext_resource type="Texture2D" uid="uid://cmqn5ffftwbqh" path="res://assets/Aseprite Assets/Potion-2.png" id="3_4ife6"]
+[ext_resource type="Texture2D" uid="uid://cbo0ifskhqvhk" path="res://assets/Custom Assets/Potion Sprites/Potion-1.png" id="2_d4jnj"]
+[ext_resource type="Texture2D" uid="uid://d1i7tv0er37dp" path="res://assets/Custom Assets/Potion Sprites/Potion-2.png" id="3_sr675"]
 [ext_resource type="Script" path="res://scripts/potion_button.gd" id="4_ad5gp"]
-[ext_resource type="Texture2D" uid="uid://ufu13hsj4xyn" path="res://assets/Aseprite Assets/ProgressBarColor.png" id="5_83gpu"]
+[ext_resource type="Texture2D" uid="uid://cm6qn3kojq8d2" path="res://assets/Custom Assets/ProgressBarColor.png" id="5_bo3r0"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="6_5uow2"]
 [ext_resource type="Script" path="res://scripts/order_grace_state.gd" id="7_opgxe"]
 [ext_resource type="Script" path="res://scripts/order_late_state.gd" id="8_1qb04"]
@@ -28,8 +28,8 @@ columns = 3
 layout_mode = 2
 size_flags_horizontal = 3
 keep_pressed_outside = true
-texture_normal = ExtResource("2_2bmqy")
-texture_pressed = ExtResource("3_4ife6")
+texture_normal = ExtResource("2_d4jnj")
+texture_pressed = ExtResource("3_sr675")
 stretch_mode = 5
 script = ExtResource("4_ad5gp")
 
@@ -43,7 +43,7 @@ offset_bottom = 64.0
 scale = Vector2(1.15, 1.15)
 step = 0.0
 fill_mode = 4
-texture_progress = ExtResource("5_83gpu")
+texture_progress = ExtResource("5_bo3r0")
 
 [node name="NumLabel" type="Label" parent="GridContainer"]
 layout_mode = 2

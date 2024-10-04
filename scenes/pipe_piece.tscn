@@ -1,18 +1,18 @@
 [gd_scene load_steps=10 format=3 uid="uid://bk34akagw7jxt"]
 
-[ext_resource type="Texture2D" uid="uid://dtuvxhloeertu" path="res://assets/Aseprite Assets/Pipe-1.png" id="1_gc8wf"]
 [ext_resource type="Script" path="res://scripts/pipe_piece.gd" id="1_xhd0b"]
-[ext_resource type="Texture2D" uid="uid://b6kgnmiladxq5" path="res://assets/Aseprite Assets/Pipe-2.png" id="2_l8rm8"]
-[ext_resource type="Texture2D" uid="uid://cgfbcqwiy6n2n" path="res://assets/Aseprite Assets/Pipe-3.png" id="3_q8ypn"]
-[ext_resource type="Texture2D" uid="uid://use26t4u1yhh" path="res://assets/Aseprite Assets/Pipe-4.png" id="4_t4cy6"]
-[ext_resource type="Texture2D" uid="uid://cxridbydhlorp" path="res://assets/Aseprite Assets/Pipe-5.png" id="5_unirv"]
-[ext_resource type="Texture2D" uid="uid://b8lskl8tpem6c" path="res://assets/Aseprite Assets/Pipe-6.png" id="6_jm2jc"]
+[ext_resource type="Texture2D" uid="uid://cqtege787grkw" path="res://assets/Custom Assets/Pipe Sprites/Pipe-1.png" id="2_78klj"]
+[ext_resource type="Texture2D" uid="uid://b6bho0hjru1if" path="res://assets/Custom Assets/Pipe Sprites/Pipe-2.png" id="3_pf8ij"]
+[ext_resource type="Texture2D" uid="uid://mjuryih4h4se" path="res://assets/Custom Assets/Pipe Sprites/Pipe-3.png" id="4_trrsv"]
+[ext_resource type="Texture2D" uid="uid://dxot3xceglaqx" path="res://assets/Custom Assets/Pipe Sprites/Pipe-4.png" id="5_yk6tg"]
+[ext_resource type="Texture2D" uid="uid://daygafywhxoyv" path="res://assets/Custom Assets/Pipe Sprites/Pipe-5.png" id="6_asrw6"]
+[ext_resource type="Texture2D" uid="uid://bbilklpwjn57t" path="res://assets/Custom Assets/Pipe Sprites/Pipe-6.png" id="7_mueru"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c5ivy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_gc8wf")
+"texture": ExtResource("2_78klj")
 }],
 "loop": true,
 "name": &"pipe1",
@@ -20,7 +20,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_l8rm8")
+"texture": ExtResource("3_pf8ij")
 }],
 "loop": true,
 "name": &"pipe2",
@@ -28,7 +28,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_q8ypn")
+"texture": ExtResource("4_trrsv")
 }],
 "loop": true,
 "name": &"pipe3",
@@ -36,7 +36,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_t4cy6")
+"texture": ExtResource("5_yk6tg")
 }],
 "loop": true,
 "name": &"pipe4",
@@ -44,7 +44,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_unirv")
+"texture": ExtResource("6_asrw6")
 }],
 "loop": true,
 "name": &"pipe5",
@@ -52,7 +52,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6_jm2jc")
+"texture": ExtResource("7_mueru")
 }],
 "loop": true,
 "name": &"pipe6",

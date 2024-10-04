@@ -1,23 +1,23 @@
 [gd_scene load_steps=15 format=3 uid="uid://bqu4o4toydudn"]
 
 [ext_resource type="Script" path="res://scripts/job.gd" id="1_0xv01"]
-[ext_resource type="Texture2D" uid="uid://dy40ai3vxkju" path="res://assets/Aseprite Assets/Stone-1x1.png" id="2_iqp16"]
-[ext_resource type="Texture2D" uid="uid://cfs3t5xlaitty" path="res://assets/Aseprite Assets/Stone-1x2.png" id="3_2odat"]
-[ext_resource type="Texture2D" uid="uid://148d6oir45gw" path="res://assets/Aseprite Assets/AltStone-1x1.png" id="3_pqx5y"]
-[ext_resource type="Texture2D" uid="uid://cu78f3nmgnqfy" path="res://assets/Aseprite Assets/Stone-1x3.png" id="4_jmvrd"]
-[ext_resource type="Texture2D" uid="uid://xi4phhxrdg8o" path="res://assets/Aseprite Assets/Stone-1x4.png" id="5_clq4v"]
-[ext_resource type="Texture2D" uid="uid://cxb3tpf6g7fos" path="res://assets/Aseprite Assets/AltStone-1x2.png" id="5_sxu8i"]
-[ext_resource type="Texture2D" uid="uid://csixnlaqunh5y" path="res://assets/Aseprite Assets/Stone-1x5.png" id="6_8q3sb"]
-[ext_resource type="Texture2D" uid="uid://cy4vdj3wrcm6r" path="res://assets/Aseprite Assets/AltStone-1x3.png" id="7_6q8ep"]
-[ext_resource type="Texture2D" uid="uid://ufu13hsj4xyn" path="res://assets/Aseprite Assets/ProgressBarColor.png" id="7_42lpu"]
-[ext_resource type="Texture2D" uid="uid://bdurixbk5hcd4" path="res://assets/Aseprite Assets/AltStone-1x4.png" id="9_2d4af"]
-[ext_resource type="Texture2D" uid="uid://brqvyg6uc3fni" path="res://assets/Aseprite Assets/AltStone-1x5.png" id="11_w4tkc"]
+[ext_resource type="Texture2D" uid="uid://xfojswpfeeuc" path="res://assets/Custom Assets/Station Sprites/Stone-1x1.png" id="2_2j3y7"]
+[ext_resource type="Texture2D" uid="uid://d0k5bupntgstn" path="res://assets/Custom Assets/Station Sprites/AltStone-1x1.png" id="3_pt7oh"]
+[ext_resource type="Texture2D" uid="uid://df0b4f5qogg4s" path="res://assets/Custom Assets/Station Sprites/Stone-1x2.png" id="4_3fecg"]
+[ext_resource type="Texture2D" uid="uid://8aky83slk57d" path="res://assets/Custom Assets/Station Sprites/AltStone-1x2.png" id="5_vw123"]
+[ext_resource type="Texture2D" uid="uid://i8636g06qopy" path="res://assets/Custom Assets/Station Sprites/Stone-1x3.png" id="6_vi4ej"]
+[ext_resource type="Texture2D" uid="uid://b45c6ot2v82h" path="res://assets/Custom Assets/Station Sprites/AltStone-1x3.png" id="7_xqvo2"]
+[ext_resource type="Texture2D" uid="uid://cs03aral44oo" path="res://assets/Custom Assets/Station Sprites/Stone-1x4.png" id="8_1xscr"]
+[ext_resource type="Texture2D" uid="uid://cj0mc7b2r400e" path="res://assets/Custom Assets/Station Sprites/AltStone-1x4.png" id="9_ddsw5"]
+[ext_resource type="Texture2D" uid="uid://cdcwblxd7tki1" path="res://assets/Custom Assets/Station Sprites/Stone-1x5.png" id="10_jlqkr"]
+[ext_resource type="Texture2D" uid="uid://cir8u52sr6vis" path="res://assets/Custom Assets/Station Sprites/AltStone-1x5.png" id="11_mgu84"]
+[ext_resource type="Texture2D" uid="uid://cm6qn3kojq8d2" path="res://assets/Custom Assets/ProgressBarColor.png" id="12_y4hsy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nsohp"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_iqp16")
+"texture": ExtResource("2_2j3y7")
 }],
 "loop": true,
 "name": &"1x1",
@@ -25,7 +25,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_pqx5y")
+"texture": ExtResource("3_pt7oh")
 }],
 "loop": true,
 "name": &"1x1a",
@@ -33,7 +33,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_2odat")
+"texture": ExtResource("4_3fecg")
 }],
 "loop": true,
 "name": &"1x2",
@@ -41,7 +41,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_sxu8i")
+"texture": ExtResource("5_vw123")
 }],
 "loop": true,
 "name": &"1x2a",
@@ -49,7 +49,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_jmvrd")
+"texture": ExtResource("6_vi4ej")
 }],
 "loop": true,
 "name": &"1x3",
@@ -57,7 +57,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("7_6q8ep")
+"texture": ExtResource("7_xqvo2")
 }],
 "loop": true,
 "name": &"1x3a",
@@ -65,7 +65,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_clq4v")
+"texture": ExtResource("8_1xscr")
 }],
 "loop": true,
 "name": &"1x4",
@@ -73,7 +73,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_2d4af")
+"texture": ExtResource("9_ddsw5")
 }],
 "loop": true,
 "name": &"1x4a",
@@ -81,7 +81,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6_8q3sb")
+"texture": ExtResource("10_jlqkr")
 }],
 "loop": true,
 "name": &"1x5",
@@ -89,7 +89,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("11_w4tkc")
+"texture": ExtResource("11_mgu84")
 }],
 "loop": true,
 "name": &"1x5a",
@@ -155,7 +155,7 @@ offset_bottom = 64.0
 step = 0.0
 nine_patch_stretch = true
 stretch_margin_right = 32
-texture_progress = ExtResource("7_42lpu")
+texture_progress = ExtResource("12_y4hsy")
 
 [node name="CompleteColorRect" type="ColorRect" parent="."]
 visible = false

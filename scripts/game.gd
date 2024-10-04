@@ -143,7 +143,7 @@ func _on_recruit_button_recruit_unhovered() -> void:
 	
 func _on_recruit_button_recruit_pressed() -> void:
 	
-	if influence + influence_diff > 0:
+	if influence + influence_diff > 0 or debug_flag:
 		
 		# Play sound effect
 		sounds.play_audio("OrderFulfilled")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://i36h5wum6188"]
 
 [ext_resource type="Script" path="res://scripts/witch.gd" id="1_73x6m"]
-[ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="2_inhgx"]
+[ext_resource type="Texture2D" uid="uid://drav1dgjlu2ux" path="res://assets/Custom Assets/Witch_Test.png" id="2_4gwrv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyfnt"]
 size = Vector2(16, 16)
@@ -10,7 +10,7 @@ size = Vector2(16, 16)
 script = ExtResource("1_73x6m")
 
 [node name="Icon" type="Sprite2D" parent="."]
-texture = ExtResource("2_inhgx")
+texture = ExtResource("2_4gwrv")
 
 [node name="Area2D" type="Area2D" parent="."]
 

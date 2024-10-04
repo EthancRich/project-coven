@@ -492,8 +492,8 @@ func delete() -> void:
 
 ## Causes the opacity of the job to decrease when mouse is inside
 func _on_static_body_2d_mouse_entered() -> void:
-	self.modulate.a = 0.8
-
+	#self.modulate.a = 0.8
+	pass
 
 ## Causes the opacity of the job to increase when the mouse is outside
 func _on_static_body_2d_mouse_exited() -> void:

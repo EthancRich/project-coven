@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ky3oednrdp4i"]
 
 [ext_resource type="Script" path="res://scripts/left_interface.gd" id="1_5lilg"]
-[ext_resource type="Texture2D" uid="uid://cgbv7xpmm2qw0" path="res://assets/Aseprite Assets/Witch_Test.png" id="1_mjl70"]
+[ext_resource type="Texture2D" uid="uid://drav1dgjlu2ux" path="res://assets/Custom Assets/Witch_Test.png" id="2_t32p8"]
 
 [sub_resource type="Animation" id="Animation_6g35e"]
 length = 0.001
@@ -141,27 +141,27 @@ layout_mode = 2
 [node name="WitchImage1" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage3" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage4" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImages2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer"]
@@ -173,28 +173,28 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage6" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage7" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="WitchImage8" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-texture = ExtResource("1_mjl70")
+texture = ExtResource("2_t32p8")
 expand_mode = 3
 
 [node name="RecruitButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
