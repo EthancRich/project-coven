@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://bh7xxstwpj6xe"]
+
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_ljkhu"]
+
+[resource]
+script = ExtResource("1_ljkhu")
+id = 5
+name = "Dummy Potion 2"

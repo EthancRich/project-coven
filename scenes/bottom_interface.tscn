@@ -1,16 +1,24 @@
-[gd_scene load_steps=12 format=3 uid="uid://w7nxakjxpj46"]
+[gd_scene load_steps=20 format=3 uid="uid://w7nxakjxpj46"]
 
 [ext_resource type="Script" path="res://scripts/bottom_interface.gd" id="1_whuqi"]
 [ext_resource type="Script" path="res://scripts/panel_container_bottom.gd" id="2_0bspq"]
 [ext_resource type="Texture2D" uid="uid://bntttlvxd7ra1" path="res://assets/Custom Assets/Station Thumbnails/Stone-1x1-Only-Salmon.png" id="3_8xuhi"]
-[ext_resource type="PackedScene" uid="uid://dgcugsewug5jl" path="res://scenes/job_scenes/red_job.tscn" id="5_u5ew8"]
+[ext_resource type="PackedScene" uid="uid://dgcugsewug5jl" path="res://scenes/job_scenes/orange_job.tscn" id="5_2b7mj"]
+[ext_resource type="PackedScene" uid="uid://22tpmkefa3r" path="res://scenes/job_scenes/red_job.tscn" id="5_u5ew8"]
 [ext_resource type="Texture2D" uid="uid://npun4ral6187" path="res://assets/Custom Assets/Station Thumbnails/Stone-1x1-Only-Blue.png" id="6_c8twi"]
 [ext_resource type="Script" path="res://scripts/job_button.gd" id="6_doe77"]
 [ext_resource type="PackedScene" uid="uid://drq7qgfu51pr8" path="res://scenes/job_scenes/blue_job.tscn" id="7_nufhw"]
 [ext_resource type="Texture2D" uid="uid://bo2kd1bnfuf5g" path="res://assets/Custom Assets/Station Thumbnails/Stone-1x1-Only-Green.png" id="8_bq7db"]
 [ext_resource type="PackedScene" uid="uid://oecg13g140rm" path="res://scenes/pickup_job.tscn" id="9_e8n8b"]
 [ext_resource type="Texture2D" uid="uid://c5j5bld1d1ryi" path="res://assets/Custom Assets/Station Thumbnails/Stone-1x1-Only-LightBlue.png" id="10_5ry7i"]
-[ext_resource type="PackedScene" uid="uid://d2of3u7re0t0k" path="res://scenes/job_scenes/light_blue_job.tscn" id="11_npfvu"]
+[ext_resource type="PackedScene" uid="uid://d2of3u7re0t0k" path="res://scenes/job_scenes/cyan_job.tscn" id="11_npfvu"]
+[ext_resource type="Texture2D" uid="uid://drav1dgjlu2ux" path="res://assets/Custom Assets/Witch_Test.png" id="12_ow0ns"]
+[ext_resource type="PackedScene" uid="uid://bll46ahg1v55m" path="res://scenes/job_scenes/pink_job.tscn" id="13_e16up"]
+[ext_resource type="PackedScene" uid="uid://donbpvu8ksbab" path="res://scenes/job_scenes/lightblue_job.tscn" id="14_lnb7w"]
+[ext_resource type="PackedScene" uid="uid://dag6xowok382d" path="res://scenes/job_scenes/lightgreen_job.tscn" id="16_stgxk"]
+[ext_resource type="PackedScene" uid="uid://b8hsfcroca64v" path="res://scenes/job_scenes/purple_job.tscn" id="17_c6wik"]
+[ext_resource type="PackedScene" uid="uid://jjjlkvjo45ci" path="res://scenes/job_scenes/gray_job.tscn" id="17_f61j8"]
+[ext_resource type="PackedScene" uid="uid://djb57mbf8mo1w" path="res://scenes/job_scenes/yellow_job.tscn" id="18_hslka"]
 
 [node name="BottomInterface" type="Control"]
 layout_mode = 3
@@ -50,7 +58,7 @@ texture_pressed = ExtResource("3_8xuhi")
 texture_hover = ExtResource("3_8xuhi")
 stretch_mode = 0
 script = ExtResource("6_doe77")
-job = ExtResource("5_u5ew8")
+job = ExtResource("5_2b7mj")
 
 [node name="TextureButton2" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -81,6 +89,76 @@ texture_hover = ExtResource("10_5ry7i")
 stretch_mode = 0
 script = ExtResource("6_doe77")
 job = ExtResource("11_npfvu")
+
+[node name="TextureButton5" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("13_e16up")
+
+[node name="TextureButton6" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("14_lnb7w")
+
+[node name="TextureButton7" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("5_u5ew8")
+
+[node name="TextureButton8" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("16_stgxk")
+
+[node name="TextureButton11" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("17_c6wik")
+
+[node name="TextureButton9" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("17_f61j8")
+
+[node name="TextureButton10" type="TextureButton" parent="PanelContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+texture_normal = ExtResource("12_ow0ns")
+texture_pressed = ExtResource("12_ow0ns")
+texture_hover = ExtResource("12_ow0ns")
+stretch_mode = 0
+script = ExtResource("6_doe77")
+job = ExtResource("18_hslka")
 
 [node name="CollapseButton" type="Button" parent="."]
 layout_mode = 1
@@ -116,4 +194,32 @@ text = "Stations
 [connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" method="_on_button_up"]
 [connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="." method="_on_texture_button_create_new_job"]
 [connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton4" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton5" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton6" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton7" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton8" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton11" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton9" method="_on_mouse_exited"]
+[connection signal="button_down" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" method="_on_button_down"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" method="_on_button_up"]
+[connection signal="create_new_job" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" to="." method="_on_texture_button_create_new_job"]
+[connection signal="mouse_exited" from="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" to="PanelContainer/ScrollContainer/HBoxContainer/TextureButton10" method="_on_mouse_exited"]
 [connection signal="toggled" from="CollapseButton" to="." method="expand_shrink_menu"]

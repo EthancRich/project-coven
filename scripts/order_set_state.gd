@@ -9,12 +9,12 @@ class_name OrderSetState extends State
 
 
 ## Get rid of the timer visual once the deadline is set
-func enter(args: Array) -> void:
+func enter(_args: Array) -> void:
 	texture_progress_bar.visible = false
 	
 
 ## If the deadline is hit, then try to fulfill the order.
-func update(delta: float) -> void:
+func update(_delta: float) -> void:
 	if order.is_deadline_hit:
 		if attempt_fulfill_order():
 			order.connected_deadline.queue_free()

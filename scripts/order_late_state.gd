@@ -11,7 +11,7 @@ class_name OrderLateState extends State
 
 ## When entering the late state, reduce influence once and then
 ## Set the timer
-func enter(args: Array) -> void:
+func enter(_args: Array) -> void:
 	timer.start()
 	order._on_timer_timeout()
 

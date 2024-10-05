@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://bah4d4cqueqdo"]
+
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_cwcss"]
+
+[resource]
+script = ExtResource("1_cwcss")
+id = 3
+name = "Dummy Item 3"

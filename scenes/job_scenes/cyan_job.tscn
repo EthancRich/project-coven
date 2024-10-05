@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2of3u7re0t0k"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_8kbec"]
+[ext_resource type="Resource" uid="uid://bah4d4cqueqdo" path="res://resources/dummy_item_3.tres" id="2_iles5"]
+[ext_resource type="Resource" uid="uid://bh7xxstwpj6xe" path="res://resources/dummy_potion_2.tres" id="3_rnr8m"]
+
+[node name="CyanJob" instance=ExtResource("1_8kbec")]
+size = 2
+max_size = 2
+min_size = 2
+min_workers = 2
+max_workers = 2
+is_fixed_size = true
+recipe_input_items_array = Array[Resource("res://scripts/item.gd")]([ExtResource("2_iles5")])
+recipe_output_item = ExtResource("3_rnr8m")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(0.388235, 1, 1, 1)
+animation = &"1x1a"
