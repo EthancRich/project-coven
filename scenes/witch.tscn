@@ -7,7 +7,7 @@
 size = Vector2(16, 16)
 
 [node name="Witch" type="Node2D"]
-top_level = true
+z_index = 1
 script = ExtResource("1_73x6m")
 
 [node name="Icon" type="Sprite2D" parent="."]

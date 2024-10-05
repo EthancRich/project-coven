@@ -44,6 +44,10 @@ var is_pickup_job: bool
 ## A percentage completion of the job, from 0 to 1.
 @export var progress: float = 0.0
 
+## Reference to child nodes
+@onready var item_sprite: Sprite2D = $ItemSprite
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 ## Array containing references to all cells that job occupies.
 var current_cells: Array[Cell]
 
@@ -135,6 +139,7 @@ func complete_job() -> void:
 			push_error(self, " complete_job:", " Cannot Complete Job! No Output declared!")
 	else:
 		## Create a copy of the recipe output item and supply it to the job
+		item_sprite.visible = true
 		output_item = recipe_output_item.duplicate()
 		try_deliver_output()
 	
@@ -165,10 +170,11 @@ func try_deliver_output() -> void:
 		return
 
 	# Deliver the item
+	item_sprite.visible = false
 	dest_job.input_items_array.push_back(output_item)
 	output_item = null
 	dest_job.update_input_items_match()
-
+	dest_job.animation_player.play("flash")
 	
 
 ## Returns true if the item shares an id with an item in the recipe inputs, false otherwise.
@@ -295,8 +301,12 @@ func update_job_shape() -> void:
 	progress_bar.size.x = size * 64
 	percent_per_second = 100.0 * time_bar.pixels_per_second / (size * 64)
 	
-	# Update the size of the complete sprite
+	# Update the location of the item sprite
+	item_sprite.position.x = 48 + 64 * (size - 1)	
+	
+	# Update the size of the complete sprite and animation sprite
 	($CompleteColorRect as ColorRect).size.x = size * 64
+	($TopColorRect as ColorRect).size.x = size * 64
 	
 	
 ## Causes a job to expand to the right a single cell. The function will
