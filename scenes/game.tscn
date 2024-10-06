@@ -1,14 +1,20 @@
-[gd_scene load_steps=30 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=36 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="2_rc2ev"]
+[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="3_eo8p4"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="3_qw1v2"]
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="4_1ls88"]
+[ext_resource type="Resource" uid="uid://bh7xxstwpj6xe" path="res://resources/dummy_potion_2.tres" id="4_s61xf"]
 [ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="5_1p4ey"]
+[ext_resource type="Resource" uid="uid://7fl6ed74e7pb" path="res://resources/dummy_potion_3.tres" id="5_raxfn"]
+[ext_resource type="Resource" uid="uid://bk07ac0b38g23" path="res://resources/dummy_potion_4.tres" id="6_2rfs5"]
 [ext_resource type="Script" path="res://scripts/dragging_job_state.gd" id="6_x8poa"]
+[ext_resource type="Resource" uid="uid://culmgufiok78h" path="res://resources/dummy_potion_5.tres" id="7_6mt15"]
 [ext_resource type="Script" path="res://scripts/dropping_job_state.gd" id="7_esomc"]
 [ext_resource type="Script" path="res://scripts/start_pipe_state.gd" id="8_c5fyd"]
+[ext_resource type="Resource" uid="uid://bds14d5ahl3nq" path="res://resources/dummy_potion_6.tres" id="8_s31vc"]
 [ext_resource type="Script" path="res://scripts/drop_pipe_state.gd" id="9_bx0x8"]
 [ext_resource type="Script" path="res://scripts/continue_pipe_state.gd" id="10_eaoo2"]
 [ext_resource type="Script" path="res://scripts/ending_pipe_state.gd" id="11_eapfc"]
@@ -33,6 +39,12 @@
 [node name="Game" type="Node"]
 script = ExtResource("1_7jktb")
 witch_scene = ExtResource("14_l1y2n")
+potion_1 = ExtResource("3_eo8p4")
+potion_2 = ExtResource("4_s61xf")
+potion_3 = ExtResource("5_raxfn")
+potion_4 = ExtResource("6_2rfs5")
+potion_5 = ExtResource("7_6mt15")
+potion_6 = ExtResource("8_s31vc")
 
 [node name="Board" type="Node2D" parent="."]
 unique_name_in_owner = true

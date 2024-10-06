@@ -10,6 +10,7 @@ class_name OrderControl extends Control
 @onready var idle_state := get_node("/root/Main/Game/Board/StateMachine/Idle") as State
 @onready var dropping_state := get_node("/root/Main/Game/Board/StateMachine/Dropping Deadline") as DroppingDeadlineState
 @onready var texture_progress_bar: TextureProgressBar = %TextureProgressBar
+@onready var potion_button: PotionButton = $GridContainer/PotionButton
 
 ## A preloaded scene for creating deadline objects.
 var deadline_scene := preload("res://scenes/deadline.tscn")
@@ -49,6 +50,9 @@ func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
 ## Sets the order's potion item type and updates the texture button's textures.
 func set_potion(potion_item: Item) -> void:
 	potion = potion_item
+	if not potion_button:
+		await get_tree().create_timer(0.01).timeout 
+	potion_button.texture_normal = potion.sprite
 
 
 ## Creates a new deadline for the current order

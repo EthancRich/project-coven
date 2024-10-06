@@ -10,10 +10,16 @@ var debug_flag := true
 @onready var sounds: AudioManager = %Sounds as AudioManager
 @onready var time_bar: TimeBar = %TimeBar as TimeBar
 var left_interface: LeftInterface
+var order_container: VBoxContainer
 var potion_order_scene = preload("res://scenes/order_control.tscn")
+@export var witch_scene: PackedScene
+
 @export var potion_1: Item
 @export var potion_2: Item
-@export var witch_scene: PackedScene
+@export var potion_3: Item
+@export var potion_4: Item
+@export var potion_5: Item
+@export var potion_6: Item
 
 ## The influence cost of a single witch; can be modified over the runtime
 var witch_cost := 50
@@ -25,11 +31,12 @@ var influence: int = 100
 ## The difference considered to be combined if option is successful
 var influence_diff: int
 
+## The number of orders that have passed
+var order_count: int = 1
+var current_potion_in_order: int = 0
 
 ## TODO: Automate the process of creating orders
 func _ready() -> void:
-	create_order(potion_1)
-	create_order(potion_1)
 	
 	# Set up the left interface signal connections
 	left_interface = $"../Interface/LeftInterface" as LeftInterface
@@ -37,15 +44,83 @@ func _ready() -> void:
 	left_interface.recruit_pressed.connect(_on_recruit_button_recruit_pressed)
 	left_interface.recruit_unhovered.connect(_on_recruit_button_recruit_unhovered)
 	
+	# Set a reference to the order_container (I know this is bad practice, sorry)
+	order_container = left_interface.get_node("PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer/OrderContainer")
+	
 	set_influence_instant(100)
+	
+	# Start the first batch of orders
+	create_next_order_batch()
+
+
+## Decides which order to make, and then creates it
+func create_next_order_batch() -> void:
+	
+	# Update the order count
+	order_count += 1
+	current_potion_in_order = 0 # If not already at 0
+	
+	# Points contains a point value, half the order number rounded up
+	var points: int = ceil(order_count / 2.0)
+	print(points)
+	
+	while points > 0:
+		# Choose an order difficulty, and add to queue if there are enough points
+		var order_difficulty: int = floor(3 * randf())
+		print(order_difficulty)
+		
+		match order_difficulty:
+			0:
+				points -= 1
+				create_small_order()
+				await get_tree().create_timer(15.0).timeout
+			1:
+				if points < 2:
+					continue
+				points -= 2
+				create_medium_order()
+				await get_tree().create_timer(30.0).timeout
+			2:
+				if points < 3:
+					continue
+				points -= 3
+				create_hard_order()
+				await get_tree().create_timer(45.0).timeout
+	
+
+func create_small_order():
+	
+	var potion_type: int = floor(3 * randf())
+	match potion_type:
+		0:
+			create_order(potion_1)
+		1:
+			create_order(potion_2)
+		2:
+			create_order(potion_3)
+	
+	
+func create_medium_order():
+	
+	var potion_type: int = floor(2 * randf())
+	match potion_type:
+		0:
+			create_order(potion_4)
+		1:
+			create_order(potion_5)
+	
+	
+func create_hard_order():
+	create_order(potion_6)
 
 
 ## Instantiate a new order, and pass it to the UI to add
 func create_order(new_potion: Item) -> void:
 	var new_order := potion_order_scene.instantiate() as OrderControl
-	new_order.set_potion(new_potion)
 	new_order.reduce_influence_tick.connect(_on_order_control_reduce_influence_tick)
 	($"../Interface" as Interface).add_potion_order(new_order)
+	new_order.set_potion(new_potion)
+	current_potion_in_order += 1
 
 
 ## Update the value of influence_diff
@@ -130,6 +205,11 @@ func _on_order_control_order_fulfilled() -> void:
 	sounds.play_audio("OrderFulfilled")
 	set_influence_instant(influence + 30)
 	# TODO: Change to be an order component and not a fixed value
+	
+	current_potion_in_order -= 1
+	if current_potion_in_order == 0:
+		await get_tree().create_timer(5.0).timeout
+		create_next_order_batch()
 
 
 ## RECRUITING WITCH CALLBACKS ##

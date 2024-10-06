@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://7fl6ed74e7pb"]
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://7fl6ed74e7pb"]
 
 [ext_resource type="Script" path="res://scripts/item.gd" id="1_6xyry"]
+[ext_resource type="Texture2D" uid="uid://0vgmd0pqaet1" path="res://assets/Custom Assets/Potion Sprites/Potion_Orange_Small.png" id="2_qvqh6"]
 
 [resource]
 script = ExtResource("1_6xyry")
 id = 6
 name = "Dummy Potion 3"
+sprite = ExtResource("2_qvqh6")
