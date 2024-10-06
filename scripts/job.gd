@@ -323,7 +323,8 @@ func increase_size() -> void:
 	# Check that the next cell over is valid to expand
 	var new_cell := get_right_adjacent_cell()
 	if new_cell.get_contained_object() is PipePiece: # Delete pipe if exist to the right
-		dest_pipe.delete()
+		if dest_pipe:
+			dest_pipe.delete()
 		
 	elif new_cell.is_occupied(): # Warnings provided by get_right_additional_cell
 		return

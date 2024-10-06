@@ -50,6 +50,7 @@ func _ready() -> void:
 	set_influence_instant(100)
 	
 	# Start the first batch of orders
+	await get_tree().create_timer(10.0).timeout
 	create_next_order_batch()
 
 
