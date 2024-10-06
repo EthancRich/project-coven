@@ -5,3 +5,4 @@ export_presets.cfg
 project.godot
 *.import
 *.cmd
+*.aseprite
