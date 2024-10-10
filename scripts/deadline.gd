@@ -13,8 +13,8 @@ class_name Deadline extends Node2D
 var late_deadline_tick_amount := 5
 
 ## References to the children rectangles, for reduction in calls.
-@onready var inner_rect := $InnerRect as Control
-@onready var outer_rect := $OuterRect as Control
+@onready var inner_rect := $InnerRect as ColorRect
+@onready var outer_rect := $OuterRect as ColorRect
 
 ## Whether the deadline is set or not.
 ## Unset deadlines follow the player's mouse,
@@ -144,10 +144,6 @@ func get_new_transparency(t: float) -> float:
 
 
 ## Passes the (rgb) inputs to both rectangles.
-func set_rect_color(r: int, g: int, b: int) -> void:
-	outer_rect.modulate.r = r
-	outer_rect.modulate.g = g
-	outer_rect.modulate.b = b
-	inner_rect.modulate.r = r
-	inner_rect.modulate.g = g
-	inner_rect.modulate.b = b
+func set_rect_color(new_color: Color) -> void:
+	outer_rect.color = new_color
+	inner_rect.color = new_color

@@ -8,3 +8,4 @@ script = ExtResource("1_2nh88")
 id = 10
 name = "Dummy Potion 6"
 sprite = ExtResource("2_fxlid")
+color = Color(0.921569, 0.882353, 0.0784314, 1)

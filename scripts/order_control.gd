@@ -63,6 +63,9 @@ func _on_potion_button_create_new_deadline() -> void:
 	connected_deadline = deadline
 	board_node.add_child(deadline)
 	
+	# Set the deadline's color
+	deadline.set_rect_color(potion.color)
+	
 	# Set the game node to respond to deadline signal
 	deadline.moved_position.connect(game_node._on_deadline_moved_position)
 	deadline.late_tick.connect(game_node._on_deadline_late_tick)
