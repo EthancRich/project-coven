@@ -50,7 +50,11 @@ func _ready() -> void:
 	set_influence_instant(100)
 	
 	# Start the first batch of orders
-	await get_tree().create_timer(10.0).timeout
+	$InitialOrderBuffer.start()
+	
+
+## Creates the first set of the orders for the game
+func _on_initial_order_buffer_timeout() -> void:
 	create_next_order_batch()
 
 
@@ -293,3 +297,6 @@ func _on_ending_pipe_pipe_dropped() -> void:
 	
 func _on_pipe_deleted() -> void:
 	sounds.play_audio("DeleteJob")
+
+
+

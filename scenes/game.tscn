@@ -161,6 +161,10 @@ shape = SubResource("WorldBoundaryShape2D_haces")
 [node name="RightBorder" type="CollisionShape2D" parent="WorldBorders"]
 shape = SubResource("WorldBoundaryShape2D_ytaoo")
 
+[node name="InitialOrderBuffer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [node name="Staging" type="Node" parent="."]
 unique_name_in_owner = true
 
@@ -204,3 +208,4 @@ stream = ExtResource("28_1swrc")
 [connection signal="pipe_dropped" from="Board/StateMachine/Ending Pipe" to="." method="_on_ending_pipe_pipe_dropped"]
 [connection signal="pipe_piece_erased" from="Board/StateMachine/Erasing Pipe" to="." method="_on_erasing_pipe_pipe_piece_erased"]
 [connection signal="deadline_dropped" from="Board/StateMachine/Dropping Deadline" to="." method="_on_dropping_deadline_deadline_dropped"]
+[connection signal="timeout" from="InitialOrderBuffer" to="." method="_on_initial_order_buffer_timeout"]
