@@ -31,10 +31,10 @@
 [ext_resource type="AudioStream" uid="uid://b6gikkf3dwatp" path="res://audio/Ping.mp3" id="24_1v8by"]
 [ext_resource type="AudioStream" uid="uid://dhbb4gqmu0xk4" path="res://audio/Bubble.mp3" id="24_psbsr"]
 [ext_resource type="AudioStream" uid="uid://24l13hrw06wr" path="res://audio/notif.mp3" id="25_equ3n"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="25_kxs87"]
 [ext_resource type="AudioStream" uid="uid://bnomcsbp1m35l" path="res://audio/tick.mp3" id="26_gv03d"]
 [ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
 [ext_resource type="AudioStream" uid="uid://m4r8da8rn7cq" path="res://audio/fail order.mp3" id="28_1swrc"]
-[ext_resource type="Script" path="res://scenes/camera.gd" id="36_wswor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx6nv"]
 size = Vector2(480, 270)
@@ -131,7 +131,7 @@ squares_per_second = 0.1
 position = Vector2(160, 135)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("36_wswor")
+script = ExtResource("25_kxs87")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CameraController"]
 shape = SubResource("RectangleShape2D_hx6nv")
