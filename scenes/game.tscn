@@ -162,7 +162,7 @@ shape = SubResource("WorldBoundaryShape2D_haces")
 shape = SubResource("WorldBoundaryShape2D_ytaoo")
 
 [node name="InitialOrderBuffer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 10.0
 one_shot = true
 
 [node name="Staging" type="Node" parent="."]

@@ -37,7 +37,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
@@ -49,7 +49,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Button2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
@@ -64,3 +64,6 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
