@@ -240,7 +240,7 @@ func _on_recruit_button_recruit_pressed() -> void:
 		
 		# Create witch and assign it to the board node
 		var witch: Witch = witch_scene.instantiate()
-		witch.global_position = Vector2(32, 32)
+		witch.global_position = $CameraController.global_position
 		$Board.add_child(witch)
 		
 		# Disable recruit button if there are max witches

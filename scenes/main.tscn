@@ -7,7 +7,6 @@
 [node name="Main" type="Node"]
 
 [node name="Game" parent="." instance=ExtResource("1_b1wsk")]
-potion_1 = ExtResource("2_f25g0")
 potion_2 = ExtResource("2_f25g0")
 
 [node name="Interface" parent="." instance=ExtResource("2_f0034")]
