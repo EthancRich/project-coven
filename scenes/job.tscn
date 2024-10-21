@@ -136,7 +136,7 @@ _data = {
 "flash": SubResource("Animation_bmpaj")
 }
 
-[node name="Job" type="Node2D"]
+[node name="Job" type="Node2D" groups=["job"]]
 script = ExtResource("1_0xv01")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

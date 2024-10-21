@@ -55,7 +55,7 @@ _data = {
 "lose_influence": SubResource("Animation_sj0uj")
 }
 
-[node name="LeftInterface" type="Control"]
+[node name="LeftInterface" type="Control" groups=["restartable"]]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

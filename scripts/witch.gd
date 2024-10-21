@@ -32,6 +32,11 @@ func _ready() -> void:
 	print(prev_position)
 	
 
+## Called when they are removed from restarting the game.
+func delete() -> void:
+	queue_free()
+
+
 ## Handles inputs for the witch. This will add or remove
 ## the witch node from a job if it enters or leaves its vicinity.
 func _input(event: InputEvent) -> void:

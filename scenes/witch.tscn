@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyfnt"]
 size = Vector2(16, 16)
 
-[node name="Witch" type="Node2D"]
+[node name="Witch" type="Node2D" groups=["witch"]]
 z_index = 1
 script = ExtResource("1_73x6m")
 

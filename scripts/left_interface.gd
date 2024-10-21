@@ -15,6 +15,13 @@ signal recruit_pressed
 signal recruit_unhovered
 
 
+## Restarts the UI on the left side when the game restarts.
+func restart() -> void:
+	reveal_witch_image(2)
+	recruit_button.disabled = false
+	get_tree().call_group("order", "delete")
+
+
 ## Adds the passed Order Control node to the container.
 func add_potion_order(new_order: OrderControl) -> void:
 	%OrderContainer.add_child(new_order)
@@ -49,24 +56,36 @@ func play_influence_label_animation(diff: int) -> void:
 ## Turns the relevant witch icon visible
 func reveal_witch_image(witch_num: int) -> void:
 	
+	hide_witch_images()
+	
 	if witch_num > 8:
 		return
 	
-	if witch_num == 5:
+	if witch_num >= 5:
 		witch_images_2.visible = true
 	
-	var witch_name := "WitchImage" + str(witch_num)
-	var witch_image: TextureRect = null
+	for i in range(witch_num):
+		var index = i+1
+		var witch_name := "WitchImage" + str(index)
+		print(witch_name)
+		var witch_image: TextureRect = null
+		
+		if index <= 4:
+			witch_image = witch_images_1.get_node(witch_name) as TextureRect
+		else:
+			witch_image = witch_images_2.get_node(witch_name) as TextureRect
+			
+		if not witch_image:
+			return
+		
+		witch_image.show()
 	
-	if witch_num <= 4:
-		witch_image = witch_images_1.get_node(witch_name) as TextureRect
-	else:
-		witch_image = witch_images_2.get_node(witch_name) as TextureRect
-		
-	if not witch_image:
-		return
-		
-	witch_image.visible = true
+	
+func hide_witch_images() -> void:
+	for witch_image: TextureRect in witch_images_1.get_children():
+		witch_image.hide()
+	for witch_image: TextureRect in witch_images_2.get_children():
+		witch_image.hide()
 
 
 ## Disables the recruitment button.

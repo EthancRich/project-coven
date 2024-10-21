@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+@export var game_scene: PackedScene
+@export var gui_scene: PackedScene
 var is_paused: bool = false
 
 
@@ -16,10 +18,9 @@ func _input(event: InputEvent) -> void:
 			hide()
 
 
-
-
 func _on_restart_button_pressed() -> void:
-	pass # Replace with function body.
+	#Remove witches first
+	get_tree().call_group("restartable", "restart")	
 
 
 func _on_quit_button_pressed() -> void:

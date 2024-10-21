@@ -14,6 +14,11 @@ var pixels_per_second: float = 0.0
 ## Initialize pixels_per_second
 func _ready() -> void:
 	pixels_per_second = squares_per_second * square_width
+	
+
+## Called when the game is restarted
+func restart() -> void:
+	position.x = 0
 
 
 ## Calculate and assign the new position for time bar

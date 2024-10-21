@@ -42,6 +42,10 @@ func _ready() -> void:
 	set_transparency(0.0)
 
 
+## Called when the game restarts.
+func delete() -> void:
+	queue_free()
+
 ## Updates each frame.
 func _process(delta: float) -> void:
 	

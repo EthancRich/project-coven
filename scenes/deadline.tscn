@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/deadline.gd" id="1_dm6b4"]
 
-[node name="Deadline" type="Node2D"]
+[node name="Deadline" type="Node2D" groups=["deadline"]]
 script = ExtResource("1_dm6b4")
 min_transparency = 0.4
 pulse_speed = 4.0

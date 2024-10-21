@@ -38,6 +38,10 @@ func _ready() -> void:
 	order_fulfilled.connect(game_node._on_order_control_order_fulfilled)
 
 
+func delete() -> void:
+	queue_free()
+	
+
 ## Resets a bool in Button that allows new deadline to be made
 ## NOTE: This is a called function, not a signaled functions
 func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
@@ -49,6 +53,7 @@ func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
 
 ## Sets the order's potion item type and updates the texture button's textures.
 func set_potion(potion_item: Item) -> void:
+	print(potion_item.name)
 	potion = potion_item
 	if not potion_button:
 		await get_tree().create_timer(0.01).timeout 

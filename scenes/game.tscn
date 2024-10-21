@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="2_rc2ev"]
-[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="3_eo8p4"]
+[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="3_1cljd"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="3_qw1v2"]
 [ext_resource type="Script" path="res://scripts/idle_state.gd" id="4_1ls88"]
 [ext_resource type="Resource" uid="uid://bh7xxstwpj6xe" path="res://resources/dummy_potion_2.tres" id="4_s61xf"]
@@ -53,25 +53,26 @@ distance = -1280.0
 normal = Vector2(-1, 0)
 distance = -64000.0
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" groups=["restartable"]]
 script = ExtResource("1_7jktb")
 witch_scene = ExtResource("14_l1y2n")
-potion_1 = ExtResource("3_eo8p4")
+potion_1 = ExtResource("3_1cljd")
 potion_2 = ExtResource("4_s61xf")
 potion_3 = ExtResource("5_raxfn")
 potion_4 = ExtResource("6_2rfs5")
 potion_5 = ExtResource("7_6mt15")
 potion_6 = ExtResource("8_s31vc")
 
-[node name="Board" type="Node2D" parent="."]
+[node name="Board" type="Node2D" parent="." groups=["restartable"]]
 unique_name_in_owner = true
 script = ExtResource("1_ytuhw")
+witch_scene = ExtResource("14_l1y2n")
 
-[node name="Grid" type="Node2D" parent="Board"]
+[node name="Grid" type="Node2D" parent="Board" groups=["restartable"]]
 unique_name_in_owner = true
 script = ExtResource("2_rc2ev")
 
-[node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state") groups=["restartable"]]
 script = ExtResource("3_qw1v2")
 initial_state = NodePath("Idle")
 
@@ -117,7 +118,7 @@ position = Vector2(241, 18)
 [node name="Witch2" parent="Board" instance=ExtResource("14_l1y2n")]
 position = Vector2(266, 18)
 
-[node name="TimeBar" type="ColorRect" parent="Board"]
+[node name="TimeBar" type="ColorRect" parent="Board" groups=["restartable"]]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.380392)
 offset_right = 3.0
@@ -127,7 +128,7 @@ color = Color(0.988235, 0.964706, 0, 1)
 script = ExtResource("15_7lh2n")
 squares_per_second = 0.1
 
-[node name="CameraController" type="CharacterBody2D" parent="."]
+[node name="CameraController" type="CharacterBody2D" parent="." groups=["restartable"]]
 position = Vector2(160, 135)
 collision_layer = 2
 collision_mask = 4
@@ -162,7 +163,7 @@ shape = SubResource("WorldBoundaryShape2D_haces")
 shape = SubResource("WorldBoundaryShape2D_ytaoo")
 
 [node name="InitialOrderBuffer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 2.0
 one_shot = true
 
 [node name="Staging" type="Node" parent="."]

@@ -1,17 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dm00qwsdm3wq4"]
+[gd_scene load_steps=4 format=3 uid="uid://dm00qwsdm3wq4"]
 
 [ext_resource type="PackedScene" uid="uid://fxp4kxn7v7ue" path="res://scenes/game.tscn" id="1_b1wsk"]
-[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="2_f25g0"]
 [ext_resource type="PackedScene" uid="uid://bovujicvncwou" path="res://scenes/interface.tscn" id="2_f0034"]
 [ext_resource type="PackedScene" uid="uid://cmwtucsw5g4x3" path="res://scenes/pause_screen.tscn" id="4_u4rot"]
 
 [node name="Main" type="Node"]
 
 [node name="Game" parent="." instance=ExtResource("1_b1wsk")]
-potion_2 = ExtResource("2_f25g0")
 
 [node name="Interface" parent="." instance=ExtResource("2_f0034")]
 
 [node name="PauseScreen" parent="." instance=ExtResource("4_u4rot")]
 process_mode = 3
 visible = false
+game_scene = ExtResource("1_b1wsk")
+gui_scene = ExtResource("2_f0034")

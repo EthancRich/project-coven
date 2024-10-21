@@ -58,6 +58,16 @@ func _on_initial_order_buffer_timeout() -> void:
 	create_next_order_batch()
 
 
+## Called when the game is restarted.
+func restart() -> void:
+	set_influence_instant(100)
+	num_witches = 2
+	witch_cost = 50
+	order_count = 1
+	current_potion_in_order = 0
+	$InitialOrderBuffer.start()
+
+
 ## Decides which order to make, and then creates it
 func create_next_order_batch() -> void:
 	
@@ -94,8 +104,7 @@ func create_next_order_batch() -> void:
 	
 
 func create_small_order():
-	
-	var potion_type: int = floor(3 * randf())
+	var potion_type: int = floor(3.0 * randf())
 	match potion_type:
 		0:
 			create_order(potion_1)
@@ -106,8 +115,7 @@ func create_small_order():
 	
 	
 func create_medium_order():
-	
-	var potion_type: int = floor(2 * randf())
+	var potion_type: int = floor(2.0 * randf())
 	match potion_type:
 		0:
 			create_order(potion_4)

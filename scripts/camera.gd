@@ -22,22 +22,30 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func _unhandled_input(event: InputEvent) -> void:
+	
 	if event is InputEventMouseButton:
-		
-		
 		# Zoom out
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			camera_2d.zoom = clamp(camera_2d.zoom - zoom_speed, zoom_min, zoom_max)
-			$CollisionShape2D.shape.size.x = 1920 / camera_2d.zoom.x
-			$CollisionShape2D.shape.size.y = 1080 / camera_2d.zoom.y
-			camera_2d.limit_left = -320 / camera_2d.zoom.x
-			left_border.shape.distance = -320 / camera_2d.zoom.x
-			speed = 4 * base_speed / camera_2d.zoom.x
+			adjust_camera_on_zoom()
 		# Zoom in
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			camera_2d.zoom = clamp(camera_2d.zoom + zoom_speed, zoom_min, zoom_max)
-			$CollisionShape2D.shape.size.x = 1920 / camera_2d.zoom.x
-			$CollisionShape2D.shape.size.y = 1080 / camera_2d.zoom.y
-			camera_2d.limit_left = -320 / camera_2d.zoom.x
-			left_border.shape.distance = -320 / camera_2d.zoom.x
-			speed = 4 * base_speed / camera_2d.zoom.x
+			adjust_camera_on_zoom()
+
+
+## Adjusts the camera's bounds and collision based on the new zoom
+func adjust_camera_on_zoom() -> void:
+	$CollisionShape2D.shape.size.x = 1920 / camera_2d.zoom.x
+	$CollisionShape2D.shape.size.y = 1080 / camera_2d.zoom.y
+	camera_2d.limit_left = -320 / camera_2d.zoom.x
+	left_border.shape.distance = -320 / camera_2d.zoom.x
+	speed = 4 * base_speed / camera_2d.zoom.x
+
+
+## Called when the game restarts
+func restart() -> void:
+	camera_2d.zoom = Vector2(4,4)
+	adjust_camera_on_zoom()
+	position = Vector2(160,135)
+	

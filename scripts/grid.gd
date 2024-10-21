@@ -9,7 +9,7 @@ class_name Grid extends Node2D
 @export var grid_height: int = 20
 
 ## The number of cells long 
-@export var grid_width: int = 1000
+@export var grid_width: int = 30
 
 ## A 1D array of the cells in the grid. These are mapped from the 2D grid space.
 ## NOTE: The grid cells are translated top to bottom, then side to side.
@@ -38,6 +38,12 @@ func _ready() -> void:
 			# Place the cell reference into the grid_reference
 			grid_reference.push_back(new_cell)
 		
+
+## Restarts the grid into it's initial state for gameplay. Called when the game is restarted.
+func restart() -> void:
+	get_tree().call_group("job", "delete")
+	get_tree().call_group("pipe", "delete")
+
 
 ## Converts from an (x,y) in global pixels to (x,y) in grid units.
 ## NOTE: Grid units start at (0,0) in top left, then expand down and right.

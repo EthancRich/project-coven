@@ -6,6 +6,9 @@ class_name Board extends Node2D
 ## Emitted when mouse moves across grid lines
 signal changed_mouse_cell 
 
+## Needed for the creation of the witches on the board
+@export var witch_scene: PackedScene
+
 ## Reference for nodes, minimizes access time
 @onready var grid_node := %Grid as Grid
 @onready var staging_node := %Staging as Node
@@ -75,9 +78,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			remove_focused_object()
 			
 			
-		
-			
-
 ## Takes the current index and converts it to the cell in the grid.
 ## Returns null if there is no cell at the hovered index.
 ## TODO: Check each use of the function and check whether null case is handled.
@@ -162,3 +162,16 @@ func remove_active_pipe() -> bool:
 		did_remove = true
 	return did_remove
 	
+
+## Called on restart of the game.
+func restart() -> void:
+	remove_active_pipe()
+	remove_focused_object()
+	get_tree().call_group("witch", "delete")
+	for i in range(2):
+		var witch := witch_scene.instantiate()
+		add_child(witch)
+		witch.position = Vector2(16 + 32 * i, 16)
+	get_tree().call_group("deadline", "delete")
+	
+
