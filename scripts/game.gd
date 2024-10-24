@@ -243,7 +243,7 @@ func _on_recruit_button_recruit_pressed() -> void:
 		
 		# Update influence and witch cost
 		confirm_influence_change()
-		witch_cost += 25
+		#witch_cost += 25
 		set_potential_influence_diff(-1 * witch_cost)
 		num_witches += 1
 		
