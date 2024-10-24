@@ -112,6 +112,7 @@ func update_order_label(pixel_diff) -> void:
 	# Adjust the labels based on the distance
 	if pixel_diff > 0:
 		num_label.text = str(int(pixel_diff) / 64)
+		text_label.text = "Left"
 	else:
 		num_label.text = ""
 		text_label.text = "Due"

@@ -46,14 +46,14 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 54
-text = "10"
+text = "Not"
 
 [node name="TextLabel" type="Label" parent="GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 52
-text = "Left"
+text = " Set"
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
