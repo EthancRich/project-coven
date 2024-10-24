@@ -26,7 +26,9 @@ var witch_cost := 50
 var num_witches := 2
 
 ## The health and money resource
-var influence: int = 100
+var influence: int = 0
+@export var initial_influence: int = 100
+@export var winning_influence: int = 500
 
 ## The difference considered to be combined if option is successful
 var influence_diff: int
@@ -35,7 +37,7 @@ var influence_diff: int
 var order_count: int = 1
 var current_potion_in_order: int = 0
 
-## TODO: Automate the process of creating orders
+## Sets up the connections to the UI, sets the starting influence, and creates the first order
 func _ready() -> void:
 	
 	# Set up the left interface signal connections
@@ -47,11 +49,19 @@ func _ready() -> void:
 	# Set a reference to the order_container (I know this is bad practice, sorry)
 	order_container = left_interface.get_node("PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer/OrderContainer")
 	
-	set_influence_instant(100)
+	set_influence_instant(initial_influence)
 	
 	# Start the first batch of orders
 	$InitialOrderBuffer.start()
 	
+
+## Checks the game state, whether won or lost
+func _process(delta: float) -> void:
+	if influence >= winning_influence:
+		pass
+	elif influence <= 0:
+		pass
+
 
 ## Creates the first set of the orders for the game
 func _on_initial_order_buffer_timeout() -> void:
