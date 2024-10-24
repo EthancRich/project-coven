@@ -9,7 +9,7 @@ class_name Grid extends Node2D
 @export var grid_height: int = 20
 
 ## The number of cells long 
-@export var grid_width: int = 30
+@export var grid_width: int = 1000
 
 ## A 1D array of the cells in the grid. These are mapped from the 2D grid space.
 ## NOTE: The grid cells are translated top to bottom, then side to side.
