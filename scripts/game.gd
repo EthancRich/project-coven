@@ -4,7 +4,11 @@ class_name Game extends Node
 ## board and static agnostic.
 
 ## Flag to help test things
-var debug_flag := true
+var debug_flag := false
+
+## Signals whether the game is won or lost
+## NOTE: 1 == WON, 0 == LOST
+signal game_ended(game_state: int)
 
 ## Preloads and References
 @onready var sounds: AudioManager = %Sounds as AudioManager
@@ -58,9 +62,9 @@ func _ready() -> void:
 ## Checks the game state, whether won or lost
 func _process(delta: float) -> void:
 	if influence >= winning_influence:
-		pass
+		game_ended.emit(1)
 	elif influence <= 0:
-		pass
+		game_ended.emit(0)
 
 
 ## Creates the first set of the orders for the game

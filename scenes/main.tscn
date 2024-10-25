@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dm00qwsdm3wq4"]
+[gd_scene load_steps=5 format=3 uid="uid://dm00qwsdm3wq4"]
 
 [ext_resource type="PackedScene" uid="uid://fxp4kxn7v7ue" path="res://scenes/game.tscn" id="1_b1wsk"]
 [ext_resource type="PackedScene" uid="uid://bovujicvncwou" path="res://scenes/interface.tscn" id="2_f0034"]
+[ext_resource type="PackedScene" uid="uid://c6uyo8b80osqx" path="res://scenes/game_over_screen.tscn" id="4_f3y61"]
 [ext_resource type="PackedScene" uid="uid://cmwtucsw5g4x3" path="res://scenes/pause_screen.tscn" id="4_u4rot"]
 
 [node name="Main" type="Node"]
@@ -13,5 +14,6 @@
 [node name="PauseScreen" parent="." instance=ExtResource("4_u4rot")]
 process_mode = 3
 visible = false
-game_scene = ExtResource("1_b1wsk")
-gui_scene = ExtResource("2_f0034")
+
+[node name="GameOverScreen" parent="." instance=ExtResource("4_f3y61")]
+visible = false
