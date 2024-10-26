@@ -44,4 +44,4 @@ func attempt_fulfill_order() -> bool:
 ## Consume the potion produced, and emit signal for sound effects
 func fulfill_order(job: Job, removal_item: Item) -> void:
 	job.input_items_array.erase(removal_item)
-	order.order_fulfilled.emit()
+	order.order_fulfilled.emit(order.influence_reward)

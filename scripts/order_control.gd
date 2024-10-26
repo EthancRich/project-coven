@@ -25,11 +25,15 @@ var potion: Item = null
 ## NOTE: This is set in the Deadline script
 var is_deadline_hit := false
 
-## Influence amount to be reduced
+## Influence amount to be reduced when late or deadline not set
 var influence_amount := 5
 
+## Amount of influence gained when the order is fulfilled
+## NOTE: Should be overridden. If 7 shows in-game, something is wrong.
+var influence_reward := 7
+
 ## Signal for game sound effects
-signal order_fulfilled
+signal order_fulfilled(influence_to_reward: int)
 signal reduce_influence_tick(amount: int)
 
 
@@ -53,8 +57,19 @@ func on_dropping_deadline_state_deadline_dropped(success: bool) -> void:
 
 ## Sets the order's potion item type and updates the texture button's textures.
 func set_potion(potion_item: Item) -> void:
-	print(potion_item.name)
 	potion = potion_item
+	
+	match potion.id:
+		2, 5, 6:	# Small potion
+			influence_reward = 20
+		7, 8:		# Med Potion
+			influence_reward = 30
+		10:			# Large Potion
+			influence_reward = 40
+		_:
+			if Global.DEBUG_MODE:
+				push_error(self, " set_potion", " Potion in order does not match known potions! Can't set reward int.")
+		
 	if not potion_button:
 		await get_tree().create_timer(0.01).timeout 
 	potion_button.texture_normal = potion.sprite

@@ -148,6 +148,7 @@ func create_order(new_potion: Item) -> void:
 	($"../Interface" as Interface).add_potion_order(new_order)
 	new_order.set_potion(new_potion)
 	current_potion_in_order += 1
+	sounds.play_audio("YesUI")
 
 
 ## Update the value of influence_diff
@@ -228,14 +229,13 @@ func calculate_influence_difference(pixels: int) -> int:
 	return -1 * (pixels / 64) - 1
 
 
-func _on_order_control_order_fulfilled() -> void:
+func _on_order_control_order_fulfilled(influence_rewarded) -> void:
 	sounds.play_audio("OrderFulfilled")
-	set_influence_instant(influence + 30)
-	# TODO: Change to be an order component and not a fixed value
+	set_influence_instant(influence + influence_rewarded)
 	
 	current_potion_in_order -= 1
 	if current_potion_in_order == 0:
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(10.0).timeout
 		create_next_order_batch()
 
 

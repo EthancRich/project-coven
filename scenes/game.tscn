@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=42 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
@@ -35,6 +35,7 @@
 [ext_resource type="AudioStream" uid="uid://bnomcsbp1m35l" path="res://audio/tick.mp3" id="26_gv03d"]
 [ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
 [ext_resource type="AudioStream" uid="uid://m4r8da8rn7cq" path="res://audio/fail order.mp3" id="28_1swrc"]
+[ext_resource type="AudioStream" uid="uid://ixhy3x7qdr58" path="res://audio/Yes.mp3" id="36_nr1rm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx6nv"]
 size = Vector2(480, 270)
@@ -62,6 +63,7 @@ potion_3 = ExtResource("5_raxfn")
 potion_4 = ExtResource("6_2rfs5")
 potion_5 = ExtResource("7_6mt15")
 potion_6 = ExtResource("8_s31vc")
+winning_influence = 250
 
 [node name="Board" type="Node2D" parent="." groups=["restartable"]]
 unique_name_in_owner = true
@@ -199,6 +201,11 @@ stream = ExtResource("27_lc6p4")
 
 [node name="OrderFailed" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("28_1swrc")
+
+[node name="YesUI" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("36_nr1rm")
+pitch_scale = 1.3
+max_polyphony = 4
 
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
