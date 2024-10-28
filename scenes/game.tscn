@@ -69,6 +69,7 @@ winning_influence = 250
 unique_name_in_owner = true
 script = ExtResource("1_ytuhw")
 witch_scene = ExtResource("14_l1y2n")
+longpress_time = 0.01
 
 [node name="Grid" type="Node2D" parent="Board" groups=["restartable"]]
 unique_name_in_owner = true
