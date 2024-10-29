@@ -101,7 +101,6 @@ func update_state_from_orders() -> void:
 			
 		if text_label.text == "Due":
 			is_good = false
-			print("Changing music to bad!")
 			break
 			
 		if text_label.text == " Set":
