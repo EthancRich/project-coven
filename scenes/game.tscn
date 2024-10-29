@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://fxp4kxn7v7ue"]
+[gd_scene load_steps=50 format=3 uid="uid://fxp4kxn7v7ue"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
@@ -36,6 +36,14 @@
 [ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
 [ext_resource type="AudioStream" uid="uid://m4r8da8rn7cq" path="res://audio/fail order.mp3" id="28_1swrc"]
 [ext_resource type="AudioStream" uid="uid://ixhy3x7qdr58" path="res://audio/Yes.mp3" id="36_nr1rm"]
+[ext_resource type="Script" path="res://scripts/music_manager.gd" id="37_05egx"]
+[ext_resource type="AudioStream" uid="uid://d3rava16ptr0x" path="res://audio/music/doing good main.mp3" id="37_rb4md"]
+[ext_resource type="AudioStream" uid="uid://bxma15fs6ec63" path="res://audio/music/good bass and melody.mp3" id="38_dlqbe"]
+[ext_resource type="AudioStream" uid="uid://cvgqobn4ilbyr" path="res://audio/music/good percussion 1.mp3" id="39_48rqn"]
+[ext_resource type="AudioStream" uid="uid://b28i04kwmuy7s" path="res://audio/music/good percussion 2.mp3" id="40_nq0bw"]
+[ext_resource type="AudioStream" uid="uid://c6bf55kw3u3td" path="res://audio/music/doing bad main.mp3" id="42_e6fn0"]
+[ext_resource type="AudioStream" uid="uid://bv3cfrbua2as6" path="res://audio/music/bad percussion 1.mp3" id="43_v5wme"]
+[ext_resource type="AudioStream" uid="uid://cs4linfvqe7x7" path="res://audio/music/bad percussion 2.mp3" id="44_06p5e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx6nv"]
 size = Vector2(480, 270)
@@ -207,6 +215,44 @@ stream = ExtResource("28_1swrc")
 stream = ExtResource("36_nr1rm")
 pitch_scale = 1.3
 max_polyphony = 4
+
+[node name="Music" type="Node" parent="."]
+script = ExtResource("37_05egx")
+
+[node name="MusicGoodMain" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("37_rb4md")
+volume_db = -10.0
+autoplay = true
+
+[node name="MusicGoodBassMelody" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("38_dlqbe")
+volume_db = -10.0
+autoplay = true
+
+[node name="MusicGoodDrums1" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("39_48rqn")
+volume_db = -40.0
+autoplay = true
+
+[node name="MusicGoodDrums2" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("40_nq0bw")
+volume_db = -40.0
+autoplay = true
+
+[node name="MusicBadMain" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("42_e6fn0")
+volume_db = -40.0
+autoplay = true
+
+[node name="MusicBadDrums1" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("43_v5wme")
+volume_db = -40.0
+autoplay = true
+
+[node name="MusicBadDrums2" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("44_06p5e")
+volume_db = -40.0
+autoplay = true
 
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
 [connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
