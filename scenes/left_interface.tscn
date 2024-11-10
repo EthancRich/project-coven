@@ -1,0 +1,219 @@
+[gd_scene load_steps=7 format=3 uid="uid://ky3oednrdp4i"]
+
+[ext_resource type="Script" path="res://scripts/left_interface.gd" id="1_5lilg"]
+[ext_resource type="Texture2D" uid="uid://drav1dgjlu2ux" path="res://assets/Custom Assets/Witch_Test.png" id="2_t32p8"]
+
+[sub_resource type="Animation" id="Animation_6g35e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.843137, 0.87451, 0.494118, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_80dw1"]
+resource_name = "gain_influence"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.141176, 0.737255, 0, 1), Color(0.843137, 0.87451, 0.494118, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sj0uj"]
+resource_name = "lose_influence"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.870588, 0.188235, 0.141176, 1), Color(0.843137, 0.87451, 0.494118, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b0wrv"]
+_data = {
+"RESET": SubResource("Animation_6g35e"),
+"gain_influence": SubResource("Animation_80dw1"),
+"lose_influence": SubResource("Animation_sj0uj")
+}
+
+[node name="LeftInterface" type="Control" groups=["restartable"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_5lilg")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(320, 1080)
+layout_mode = 1
+offset_right = 258.0
+offset_bottom = 1080.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TopPanel" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="InfluenceLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Influence"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+
+[node name="Spacing" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 1, 0.568627, 1)
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfluenceValLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_colors/font_color = Color(0.843137, 0.87451, 0.494118, 1)
+theme_override_font_sizes/font_size = 55
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2/InfluenceValLabel"]
+libraries = {
+"": SubResource("AnimationLibrary_b0wrv")
+}
+
+[node name="InfluenceDiffLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.364706, 0.270588, 1)
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EmployeeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Witches"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+
+[node name="WitchImages1" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+
+[node name="WitchImage1" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage2" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage3" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage4" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImages2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+
+[node name="WitchImage5" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage6" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage7" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="WitchImage8" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel/VBoxContainer/WitchImages2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("2_t32p8")
+expand_mode = 3
+
+[node name="RecruitButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/TopPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Recruit"
+
+[node name="BottomPanel" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OrderContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/BottomPanel/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/TopPanel/RecruitButton" to="." method="_on_recruit_button_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer/MarginContainer/VBoxContainer/TopPanel/RecruitButton" to="." method="_on_recruit_button_mouse_exited"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/TopPanel/RecruitButton" to="." method="_on_recruit_button_pressed"]

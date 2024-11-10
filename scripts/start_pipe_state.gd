@@ -38,7 +38,7 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 		return
 	
 	var job := prev_hovered_cell.contained_object as Job
-	if not job:
+	if not job or job.is_pickup_job:
 		return
 	
 	# Confirm that the player moved away from the rightmost cell of a job
@@ -55,6 +55,9 @@ func _on_board_changed_mouse_cell(prev_cell_index: Vector2i, current_cell_index:
 	new_pipe.add_pipe_index(prev_cell_index) # NOTE: Adding job cell to indexes HERE
 	staging_node.add_child(new_pipe) # Pipe's position is at origin
 	board_node.set_active_pipe(new_pipe) #TODO: Convert into signal based
+	
+	# Set the pipe's source_job to the job just left
+	new_pipe.source_job = job
 	
 	transitioning.emit(self, "Dropping Pipe", [current_hovered_cell])
 	

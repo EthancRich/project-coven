@@ -16,7 +16,6 @@ var pipe: Pipe
 
 ## Chooses an orientation for the pipe piece, then plays the
 ## according anitmation of the sprite.
-## FIXME: This should use a different method instead of f, i indexes.
 func initialize_orientation(current_index: Vector2i) -> void:
 	var direction := indexes_to_direction(current_index)
 	
@@ -87,8 +86,7 @@ func _on_tree_exiting() -> void:
 
 
 ## Deletes the pipe and all pieces if any pipe piece is left clicked.
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event.is_action_pressed("rclick"):
-		pipe.queue_free()
-		# TODO: Add any additional changes to the connections between jobs here
-		# Create a pipe delete function that handles these things
+		pipe.delete()
+		

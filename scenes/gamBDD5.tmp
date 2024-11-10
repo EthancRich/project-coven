@@ -1,0 +1,208 @@
+[gd_scene load_steps=42 format=3 uid="uid://fxp4kxn7v7ue"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_7jktb"]
+[ext_resource type="Script" path="res://scripts/board.gd" id="1_ytuhw"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="2_rc2ev"]
+[ext_resource type="Resource" uid="uid://dia3w4dewwet4" path="res://resources/dummy_potion_1.tres" id="3_eo8p4"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="3_qw1v2"]
+[ext_resource type="Script" path="res://scripts/idle_state.gd" id="4_1ls88"]
+[ext_resource type="Resource" uid="uid://bh7xxstwpj6xe" path="res://resources/dummy_potion_2.tres" id="4_s61xf"]
+[ext_resource type="Script" path="res://scripts/holding_job_state.gd" id="5_1p4ey"]
+[ext_resource type="Resource" uid="uid://7fl6ed74e7pb" path="res://resources/dummy_potion_3.tres" id="5_raxfn"]
+[ext_resource type="Resource" uid="uid://bk07ac0b38g23" path="res://resources/dummy_potion_4.tres" id="6_2rfs5"]
+[ext_resource type="Script" path="res://scripts/dragging_job_state.gd" id="6_x8poa"]
+[ext_resource type="Resource" uid="uid://culmgufiok78h" path="res://resources/dummy_potion_5.tres" id="7_6mt15"]
+[ext_resource type="Script" path="res://scripts/dropping_job_state.gd" id="7_esomc"]
+[ext_resource type="Script" path="res://scripts/start_pipe_state.gd" id="8_c5fyd"]
+[ext_resource type="Resource" uid="uid://bds14d5ahl3nq" path="res://resources/dummy_potion_6.tres" id="8_s31vc"]
+[ext_resource type="Script" path="res://scripts/drop_pipe_state.gd" id="9_bx0x8"]
+[ext_resource type="Script" path="res://scripts/continue_pipe_state.gd" id="10_eaoo2"]
+[ext_resource type="Script" path="res://scripts/ending_pipe_state.gd" id="11_eapfc"]
+[ext_resource type="Script" path="res://scripts/erase_pipe_state.gd" id="12_bw8ve"]
+[ext_resource type="Script" path="res://scripts/abandon_pipe_state.gd" id="13_8t8lg"]
+[ext_resource type="PackedScene" uid="uid://i36h5wum6188" path="res://scenes/witch.tscn" id="14_l1y2n"]
+[ext_resource type="Script" path="res://scripts/dragging_deadline_state.gd" id="14_ssp8o"]
+[ext_resource type="Script" path="res://scripts/dropping_deadline_state.gd" id="15_0vhoi"]
+[ext_resource type="Script" path="res://scripts/time_bar.gd" id="15_7lh2n"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="15_ou5o5"]
+[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="20_2e0wb"]
+[ext_resource type="AudioStream" uid="uid://cxwl5tm1dce0q" path="res://audio/tump.mp3" id="21_uisw1"]
+[ext_resource type="AudioStream" uid="uid://bwmo0cem3rj2j" path="res://audio/fwip.mp3" id="22_ssaoo"]
+[ext_resource type="AudioStream" uid="uid://jdrptlyvtp38" path="res://audio/expand 2.mp3" id="23_ikeph"]
+[ext_resource type="AudioStream" uid="uid://b6gikkf3dwatp" path="res://audio/Ping.mp3" id="24_1v8by"]
+[ext_resource type="AudioStream" uid="uid://dhbb4gqmu0xk4" path="res://audio/Bubble.mp3" id="24_psbsr"]
+[ext_resource type="AudioStream" uid="uid://24l13hrw06wr" path="res://audio/notif.mp3" id="25_equ3n"]
+[ext_resource type="AudioStream" uid="uid://bnomcsbp1m35l" path="res://audio/tick.mp3" id="26_gv03d"]
+[ext_resource type="AudioStream" uid="uid://cw52ysw6k8i0r" path="res://audio/fulfilled.mp3" id="27_lc6p4"]
+[ext_resource type="AudioStream" uid="uid://m4r8da8rn7cq" path="res://audio/fail order.mp3" id="28_1swrc"]
+[ext_resource type="Script" path="res://scenes/camera.gd" id="36_wswor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hx6nv"]
+size = Vector2(480, 270)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t0ls2"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cpdnf"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_haces"]
+distance = -1280.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ytaoo"]
+normal = Vector2(-1, 0)
+distance = -64000.0
+
+[node name="Game" type="Node"]
+script = ExtResource("1_7jktb")
+witch_scene = ExtResource("14_l1y2n")
+potion_1 = ExtResource("3_eo8p4")
+potion_2 = ExtResource("4_s61xf")
+potion_3 = ExtResource("5_raxfn")
+potion_4 = ExtResource("6_2rfs5")
+potion_5 = ExtResource("7_6mt15")
+potion_6 = ExtResource("8_s31vc")
+
+[node name="Board" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_ytuhw")
+
+[node name="Grid" type="Node2D" parent="Board"]
+unique_name_in_owner = true
+script = ExtResource("2_rc2ev")
+
+[node name="StateMachine" type="Node" parent="Board" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qw1v2")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Board/StateMachine"]
+script = ExtResource("4_1ls88")
+
+[node name="Holding Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("5_1p4ey")
+
+[node name="Dragging Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("6_x8poa")
+
+[node name="Dropping Job" type="Node" parent="Board/StateMachine"]
+script = ExtResource("7_esomc")
+
+[node name="Starting Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("8_c5fyd")
+
+[node name="Dropping Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("9_bx0x8")
+
+[node name="Continuing Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("10_eaoo2")
+
+[node name="Ending Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("11_eapfc")
+
+[node name="Erasing Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("12_bw8ve")
+
+[node name="Abandoning Pipe" type="Node" parent="Board/StateMachine"]
+script = ExtResource("13_8t8lg")
+
+[node name="Dragging Deadline" type="Node" parent="Board/StateMachine"]
+script = ExtResource("14_ssp8o")
+
+[node name="Dropping Deadline" type="Node" parent="Board/StateMachine"]
+script = ExtResource("15_0vhoi")
+
+[node name="Witch" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(241, 18)
+
+[node name="Witch2" parent="Board" instance=ExtResource("14_l1y2n")]
+position = Vector2(266, 18)
+
+[node name="TimeBar" type="ColorRect" parent="Board"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.380392)
+offset_right = 3.0
+offset_bottom = 2000.0
+mouse_filter = 2
+color = Color(0.988235, 0.964706, 0, 1)
+script = ExtResource("15_7lh2n")
+squares_per_second = 0.1
+
+[node name="CameraController" type="CharacterBody2D" parent="."]
+position = Vector2(240, 135)
+script = ExtResource("36_wswor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraController"]
+shape = SubResource("RectangleShape2D_hx6nv")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Camera2D" type="Camera2D" parent="CameraController"]
+zoom = Vector2(4, 4)
+limit_left = 0
+limit_top = 0
+limit_right = 64000
+limit_bottom = 1280
+limit_smoothed = true
+
+[node name="OGCamera2D" type="Camera2D" parent="."]
+visible = false
+anchor_mode = 0
+zoom = Vector2(4, 4)
+script = ExtResource("15_ou5o5")
+
+[node name="WorldBorders" type="StaticBody2D" parent="."]
+
+[node name="LeftBorder" type="CollisionShape2D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape2D_t0ls2")
+
+[node name="TopBorder" type="CollisionShape2D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape2D_cpdnf")
+
+[node name="BottomBorder" type="CollisionShape2D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape2D_haces")
+
+[node name="RightBorder" type="CollisionShape2D" parent="WorldBorders"]
+shape = SubResource("WorldBoundaryShape2D_ytaoo")
+
+[node name="Staging" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Sounds" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("20_2e0wb")
+
+[node name="PlaceJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("21_uisw1")
+
+[node name="ShrinkJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("22_ssaoo")
+
+[node name="ExpandJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("23_ikeph")
+
+[node name="DeleteJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("24_psbsr")
+
+[node name="InvalidPlaceJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("24_1v8by")
+
+[node name="CompleteJob" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("25_equ3n")
+
+[node name="DropPipePiece" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("26_gv03d")
+
+[node name="OrderFulfilled" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("27_lc6p4")
+
+[node name="OrderFailed" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("28_1swrc")
+
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Holding Job" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Starting Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Continuing Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="changed_mouse_cell" from="Board" to="Board/StateMachine/Ending Pipe" method="_on_board_changed_mouse_cell"]
+[connection signal="dropped" from="Board/StateMachine/Dropping Job" to="." method="_on_dropping_job_dropped"]
+[connection signal="pipe_piece_dropped" from="Board/StateMachine/Dropping Pipe" to="." method="_on_dropping_pipe_pipe_piece_dropped"]
+[connection signal="pipe_dropped" from="Board/StateMachine/Ending Pipe" to="." method="_on_ending_pipe_pipe_dropped"]
+[connection signal="pipe_piece_erased" from="Board/StateMachine/Erasing Pipe" to="." method="_on_erasing_pipe_pipe_piece_erased"]
+[connection signal="deadline_dropped" from="Board/StateMachine/Dropping Deadline" to="." method="_on_dropping_deadline_deadline_dropped"]

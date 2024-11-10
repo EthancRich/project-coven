@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://donbpvu8ksbab"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_vp82b"]
+[ext_resource type="Resource" uid="uid://bj4alan8i28sk" path="res://resources/dummy_item_4.tres" id="2_ljtga"]
+
+[node name="Job" instance=ExtResource("1_vp82b")]
+max_size = 1
+recipe_output_item = ExtResource("2_ljtga")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(0.4, 0.686275, 1, 1)

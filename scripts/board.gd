@@ -6,6 +6,9 @@ class_name Board extends Node2D
 ## Emitted when mouse moves across grid lines
 signal changed_mouse_cell 
 
+## Needed for the creation of the witches on the board
+@export var witch_scene: PackedScene
+
 ## Reference for nodes, minimizes access time
 @onready var grid_node := %Grid as Grid
 @onready var staging_node := %Staging as Node
@@ -34,6 +37,7 @@ var is_right_click_down: bool = false
 ## Global variable that tracks which cell of a job is selected
 var focused_job_segment: int = -1
 
+
 ## _unhandled_input comes after each other input function that isn't handled.
 ## Updates states like mouse positions, mouse click states, and the currently
 ## focused object.
@@ -57,24 +61,23 @@ func _unhandled_input(event: InputEvent) -> void:
 				set_focused_object()
 				
 		elif event.is_action_released("click"):
+			print(self, " Releasing Click!")
 			is_left_click_down = false
 			
 		elif event.is_action_pressed("rclick"):
 			is_right_click_down = true
 			
 		elif event.is_action_released("rclick"):
+
 			is_right_click_down = false
 	
-	# Button presses occur, adjust the sizes of the jobs. TODO: Remove.
+	# Button presses occur
 	elif event is InputEventKey:
-		
-		if event.is_action_pressed("increase"):
-			get_tree().call_group("focused", "increase_size")
+		if event.is_action_pressed("delete"):
+			get_tree().call_group("focused", "delete") # NOTE: Assumes focused object is job
+			remove_focused_object()
 			
-		elif event.is_action_pressed("decrease"):
-			get_tree().call_group("focused", "decrease_size")
 			
-
 ## Takes the current index and converts it to the cell in the grid.
 ## Returns null if there is no cell at the hovered index.
 ## TODO: Check each use of the function and check whether null case is handled.
@@ -125,7 +128,7 @@ func set_focused_object() -> void:
 		if focused_job_segment != -1:
 			print(self.name, " [set_focused_object]", " Set ", focused_job_segment, " as focused segment.")
 		else:
-			push_error(self.name, " [set_focused_ojbect]", " Cannot find segment in Job. ", focused_job_segment)
+			push_error(self.name, " [set_focused_object]", " Cannot find segment in Job. ", focused_job_segment)
 	
 	
 ## Removes all group tags from the currently focused objects. T he intent
@@ -159,3 +162,16 @@ func remove_active_pipe() -> bool:
 		did_remove = true
 	return did_remove
 	
+
+## Called on restart of the game.
+func restart() -> void:
+	remove_active_pipe()
+	remove_focused_object()
+	get_tree().call_group("witch", "delete")
+	for i in range(2):
+		var witch := witch_scene.instantiate()
+		add_child(witch)
+		witch.position = Vector2(16 + 32 * i, 16)
+	get_tree().call_group("deadline", "delete")
+	
+

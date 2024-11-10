@@ -4,6 +4,7 @@ class_name Job extends Node2D
 ## track the tasks' progress, and workers on the task.
 ## Job is in a one to many relationship with cells.
 
+
 ## The current size (length) of the job, in cells.
 @export var size: int = 1
 
@@ -26,15 +27,26 @@ class_name Job extends Node2D
 ## size of the job will not be decreasd further.
 ## NOTE: Cannot exceed 4 as there is a static number of positions
 ## on the job's UI for the workers to sit.
-## NOTE: If the value is 0, then overridden by auto_max_workers.
-@export var max_workers: int = 0
+## NOTE: If the value is -1, then overridden by auto_max_workers.
+## NOTE: If the value is 0, then job becomes ****PickUp Job****.
+@export var max_workers: int = -1
 
 ## Suggested max worker count based on the scope of the job.
 ## NOTE: This value can be overridden by giving max_workers > 0.
 @onready var auto_max_workers: int = min(4, min_workers + max_size - min_size)
 
+## Determines which of the sprite types to use in the script
+@export var is_fixed_size: bool = false
+
+## If true, this job acts as a recepticle for collecting potions before delivery.
+var is_pickup_job: bool
+
 ## A percentage completion of the job, from 0 to 1.
 @export var progress: float = 0.0
+
+## Reference to child nodes
+@onready var item_sprite: Sprite2D = $ItemSprite
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ## Array containing references to all cells that job occupies.
 var current_cells: Array[Cell]
@@ -42,13 +54,173 @@ var current_cells: Array[Cell]
 ## Array containing references to all witches occupying job.
 var current_witches: Array[Witch]
 
-## A reference to the grid node to reduce overhead in calls.
-@onready var grid_node := get_node("/root/Main/Board/Grid") as Grid
+## The leftmost(s) and rightmost pipes that may be connected to this job.
+var source_pipes_array: Array[Pipe] = [] # TODO: Is this needed?
+var dest_pipe: Pipe = null
+
+## The recipe for the item conversion on this job
+@export var recipe_input_items_array: Array[Item] = []
+@export var recipe_output_item: Item
+
+## The active tracking of what items the current job has and doesn't have.
+var input_items_array: Array[Item] = []
+var output_item: Item = null
+var input_items_match: bool = false
+
+## How quickly the progress bar's percentage changes each second.
+var percent_per_second := 0.0
+
+## Represents whether the job has finished.
+var is_complete := false
+
+## Signals emitted on job actions
+signal job_grew
+signal job_shrunk
+signal job_complete
+signal deleted
+
+## References to reduce repeated calls.
+@onready var game_node := get_node("/root/Main/Game") as Game
+@onready var board_node := get_node("/root/Main/Game/Board") as Board
+@onready var grid_node := get_node("/root/Main/Game/Board/Grid") as Grid
+@onready var time_bar := get_node("/root/Main/Game/Board/TimeBar") as TimeBar
+@onready var progress_bar := $ProgressBar as TextureProgressBar
 
 
-## On creation, update the visual of the job
+## On creation, update the visual of the job when time bar is ready
 func _ready() -> void:
-	update_job_shape()
+	
+	if max_workers == 0:
+		is_pickup_job = true
+	
+	# For regular jobs, do the following:
+	if not is_pickup_job:
+		
+		job_grew.connect(game_node._on_job_grew)
+		job_shrunk.connect(game_node._on_job_shrunk)
+		job_complete.connect(game_node._on_job_complete)
+		
+		if time_bar:
+			update_job_shape()
+		else: 
+			# FIXME: Causes issues with the statically defined job objects in the tree
+			# Jobs cannot make progress until update_job_shape is called to define percent_per_second
+			time_bar.ready.connect(update_job_shape)
+			
+		update_input_items_match()
+	
+	# For Pickup Jobs
+	else:
+		add_to_group("pickup")
+	
+	# For all jobs
+	deleted.connect(game_node._on_job_deleted)
+	
+
+## Updates job progress if prereqs are met
+func _process(delta: float) -> void:
+	
+	if is_complete:
+		return
+		
+	if input_items_match and current_witches.size() >= min_workers:
+		progress_bar.value += percent_per_second * delta
+		
+	if not is_complete and progress_bar.value == 100:
+		complete_job()
+
+
+## Complete Job function updates the state of the job and 
+## updates the visual sprites that indicate a completed task.
+func complete_job() -> void:
+	
+	if not recipe_output_item:
+		if Global.DEBUG_MODE:
+			push_error(self, " complete_job:", " Cannot Complete Job! No Output declared!")
+	else:
+		## Create a copy of the recipe output item and supply it to the job
+		item_sprite.visible = true
+		output_item = recipe_output_item.duplicate()
+		try_deliver_output()
+	
+	is_complete = true
+	($CompleteColorRect as ColorRect).visible = true
+	progress_bar.visible = false
+	job_complete.emit()
+
+
+## Try to push the output item to the job with the output pipe.
+func try_deliver_output() -> void:
+	
+	# Confirm that there is an output item ready and a pipe to send it
+	if not output_item or not dest_pipe:
+		return
+
+	# Confirm that the destination job exists
+	var dest_job := dest_pipe.dest_job
+	if not dest_job:
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [try_deliver_output]", " Dest Pipe exists but no dest job.")
+		return
+
+	# Confirm that the destination job uses this item
+	if not dest_job.is_pickup_job and not dest_job.accepts_item(output_item):
+		if Global.DEBUG_MODE:
+			push_warning(self.name, " [try_deliver_output]", " Dest Job cannot use output item.")
+		return
+
+	# Deliver the item
+	item_sprite.visible = false
+	dest_job.input_items_array.push_back(output_item)
+	output_item = null
+	dest_job.update_input_items_match()
+	dest_job.animation_player.play("flash")
+	
+
+## Returns true if the item shares an id with an item in the recipe inputs, false otherwise.
+func accepts_item(input: Item) -> bool:
+	for item in recipe_input_items_array:
+		if item.id == input.id:	
+			return true
+	return false
+
+
+## Predefined function for comparing item arrays
+func update_input_items_match() -> void:
+	if item_arrays_match(input_items_array, recipe_input_items_array):
+		print("true")
+		input_items_match = true
+	else:
+		print("false")
+		input_items_match = false
+			
+
+## Returns true these arrays have the same items by id, and false otherwise
+func item_arrays_match(item_array_1: Array[Item], item_array_2: Array[Item]) -> bool:
+	
+	if item_array_1.is_empty() and item_array_2.is_empty():
+		return true
+	
+	if item_array_1.size() != item_array_2.size():
+		return false
+	
+	# Create duplicates of the arrays to not modify them
+	var array_1 := item_array_1.duplicate(true) as Array[Item]
+	var array_2 := item_array_2.duplicate(true) as Array[Item]
+	
+	for item_1: Item in array_1:
+		
+		var found_match := false
+		
+		for item_2 in array_2:
+			if item_1.id == item_2.id:
+				found_match = true
+				
+		if not found_match:
+			return false
+		
+	return true
+	
 
 ## Pushes provided cell to the back of the current_cells array.
 ## TODO: Convert this process to a signal-based process where
@@ -115,12 +287,26 @@ func update_job_shape() -> void:
 	
 	# Play the new animation
 	var animationName: String = "1x" + str(size)
-	($AnimatedSprite2D as AnimatedSprite2D).play(animationName)
+	if !is_fixed_size:
+		($AnimatedSprite2D as AnimatedSprite2D).play(animationName)
+	else:
+		($AnimatedSprite2D as AnimatedSprite2D).play(str(animationName + "a"))
 	
 	# Update the size and offset of the collision square
 	var collisionObj := $StaticBody2D/CollisionShape2D as CollisionShape2D
 	collisionObj.position.x = 32 * size
 	collisionObj.scale.x = 3 * size
+	
+	# Update the size of the progress bar and progress rate
+	progress_bar.size.x = size * 64
+	percent_per_second = 100.0 * time_bar.pixels_per_second / (size * 64)
+	
+	# Update the location of the item sprite
+	item_sprite.position.x = 48 + 64 * (size - 1)	
+	
+	# Update the size of the complete sprite and animation sprite
+	($CompleteColorRect as ColorRect).size.x = size * 64
+	($TopColorRect as ColorRect).size.x = size * 64
 	
 	
 ## Causes a job to expand to the right a single cell. The function will
@@ -136,7 +322,11 @@ func increase_size() -> void:
 		
 	# Check that the next cell over is valid to expand
 	var new_cell := get_right_adjacent_cell()
-	if new_cell == null: # Warnings provided by get_right_additional_cell
+	if new_cell.get_contained_object() is PipePiece: # Delete pipe if exist to the right
+		if dest_pipe:
+			dest_pipe.delete()
+		
+	elif new_cell.is_occupied(): # Warnings provided by get_right_additional_cell
 		return
 	
 	# Update the references, size, and visuals.
@@ -144,10 +334,11 @@ func increase_size() -> void:
 	current_cells.push_back(new_cell)
 	self.size = size + 1
 	update_job_shape()
+	job_grew.emit()
 	
 	
 ## Returns the cell that occupies the space directly to the right
-## of the job if it's empty, and null otherwise.
+## of the job.
 func get_right_adjacent_cell() -> Cell:
 	
 	# Get the rightmost cell being occupied by the job
@@ -164,14 +355,7 @@ func get_right_adjacent_cell() -> Cell:
 			push_warning(self.name, " [get_right_adjacent_cell]", " right adjacent cell is out of bounds.")
 		return null
 		
-	# Check if the adjacent cell is occupied
 	var adjacent_cell := grid_node.get_cell_at_index(new_index)
-	if adjacent_cell.is_occupied():
-		if Global.DEBUG_MODE:
-			push_warning(self.name, " [get_right_adjacent_cell]", " right adjacent cell is occupied.")
-		return null
-		
-	# Return the valid cell value
 	return adjacent_cell
 	
 	
@@ -192,12 +376,17 @@ func decrease_size() -> void:
 		if Global.DEBUG_MODE:
 			push_error(self.name, " [get_right_adjacent_cell]", " current job has no cell references.")
 		return
+	
+	# If destination pipe is not null, delete it upon shrinking
+	if dest_pipe:
+		dest_pipe.delete()
 		
 	# Update the references, size, and visuals.
 	rightmost_cell.remove_contained_object()
 	current_cells.pop_back()
 	self.size = size - 1
 	update_job_shape()
+	job_shrunk.emit()
 
 
 ## Adds new child witches to a location and updates the size of the job.
@@ -258,7 +447,7 @@ func update_job_size(state_string: String) -> void:
 	var witch_count := current_witches.size()
 	
 	if state_string.to_lower() == "entered":
-		if max_workers > 0: # Override max
+		if max_workers >= 0: # Override max
 			if witch_count > min_workers and witch_count <= max_workers:
 				decrease_size()
 		else:				# Auto max
@@ -266,7 +455,7 @@ func update_job_size(state_string: String) -> void:
 				decrease_size()
 				
 	elif state_string.to_lower() == "exiting":
-		if max_workers > 0:	# Override max
+		if max_workers >= 0:	# Override max
 			if witch_count >= min_workers and witch_count < max_workers:
 				increase_size()
 		else:				# Auto max
@@ -279,7 +468,7 @@ func update_job_size(state_string: String) -> void:
 func will_job_expand() -> bool:
 	var adjusted_witch_count := current_witches.size() - 1
 	
-	if max_workers > 0:	# Override max
+	if max_workers >= 0:	# Override max
 		if adjusted_witch_count >= min_workers and adjusted_witch_count < max_workers:
 			return true
 	else:				# Auto max
@@ -287,12 +476,35 @@ func will_job_expand() -> bool:
 			return true
 			
 	return false
+
+
+func delete() -> void:
+	
+	# Emit signal for sounds
+	deleted.emit()
+	
+	# Delete the pipes that this job is attached to
+	while (source_pipes_array.size() > 0):
+		source_pipes_array[0].delete()
+	if dest_pipe:
+		dest_pipe.delete()
+		
+	# Set the occupied cells to forget the job
+	for cell: Cell in current_cells:
+		cell.contained_object = null
+	
+	# Reparent witches to not get deleted
+	while current_witches.size() > 0:
+		current_witches[0].reparent(board_node)
+
+	# Delete self
+	queue_free()
 	
 
 ## Causes the opacity of the job to decrease when mouse is inside
 func _on_static_body_2d_mouse_entered() -> void:
-	self.modulate.a = 0.8
-
+	#self.modulate.a = 0.8
+	pass
 
 ## Causes the opacity of the job to increase when the mouse is outside
 func _on_static_body_2d_mouse_exited() -> void:

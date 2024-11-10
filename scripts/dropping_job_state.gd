@@ -3,11 +3,15 @@ class_name DroppingJobState extends State
 ## job to the dropped location, or abandons the movement if
 ## the location is invalid.
 
+## Signal that tells the GUI Dropper to potentially delete the job it created
+signal dropped(success: bool, job: Job)
+
 ## Reference for board node to reduce overhead in repeated calls.
 @onready var board_node := %Board as Board
 
 ## Reference for grid node to reduce overhead in repeated calls.
 @onready var grid_node := %Grid as Grid
+
 
 
 ## On entry, attempt to move job if all checks pass
@@ -43,6 +47,9 @@ func enter(args: Array) -> void:
 	var first_index := Vector2i(drop_index.x - segment, drop_index.y)
 	if is_legal_drop(focused_job, first_index):
 		move(focused_job, first_index)
+		dropped.emit(true, focused_job)
+	else:
+		dropped.emit(false, focused_job)
 	
 	# TODO: Set to a signal for Board to modify after completion
 	board_node.remove_focused_object()
@@ -51,6 +58,12 @@ func enter(args: Array) -> void:
 
 ## returns true if the drop location has all required cells in bounds and empty.
 func is_legal_drop(focused_job: Job, first_index: Vector2i) -> bool:
+	
+	# Check to see the job has connected pipes
+	if focused_job.source_pipes_array.size() > 0 or focused_job.dest_pipe:
+		if Global.DEBUG_MODE:
+			print(self.name, " [is_legal_drop]", "Aborting drop: source job is connected to pipes")
+		return false
 	
 	# Get all cells that the new job will occupy after moving
 	var hovering_cells_array := get_hovering_cells(focused_job, first_index)

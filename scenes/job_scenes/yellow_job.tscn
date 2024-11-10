@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://djb57mbf8mo1w"]
+
+[ext_resource type="PackedScene" uid="uid://bqu4o4toydudn" path="res://scenes/job.tscn" id="1_cx83d"]
+[ext_resource type="Resource" uid="uid://dewi8siqkqs4m" path="res://resources/dummy_item_5.tres" id="2_gm40m"]
+[ext_resource type="Resource" uid="uid://bj4alan8i28sk" path="res://resources/dummy_item_4.tres" id="3_o8fkd"]
+[ext_resource type="Resource" uid="uid://bds14d5ahl3nq" path="res://resources/dummy_potion_6.tres" id="4_x88yg"]
+
+[node name="Job" instance=ExtResource("1_cx83d")]
+size = 4
+max_size = 4
+recipe_input_items_array = Array[Resource("res://scripts/item.gd")]([ExtResource("2_gm40m"), ExtResource("3_o8fkd"), ExtResource("3_o8fkd")])
+recipe_output_item = ExtResource("4_x88yg")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+modulate = Color(1, 0.870588, 0.317647, 1)

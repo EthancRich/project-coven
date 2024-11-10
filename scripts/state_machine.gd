@@ -28,6 +28,13 @@ func _ready() -> void:
 		current_state = initial_state
 
 
+## Called when game is restarted.
+func restart() -> void:
+	if initial_state != null:
+		initial_state.enter([])
+		current_state = initial_state
+	
+
 ## Calls the update function of the current state each frame
 func _process(delta: float) -> void:
 	if current_state != null:

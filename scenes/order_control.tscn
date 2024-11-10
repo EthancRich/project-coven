@@ -1,0 +1,79 @@
+[gd_scene load_steps=8 format=3 uid="uid://c37ybt1pshuu0"]
+
+[ext_resource type="Script" path="res://scripts/order_control.gd" id="1_oc5p2"]
+[ext_resource type="Script" path="res://scripts/potion_button.gd" id="4_ad5gp"]
+[ext_resource type="Texture2D" uid="uid://cm6qn3kojq8d2" path="res://assets/Custom Assets/ProgressBarColor.png" id="5_bo3r0"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="6_5uow2"]
+[ext_resource type="Script" path="res://scripts/order_grace_state.gd" id="7_opgxe"]
+[ext_resource type="Script" path="res://scripts/order_late_state.gd" id="8_1qb04"]
+[ext_resource type="Script" path="res://scripts/order_set_state.gd" id="9_qg82j"]
+
+[node name="Order" type="Control" groups=["order"]]
+custom_minimum_size = Vector2(280, 74)
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+script = ExtResource("1_oc5p2")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(280, 74)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3
+
+[node name="PotionButton" type="TextureButton" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+keep_pressed_outside = true
+stretch_mode = 5
+script = ExtResource("4_ad5gp")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="GridContainer/PotionButton"]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 0.4)
+layout_mode = 2
+offset_left = 7.0
+offset_right = 71.0
+offset_bottom = 64.0
+scale = Vector2(1.15, 1.15)
+step = 0.0
+fill_mode = 4
+texture_progress = ExtResource("5_bo3r0")
+
+[node name="NumLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 54
+text = "Not"
+
+[node name="TextLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 52
+text = " Set"
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_5uow2")
+initial_state = NodePath("OrderGraceState")
+
+[node name="OrderGraceState" type="Node" parent="StateMachine"]
+script = ExtResource("7_opgxe")
+
+[node name="OrderLateState" type="Node" parent="StateMachine"]
+script = ExtResource("8_1qb04")
+
+[node name="OrderSetState" type="Node" parent="StateMachine"]
+script = ExtResource("9_qg82j")
+
+[connection signal="button_down" from="GridContainer/PotionButton" to="GridContainer/PotionButton" method="_on_button_down"]
+[connection signal="button_up" from="GridContainer/PotionButton" to="GridContainer/PotionButton" method="_on_button_up"]
+[connection signal="create_new_deadline" from="GridContainer/PotionButton" to="." method="_on_potion_button_create_new_deadline"]
+[connection signal="mouse_exited" from="GridContainer/PotionButton" to="GridContainer/PotionButton" method="_on_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bh7xxstwpj6xe"]
+
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_ljkhu"]
+[ext_resource type="Texture2D" uid="uid://cxg7fpgrij0o" path="res://assets/Custom Assets/Potion Sprites/Potion_Green_Small.png" id="2_7gaqb"]
+
+[resource]
+script = ExtResource("1_ljkhu")
+id = 5
+name = "Dummy Potion 2"
+sprite = ExtResource("2_7gaqb")
+color = Color(0.466667, 0.792157, 0.243137, 1)
